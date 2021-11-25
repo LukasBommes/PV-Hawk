@@ -3,6 +3,8 @@ __pycache__
 debug.txt
 pvextractor-geo.tar
 
+docker_command.txt
+
 testing/configs
 
 extractor/segmentation/Mask_RCNN/logs

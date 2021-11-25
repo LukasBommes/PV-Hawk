@@ -12,22 +12,23 @@ Output is a directory containing multiple IR image patches for each PV module.
 
 If you use PV-Mapper in your own research please consider citing us ([bibtex below](#citation)).
 
+[update explanation of the tool]
+[add overview description of the functionality]
 
-## 1 Prerequisites
+## 1 Installation
+
+### Step 1: Install prerequisites
 
 To run the PV-Mapper you need a machine running Ubuntu 18.04 LTS / 20.04 LTS and a Nvidia CUDA-compatible GPU with the latest Nvidia drivers installed. Furthermore, you need to install [Docker CE](https://docs.docker.com/engine/install/ubuntu/) and the [Nvidia container toolkit](https://github.com/NVIDIA/nvidia-docker).
 
-
-## 2 Installation
-
-#### Step 1: Get source code
+### Step 1: Get source code
 
 Clone the Git repository to your machine
 ```
 git clone https://github.com/LukasBommes/PV-Mapper
 ```
 
-#### Step 2: Download Mask R-CNN model files
+### Step 2: Download Mask R-CNN model files
 
 The tool uses a pretrained [Mask R-CNN](https://github.com/matterport/Mask_RCNN) for PV module detection. Download the pretrained Mask R-CNN model weights from [here](https://drive.google.com/file/d/1F0GiR8QpKZEHV-4wtfbPeE5dvIiOeIG3/view?usp=sharing), extract the zip archive and place the folder "pv_modules20210521T1611" under `extractor/segmentation/Mask_RCNN/logs`. The resulting directory structure should look like follows:
 ```
@@ -39,20 +40,20 @@ The tool uses a pretrained [Mask R-CNN](https://github.com/matterport/Mask_RCNN)
                                             |-- mask_rcnn_pv_modules_0120.h5
 ```
 
-#### Step 3: Build Docker image
+### Step 3: Build Docker image
 
 We user Docker to provide a consistent environment for the PV-Mapper. When building the provided Docker image all required dependencies, e.g., Python, CUDA, Tensorflow, and OpenSfM, are installed and configured automatically. There are two ways to use the Docker image: A) building the image from the provided Dockerfile, or B) load a prebuilt image.
 
 Note, that you need to build/load the image only once. Afterwards, you can run the Docker image as specified in the [usage section](#step-1-run-docker-image).
 
-##### Variant A: Build image from source
+#### Variant A: Build image from source
 
 To build the Docker image from the provided Dockerifle run the following command from the root directory of PV-Mapper
 ```
 sudo docker build . --tag=pvextractor-geo
 ```
 
-##### Variant B: Load prebuild image
+#### Variant B: Load prebuild image
 
 Alternatively, you can download a prebuilt Docker image from [here](https://drive.google.com/file/d/1ksjtbYPbpkMeZbChfqtSVkXBKHAq9Nbo/view?usp=sharing). Place the tar archive in the project's root directory an load the Docker image by executing
 ```
@@ -61,7 +62,7 @@ sudo docker load < pvextractor-geo.tar
 Note, that the image was built on a machine with Ubuntu 20.04 LTS. Transferability to other operating systems is not guaranteed. If you run into issue with the prebuild image, please build the image from source as specified above.
 
 
-## 3 Drone and Camera Setup
+## 2 Hardware Setup
 
 ### Drone and camera model
 
@@ -69,11 +70,11 @@ We used a DJI matrice V200 drone with a [DJI Zenmuse XT2](https://www.dji.com/de
 
 If you still want to use a different camera model please read [Using a different camera model](#using-a-different-camera-model-optional).
 
-[talk about the use of RTK GPS]
+In addition to IR videos the GPS position of the drone needs to be measured. The DJI matrice V200 measures its position at a rate of 1 Hz and automatically injects the GPS position into the Exif tags of the IR videos. If you use a different drone make sure the GPS positions are injected correctly in the Exif tags of the IR videos. See [Using a different camera model](#using-a-different-camera-model-optional) for additional information on this.
 
 ### Camera settings
 
-PV Mapper expects as input multipage TIFF stacks, in which each page is a single-channel 16-bit radiometric TIFF image. Tus, when using DJI Zenmuse XT2, you have to set the IR video output format to "TIFF".
+PV Mapper expects as input multipage TIFF stacks, in which each page is a single-channel 16-bit radiometric TIFF image. Thus, when using DJI Zenmuse XT2, you have to set the IR video output format to "TIFF".
 
 ### Calibrate camera
 
@@ -81,21 +82,24 @@ PV Mapper requires calibrated parameters of a pinhole camera model for the geore
 
 Calibration requires a target similar to the one [here](https://docs.opencv.org/3.4/dc/dbb/tutorial_py_calibration.html) but usable in the IR spectrum. To this end, your target needs to be made of materials with different thermal emissivity. We obtained good results using black foil squares applied to a white polymer panel. Also make sure that images are as blur-free as possible with good contrast between white and black squares.
 
-We provide a Jupyter notebook for camera calibration in `calibration/01_calibrate.iypnb`. Information on the usage is provided in the script.
+We provide a Jupyter notebook for camera calibration in `calibration/01_calibrate.iypnb`. Information on the usage is provided in the script. To run the calibration script, first start an interactive Docker session as described in [Run Docker Image](#step-1-run-docker-image). Then start jupyter lab in in the interactive Docker session with the command
+```
+jupyter lab --allow-root --ip=0.0.0.0 --port=8888
+```
+Open the displayed URL in the web browser on your machine. In jupyter lab navigate to `calibration` and open the `01_calibrate.ipynb` notebook.
 
-[how to run calibration in an interactive docker session jupyter notebook]
 
-
-## 4 Record IR videos
+## 3 Recording of IR videos
 
 PV-Mapper requires IR videos of PV plants acquired by a drone in a specific manner, which we will briefly outline in the following.
 
 [...]
 
 [Requirements on the flight trajectory, scaning of rows, no rotations, etc.]
+[images of possible flight configurations]
 
 
-## 5 Usage
+## 4 Usage
 
 ### Step 1: Run Docker image
 
@@ -113,19 +117,20 @@ sudo docker run -it \
     --gpus=all \
     -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
     -v "$(pwd)":/pvextractor \
-    -v /storage-2:/storage-2 \
-    -v /home/lukas/HI-ERN-2020/PV-Segmentation-Dataset/data:/pv_segmentation_dataset \
+    -v /storage:/storage \
     -p "8888:8888" \
     pvextractor-geo \
     bash
 ```
-You can omit the `-p "8888:8888"` option if you do not plan to use jupyter lab inside the container. Jupyter labe is for instance needed if you want to fine-tune the Mask R-CNN model contained in this tool.
+You can omit the `-p "8888:8888"` option if you do not plan to use jupyter lab inside the container. Jupyter labe is needed for example for camera claibration or to fine-tune the Mask R-CNN model contained in this tool.
 
 If you encounter a "permission denied" error make the entrypoint script executable by running
 ```
 chmod +x docker-entrypoint.sh
 ```
 in the project root.
+
+[explain what the mapping of storage-2 in the command above means and how the user can change the command to match his own purpose]
 
 
 ### Step 2: Place IR video files
@@ -238,7 +243,7 @@ python plot_reconstruction.py -h
 ```
 
 
-## Output directory structure
+## 5 Output directory structure
 
 After completing a processing task a new subdirectory with results of that task will be created under the `work_dir` specified in the config file. E.g. after running the `split_sequences` tasks, there will be a new directory called `splitted`. Whenever you rerun a task, the respective subdirectory is deleted automatically before that task starts.
 
@@ -322,7 +327,7 @@ The main result stored in the mapping directory is a GeoJSON file `module_geoloc
 This directory has the same overall structure as the `patches` directory, but considers the merging of tracking IDs. Merged tracking IDs occur when the same PV module has two different tracking IDs, which can happen occasionally due to a tracking error. These duplicates are identified during the georeferencing procedure. If for example the trackings IDs `abc123` and `def456` belong to the same module, there will be only one directory in the `patches_final` directory named after the first tracking ID (`abc123`), which contains all module images of both subfolders `abc123` and `def456` from the `patches` directory.
 
 
-## Current Limitations
+## 6 Current Limitations
 
 ### Plant layouts
 
@@ -338,7 +343,7 @@ Scanning individual PV plant rows from low altitude is a challenging scenario fo
 Thus, the reconstruction procedure can fail leading to corrupted 3D reconstructions and PV module locations. We noted that this occurs quite frequently and requires tuning of the settings for the OpenSfM reconstruction. Splitting a longer video sequence into smaller clusters of at most 2000 images can further improve robustness of the reconstruction procedure. A long sequence should also be split into clusters whenever there are discontinuities in the video, e.g. due to battery changes, or sudden movements. This prevent the reconstruction from failing at those video frames.
 
 
-## Using a different camera model (optional)
+## 7 Using a different camera model (optional)
 
 While we do not recommend using a different camera, in theory PV Mapper works with other cameras with the following minimum specifications:
 - Frame rate: >= 8 Hz
@@ -351,7 +356,7 @@ Furthermore, you will have to make sure to provide IR videos and GPS position me
 If your camera does not provide the correct output format of the IR videos or you find it difficult to inject the required data into the Exif tags, there is an easier alternative. Simply skip the first step of the processing pipeline `split_sequences` and manually provide the individual video frames and extracted GPS positions in the `splitted` subdirectory of the working directory following the format described [here](#splitted-split_sequences). Note, that you do not need the `timestamps.csv` and `gps.kml` files.
 
 
-## Train the Mask R-CNN model (optional)
+## 8 Train the Mask R-CNN model (optional)
 
 The project uses Mask R-CNN for instance segmentation of PV modules in IR video frames. It is pretrained on a large PV module dataset. However, if you encounter issues with the accuracy of the Mask R-CNN model, you may wish to fine-tune the model on your own dataset. For this, we recommend annotating data using the [Grid Annotation Tool](https://github.com/LukasBommes/Grid-Annotation-Tool). Data labelled with this tool canbe directly used for training the Mask R-CNN model.
 
@@ -359,7 +364,7 @@ To train/fine-tune Mask R-CNN start jupyter lab in the interactive Docker sessio
 ```
 jupyter lab --allow-root --ip=0.0.0.0 --port=8888
 ```
-and open the displayed URL (e.g. `http://127.0.0.1:8888/?token=4127acb479920bf6f38cb4877136b6681a50177cad9e18ab`) in the web browser on the host machine. In jupyter lab navigate to `extractor/segmentation` and start the `train.ipynb` notebook.
+and open the displayed URL in the web browser on your machine. In jupyter lab navigate to `extractor/segmentation` and open the `train.ipynb` notebook.
 
 Prior to training the model with this script, you may need to edit the training config in `extractor/segmentation/configs.py` in the same directory. Also make sure the training dataset is available at the location specified in `DATASET_PATH` in `extractor/segmentation/configs.py`.
 
@@ -368,7 +373,7 @@ The training dataset should contain the following two folders:
 - `annotations`: Corresponding \*.json file with annotations for each image. It can be created with the [Grid Annotation Tool](https://github.com/LukasBommes/Grid-Annotation-Tool).
 
 
-## About
+## 9 About
 
 This software is written by Lukas Bommes, M.Sc. - [Helmholtz Institute Erlangen-Nürnberg for Renewable Energy (HI ERN)](https://www.hi-ern.de/hi-ern/EN/home.html)
 
