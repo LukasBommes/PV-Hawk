@@ -1,0 +1,14 @@
+__pycache__
+.ipynb_checkpoints
+debug.txt
+pvextractor-geo.tar
+
+testing/configs
+
+extractor/segmentation/Mask_RCNN/logs
+extractor/segmentation/Mask_RCNN/mask_rcnn_coco.h5
+
+calibration/camera_8hz/images_calibration
+calibration/camera_8hz/images_undistorted
+calibration/camera_30hz/images_calibration
+calibration/camera_30hz/images_undistorted

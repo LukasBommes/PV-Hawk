@@ -1,0 +1,66 @@
+---
+split_tiffs:
+  extract_timestamps: True
+  extract_gps: True
+  extract_gps_altitude: False
+  sync_rgb: False
+
+rotate_frames:
+  rotation: 90_deg_cw
+
+segment_pv_modules:
+
+crop_and_rectify_modules:
+  generate_preview_patches: True
+  min_iou: 0.9
+  rotate_mode: portrait
+
+track_pv_modules:
+  motion_model: homography  # how to model the motion between two subsequent frames
+  orb_nfeatures: 5000  # number of ORB features to extract in each frame (needed to compute visual distance)
+  orb_fast_thres: 12  # fast threshold for ORB feature extraction
+  orb_scale_factor: 1.2  # scale factor for ORB feature extraction
+  orb_nlevels: 8  # number of pyramid levels for ORB feature extraction
+  match_distance_thres: 20.0  # maximum feature distance of two feature descriptors to be matched (needed to compute visual distance)
+  max_distance: 60  # [px] maximum Euclidean distance a module center point can travel in two subsequent frames to still be considered the same module  
+
+filter_out_sun_reflections:
+  threshold_temp: 5.0
+  threshold_loc: 10.0
+  threshold_changepoint: 10.0
+
+prepare_opensfm:
+  select_frames_mode: gps  # select frames for 3D reconstruction based on GPS alone ("gps") or GPS and visual cues ("gps_visual")
+  frame_selection_gps_distance: 0.75  # [meters] select a frame as keyframe if drone travelled this far along GPS track
+  frame_selection_visual_distance: 0.15  # [fraction 0..1] or if the visual distance (1 - intersection over union) of the frame to the previous one is larger than this value
+  orb_nfeatures: 5000  # number of ORB features to extract in each frame (needed to compute visual distance)
+  orb_fast_thres: 12  # fast threshold for ORB feature extraction
+  orb_scale_factor: 1.2  # scale factor for ORB feature extraction
+  orb_nlevels: 8  # number of pyramid levels for ORB feature extraction
+  match_distance_thres: 20.0  # maximum feature distance of two feature descriptors to be matched (needed to compute visual distance)
+  gps_dop: 0.1  # fix the GPS DOP to this value
+  output_video_fps: 5.0  # frame rate of the debug video containing the selected keyframes
+
+opensfm:
+  matching_gps_distance: 20
+  processes: 16
+  use_altitude_tag: no
+
+triangulate_pv_modules:
+  min_track_len: 2  # triangulate only modules observed in at least this many keyframes
+  merge_overlapping_modules: True  # merge duplicate detections of the same PV module
+  merge_threshold: 20  # [px] merge modules if the mean L2 norm of its four corners projected into the image is below this threshold value
+  max_module_depth: -1  # [meters] consider only modules for merging which are at most this far away from reconstructed camera center
+  max_num_modules: 300  # if number of modules per frame exceeds this value skip merging of overlapping modules in this frame
+  max_combinations: -1  # maximum number of pairs to consider when triangulating 3D points of PV module corners
+  reproj_thres: 5.0  # [px] maximum reprojection error for a triangulated point to be valid
+  min_ray_angle_degrees: 1.0  # [px] minimum ray angle for a triangulated point to be valid
+
+refine_triangulation:
+  merge_threshold_image: 20  # [px] pull module corners together which are closer in projected image space than this threshold
+  merge_threshold_world: 1  # [meters] pull module corners together which are closer in 3D world space than this threshold
+  max_module_depth: -1  # [meters] project only modules which are at most this far away from reconstructed camera center
+  max_num_modules: 300  # if number of modules per frame exceeds this value skip do not consider this frame for refinement
+  optimizer_steps: 10  # number of graph optimization steps to perform
+
+reorganize_patches:

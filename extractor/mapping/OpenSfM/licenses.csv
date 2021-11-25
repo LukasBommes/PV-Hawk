@@ -1,0 +1,15 @@
+ExifRead, 2.1.2, BSD
+Pillow, 6.2.0, HPND
+PyYAML, 5.1, MIT
+cloudpickle, 0.4.0, LICENSE.txt
+fpdf2, 2.1.0, "LGPL 3.0"
+joblib, 0.13.2, BSD
+networkx, 1.11, BSD
+numpy, 1.18.1, BSD
+py, 1.8.1, MIT
+pyproj, 2.5.0, "OSI Approved"
+pytest, 3.0.7, MIT
+python-dateutil, 2.6.0, "Simplified BSD"
+scipy, 1.4.1, BSD
+six, 1.14.0, MIT
+xmltodict, 0.10.2, MIT

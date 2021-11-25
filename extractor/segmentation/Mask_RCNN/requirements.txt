@@ -1,0 +1,11 @@
+numpy
+scipy
+Pillow
+cython
+matplotlib
+scikit-image
+keras==2.1.5
+opencv-python
+h5py
+imgaug==0.2.9
+IPython[all]

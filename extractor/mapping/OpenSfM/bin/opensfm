@@ -1,0 +1,12 @@
+#!/bin/bash
+set -e
+
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+
+if [ -x "$(command -v python3)" ]; then
+    PYTHON=python3
+else
+    PYTHON=python
+fi
+
+"$PYTHON" "$DIR"/opensfm_main.py "$@"

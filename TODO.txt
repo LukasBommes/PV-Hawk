@@ -1,0 +1,14 @@
+TODO:
+
+- store track IDs of PV modules that were merged in triangulate_modules script
+- include reprojection of 3D corners into image into graph optimization during refine_triangulation step
+
+- include binary defect detection algorithm and visualize results on map (come up with a general plugin API to hook other analysis algorithms in)
+
+- make RGB / IR synchronization work
+
+- use RGB frames for OpenSfM reconstruction to see if accuracy can be increased
+
+- use RGB frames for PV module detection to see if accuracy and generalization can be increased
+
+- consider output of sun reflection filter
