@@ -1,5 +1,8 @@
 # PV-Mapper
 
+Note: The documentation for this project is work-in-progress and will be updated over the next weeks.
+
+
 This is the implementation of the PV-Mapper presented in the paper ["Computer Vision Tool for Detection, Mapping and Fault Classification of PV Modules in Aerial IR Videos"](https://arxiv.org/abs/2106.07314).
 
 Its aim is to semi-automatically detect PV modules in aerial thermal infrared videos acquired by a drone. Detected modules are extracted from each individual video frame and associated with a plant ID that is manually provided.
@@ -21,14 +24,14 @@ If you use PV-Mapper in your own research please consider citing us ([bibtex bel
 
 To run the PV-Mapper you need a machine running Ubuntu 18.04 LTS / 20.04 LTS and a Nvidia CUDA-compatible GPU with the latest Nvidia drivers installed. Furthermore, you need to install [Docker CE](https://docs.docker.com/engine/install/ubuntu/) and the [Nvidia container toolkit](https://github.com/NVIDIA/nvidia-docker).
 
-### Step 1: Get source code
+### Step 2: Get source code
 
 Clone the Git repository to your machine
 ```
 git clone https://github.com/LukasBommes/PV-Mapper
 ```
 
-### Step 2: Download Mask R-CNN model files
+### Step 3: Download Mask R-CNN model files
 
 The tool uses a pretrained [Mask R-CNN](https://github.com/matterport/Mask_RCNN) for PV module detection. Download the pretrained Mask R-CNN model weights from [here](https://drive.google.com/file/d/1F0GiR8QpKZEHV-4wtfbPeE5dvIiOeIG3/view?usp=sharing), extract the zip archive and place the folder "pv_modules20210521T1611" under `extractor/segmentation/Mask_RCNN/logs`. The resulting directory structure should look like follows:
 ```
@@ -40,7 +43,7 @@ The tool uses a pretrained [Mask R-CNN](https://github.com/matterport/Mask_RCNN)
                                             |-- mask_rcnn_pv_modules_0120.h5
 ```
 
-### Step 3: Build Docker image
+### Step 4: Build Docker image
 
 We user Docker to provide a consistent environment for the PV-Mapper. When building the provided Docker image all required dependencies, e.g., Python, CUDA, Tensorflow, and OpenSfM, are installed and configured automatically. There are two ways to use the Docker image: A) building the image from the provided Dockerfile, or B) load a prebuilt image.
 
