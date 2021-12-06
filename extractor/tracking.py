@@ -319,9 +319,9 @@ class Tracker:
         return self.module_ids, self.detection_ids_tracked, self.modules_tracked
 
 
-def run(frames_root, inference_root, output_dir, video_fps, 
-        motion_model, orb_nfeatures, orb_fast_thres, orb_scale_factor, 
-        orb_nlevels, match_distance_thres, max_distance):
+def run(frames_root, inference_root, output_dir, motion_model, orb_nfeatures, 
+        orb_fast_thres, orb_scale_factor, orb_nlevels, match_distance_thres, 
+        max_distance, output_video_fps):
     delete_output(output_dir)
     os.makedirs(output_dir, exist_ok=True)
 
@@ -348,7 +348,7 @@ def run(frames_root, inference_root, output_dir, video_fps,
     video_shape = (cap.img_w, cap.img_h)
     video_path = os.path.join(output_dir, "tracks_preview.avi")
     fourcc = cv2.VideoWriter_fourcc(*"DIVX")
-    videowriter = cv2.VideoWriter(video_path, fourcc, video_fps, video_shape)
+    videowriter = cv2.VideoWriter(video_path, fourcc, output_video_fps, video_shape)
 
     # tracking file output
     tracks_file = os.path.join(output_dir, 'tracks.csv')

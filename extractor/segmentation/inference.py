@@ -78,7 +78,7 @@ def save(frame, frame_name, result, output_dir):
             csvriter.writerow([*roi, class_id, score])
 
 
-def run(frames_root, output_dir, video_fps):
+def run(frames_root, output_dir, output_video_fps):
 
     delete_output(output_dir)
 
@@ -150,7 +150,7 @@ def run(frames_root, output_dir, video_fps):
     video_path = os.path.join(output_dir, "preview.avi")
 
     fourcc = cv2.VideoWriter_fourcc(*"DIVX")
-    writer = cv2.VideoWriter(video_path, fourcc, video_fps, video_shape)
+    writer = cv2.VideoWriter(video_path, fourcc, output_video_fps, video_shape)
 
     for preview_frame_file in tqdm(preview_frame_files):
         preview_frame = cv2.imread(preview_frame_file, -1)

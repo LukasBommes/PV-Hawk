@@ -72,9 +72,8 @@ def main(config_file, start_from_task):
             logger.info("Segmenting PV modules")
             frames_root = os.path.join(
                 config["work_dir"], group_name, "splitted", "radiometric")
-            video_fps = videogroup["video_fps"]
             output_dir = os.path.join(config["work_dir"], group_name, "segmented")
-            inference.run(frames_root, output_dir, video_fps,
+            inference.run(frames_root, output_dir,
                 **settings["segment_pv_modules"])
 
         # track PV modules in subsequent frames
@@ -83,10 +82,9 @@ def main(config_file, start_from_task):
             frames_root = os.path.join(
                 config["work_dir"], group_name, "splitted", "radiometric")
             inference_root = os.path.join(config["work_dir"], group_name, "segmented")
-            video_fps = videogroup["video_fps"]
             output_dir = os.path.join(config["work_dir"], group_name, "tracking")
             tracking.run(frames_root, inference_root, output_dir,
-                video_fps, **settings["track_pv_modules"])
+                **settings["track_pv_modules"])
 
         # crop and rectify modules
         if "crop_and_rectify_modules" in tasks:

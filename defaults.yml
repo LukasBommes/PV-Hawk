@@ -9,6 +9,7 @@ rotate_frames:
   rotation: 90_deg_cw
 
 segment_pv_modules:
+  output_video_fps: 8.0  # [Hz]
 
 crop_and_rectify_modules:
   generate_preview_patches: True
@@ -23,6 +24,7 @@ track_pv_modules:
   orb_nlevels: 8  # number of pyramid levels for ORB feature extraction
   match_distance_thres: 20.0  # maximum feature distance of two feature descriptors to be matched (needed to compute visual distance)
   max_distance: 60  # [px] maximum Euclidean distance a module center point can travel in two subsequent frames to still be considered the same module  
+  output_video_fps: 8.0  # [Hz]
 
 filter_out_sun_reflections:
   threshold_temp: 5.0
