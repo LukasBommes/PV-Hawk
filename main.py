@@ -14,7 +14,7 @@ import subprocess
 from extractor.common import get_group_name, merge_dicts, remove_none, \
     replace_empty_fields
 from extractor.preprocessing import split_tiffs, rotate
-from extractor import cropping, tracking, sun_filter, reorganize_patches
+from extractor import cropping, tracking, reorganize_patches
 from extractor.mapping import prepare_opensfm, triangulate_modules, \
     refine_triangulation
 
@@ -95,14 +95,6 @@ def main(config_file, start_from_task):
             output_dir = os.path.join(config["work_dir"], group_name, "patches")
             cropping.run(frames_root, inference_root, tracks_root,
                 output_dir, **settings["crop_and_rectify_modules"])
-
-        # sun reflection filter (TODO: consider filtering results in "reorganize_patches" below)
-        if "filter_out_sun_reflections" in tasks:
-            logger.info("Filtering patches with sun reflections")
-            patches_root = os.path.join(config["work_dir"], group_name, "patches")
-            output_dir = os.path.join(config["work_dir"], group_name, "sun_filter")
-            sun_filter.run(patches_root, output_dir, 
-                **settings["filter_out_sun_reflections"])
 
         # prepare data for 3D reconstruction with OpenSfM
         if "prepare_opensfm" in tasks:

@@ -26,11 +26,6 @@ track_pv_modules:
   max_distance: 60  # [px] maximum Euclidean distance a module center point can travel in two subsequent frames to still be considered the same module  
   output_video_fps: 8.0  # [Hz]
 
-filter_out_sun_reflections:
-  threshold_temp: 5.0
-  threshold_loc: 10.0
-  threshold_changepoint: 10.0
-
 prepare_opensfm:
   select_frames_mode: gps  # select frames for 3D reconstruction based on GPS alone ("gps") or GPS and visual cues ("gps_visual")
   frame_selection_gps_distance: 0.75  # [meters] select a frame as keyframe if drone travelled this far along GPS track
