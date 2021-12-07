@@ -1,9 +1,9 @@
-# PV-Mapper
+# PV Drone Inspect
 
 Note: The documentation for this project is work-in-progress and will be updated over the next weeks.
 
 
-This is the implementation of the PV-Mapper presented in the paper ["Computer Vision Tool for Detection, Mapping and Fault Classification of PV Modules in Aerial IR Videos"](https://arxiv.org/abs/2106.07314).
+PV Drone Inspect is presented in the paper ["Computer Vision Tool for Detection, Mapping and Fault Classification of PV Modules in Aerial IR Videos"](https://arxiv.org/abs/2106.07314).
 
 Its aim is to semi-automatically detect PV modules in aerial thermal infrared videos acquired by a drone. Detected modules are extracted from each individual video frame and associated with a plant ID that is manually provided.
 
@@ -13,7 +13,7 @@ The following diagram shows the components of the extraction tool.
 
 Output is a directory containing multiple IR image patches for each PV module.
 
-If you use PV-Mapper in your own research please consider citing us ([bibtex below](#citation)).
+If you use PV Drone Inspect in your own research please consider citing us ([bibtex below](#citation)).
 
 [update explanation of the tool]
 [add overview description of the functionality]
@@ -22,13 +22,13 @@ If you use PV-Mapper in your own research please consider citing us ([bibtex bel
 
 ### Step 1: Install prerequisites
 
-To run the PV-Mapper you need a machine running Ubuntu 18.04 LTS / 20.04 LTS and a Nvidia CUDA-compatible GPU with the latest Nvidia drivers installed. Furthermore, you need to install [Docker CE](https://docs.docker.com/engine/install/ubuntu/) and the [Nvidia container toolkit](https://github.com/NVIDIA/nvidia-docker).
+To run PV Drone Inspect you need a machine running Ubuntu 18.04 LTS / 20.04 LTS and a Nvidia CUDA-compatible GPU with the latest Nvidia drivers installed. Furthermore, you need to install [Docker CE](https://docs.docker.com/engine/install/ubuntu/) and the [Nvidia container toolkit](https://github.com/NVIDIA/nvidia-docker).
 
 ### Step 2: Get source code
 
 Clone the Git repository to your machine
 ```
-git clone https://github.com/LukasBommes/PV-Mapper
+git clone https://github.com/LukasBommes/PV-Drone-Inspect
 ```
 
 ### Step 3: Download Mask R-CNN model files
@@ -45,13 +45,13 @@ The tool uses a pretrained [Mask R-CNN](https://github.com/matterport/Mask_RCNN)
 
 ### Step 4: Build Docker image
 
-We user Docker to provide a consistent environment for the PV-Mapper. When building the provided Docker image all required dependencies, e.g., Python, CUDA, Tensorflow, and OpenSfM, are installed and configured automatically. There are two ways to use the Docker image: A) building the image from the provided Dockerfile, or B) load a prebuilt image.
+We user Docker to provide a consistent environment for the execution of PV Drone Inspect. When building the provided Docker image all required dependencies, e.g., Python, CUDA, Tensorflow, and OpenSfM, are installed and configured automatically. There are two ways to use the Docker image: A) building the image from the provided Dockerfile, or B) load a prebuilt image.
 
 Note, that you need to build/load the image only once. Afterwards, you can run the Docker image as specified in the [usage section](#step-1-run-docker-image).
 
 #### Variant A: Build image from source
 
-To build the Docker image from the provided Dockerifle run the following command from the root directory of PV-Mapper
+To build the Docker image from the provided Dockerfile run the following command from the root directory of PV Drone Inspect
 ```
 sudo docker build . --tag=pvextractor-geo
 ```
@@ -69,7 +69,7 @@ Note, that the image was built on a machine with Ubuntu 20.04 LTS. Transferabili
 
 ### Drone and camera model
 
-We used a DJI matrice V200 drone with a [DJI Zenmuse XT2](https://www.dji.com/de/zenmuse-xt2) thermal camera (variant with 13 millimeter focal length) for the development of PV Mapper. We recommed using the same camera as compatibility with other camera models can not be guaranteed at the current development stage of the PV Mapper project.
+We used a DJI matrice V200 drone with a [DJI Zenmuse XT2](https://www.dji.com/de/zenmuse-xt2) thermal camera (variant with 13 millimeter focal length) for the development of PV Drone Inspect. We recommed using the same camera as compatibility with other camera models can not be guaranteed at the current development stage of PV Drone Inspect.
 
 If you still want to use a different camera model please read [Using a different camera model](#using-a-different-camera-model-optional).
 
@@ -77,11 +77,11 @@ In addition to IR videos the GPS position of the drone needs to be measured. The
 
 ### Camera settings
 
-PV Mapper expects as input multipage TIFF stacks, in which each page is a single-channel 16-bit radiometric TIFF image. Thus, when using DJI Zenmuse XT2, you have to set the IR video output format to "TIFF".
+PV Drone Inspect expects as input multipage TIFF stacks, in which each page is a single-channel 16-bit radiometric TIFF image. Thus, when using DJI Zenmuse XT2, you have to set the IR video output format to "TIFF".
 
 ### Calibrate camera
 
-PV Mapper requires calibrated parameters of a pinhole camera model for the georeferencing of PV modules. To obtain these parameters a camera calibration needs to be performed. Calibration needs to be performed only once for a camera.
+PV Drone Inspect requires calibrated parameters of a pinhole camera model for the georeferencing of PV modules. To obtain these parameters a camera calibration needs to be performed. Calibration needs to be performed only once for a camera.
 
 Calibration requires a target similar to the one [here](https://docs.opencv.org/3.4/dc/dbb/tutorial_py_calibration.html) but usable in the IR spectrum. To this end, your target needs to be made of materials with different thermal emissivity. We obtained good results using black foil squares applied to a white polymer panel. Also make sure that images are as blur-free as possible with good contrast between white and black squares.
 
@@ -94,7 +94,7 @@ Open the displayed URL in the web browser on your machine. In jupyter lab naviga
 
 ## 3 Recording of IR videos
 
-PV-Mapper requires IR videos of PV plants acquired by a drone in a specific manner, which we will briefly outline in the following.
+PV Drone Inspect requires IR videos of PV plants acquired by a drone in a specific manner, which we will briefly outline in the following.
 
 [...]
 
@@ -106,7 +106,7 @@ PV-Mapper requires IR videos of PV plants acquired by a drone in a specific mann
 
 ### Step 1: Run Docker image
 
-You have to run the PV-Mapper in an interactive terminal session inside the Docker image that you built in the previous steps. Before doing so, make sure access control of your machine's X server is disabled by running
+You have to run PV Drone Inspect in an interactive terminal session inside the Docker image that you built in the previous steps. Before doing so, make sure access control of your machine's X server is disabled by running
 ```
 xhost +
 ```
@@ -334,11 +334,11 @@ This directory has the same overall structure as the `patches` directory, but co
 
 ### Plant layouts
 
-PV Mapper works best for large-scale ground-mounted PV plants with regular row-based layouts. In principle, plants with irregular layouts or non-row based layouts can also be processed. However, there are some limitations to this.
+PV Drone Inspect works best for large-scale ground-mounted PV plants with regular row-based layouts. In principle, plants with irregular layouts or non-row based layouts can also be processed. However, there are some limitations to this.
 
 For example, when scanning large arrays of densely packed PV modules (as common on large rooftops), GPS accuracy becomes important. We found that the accuracy of standard GPS is not sufficient and a more accurate RTK-GPS is required.
 
-Another issue occurs with rooftop plants, where there are more obstructions than in a ground-mounted plant, e.g. windows, chimneys, piping, etc. In these cases PV moudle segmentation by Mask R-CNN is likely to fail as lots of false positives are generated. This is because we trained Mask R-CNN on a dataset containing only ground-mounted PV plants. Future versions of PV Mapper should consider this by re-training the Mask R-CNN on a larger corpus of PV plants including rooftop plants. If you want to use PV Mapper for such rooftop plants, you need to fine-tune Mask R-CNN yourself for the time being as described in [Train the Mask R-CNN model](#train-the-mask-r-cnn-model-optional).
+Another issue occurs with rooftop plants, where there are more obstructions than in a ground-mounted plant, e.g. windows, chimneys, piping, etc. In these cases PV moudle segmentation by Mask R-CNN is likely to fail as lots of false positives are generated. This is because we trained Mask R-CNN on a dataset containing only ground-mounted PV plants. Future versions of PV Drone Inspect should consider this by re-training the Mask R-CNN on a larger corpus of PV plants including rooftop plants. If you want to use PV Drone Inspect for such rooftop plants, you need to fine-tune Mask R-CNN yourself for the time being as described in [Train the Mask R-CNN model](#train-the-mask-r-cnn-model-optional).
 
 ### OpenSfM reconstruction failures
 
@@ -348,7 +348,7 @@ Thus, the reconstruction procedure can fail leading to corrupted 3D reconstructi
 
 ## 7 Using a different camera model (optional)
 
-While we do not recommend using a different camera, in theory PV Mapper works with other cameras with the following minimum specifications:
+While we do not recommend using a different camera, in theory PV Drone Inspect works with other cameras with the following minimum specifications:
 - Frame rate: >= 8 Hz
 - Image resolution: >= 640 px * 512 px
 
@@ -382,11 +382,11 @@ This software is written by Lukas Bommes, M.Sc. - [Helmholtz Institute Erlangen-
 
 ### License
 
-This project is licensed under the MIT License - see the [LICENSE](https://github.com/LukasBommes/PV-Mapper/blob/master/LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/LukasBommes/PV-Drone-Inspect/blob/master/LICENSE) file for details.
 
 ### Citation
 
-This repository implements our research presented in the following two papers. If you use PV-Mapper in your own research please cite these works.
+This repository implements our research presented in the following two papers. If you use PV Drone Inspect in your own research please cite these works.
 
 Paper 1: "Computer Vision Tool for Detection, Mapping and Fault Classification of PV Modules in Aerial IR Videos" [[Wiley PIP](https://onlinelibrary.wiley.com/doi/10.1002/pip.3448), [ArXiv](https://arxiv.org/abs/2106.07314)]
 
