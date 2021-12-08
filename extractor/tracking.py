@@ -319,7 +319,7 @@ class Tracker:
         return self.module_ids, self.detection_ids_tracked, self.modules_tracked
 
 
-def run(frames_root, inference_root, output_dir, motion_model, orb_nfeatures, 
+def run(frames_root, inference_root, output_dir, to_celsius, motion_model, orb_nfeatures, 
         orb_fast_thres, orb_scale_factor, orb_nlevels, match_distance_thres, 
         max_distance, output_video_fps):
     delete_output(output_dir)
@@ -332,7 +332,7 @@ def run(frames_root, inference_root, output_dir, motion_model, orb_nfeatures,
     mask_files = [sorted(glob.glob(os.path.join(
         inference_root, "masks", r, "*.png"))) for r in mask_dirs]
 
-    cap = Capture(frame_files, mask_files)
+    cap = Capture(frame_files, mask_files, to_celsius=to_celsius)
     tracker = Tracker(
         motion_model, 
         orb_nfeatures, 

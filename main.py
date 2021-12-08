@@ -49,6 +49,13 @@ def main(config_file, start_from_task):
             
         replace_empty_fields(default_settings)
         settings = merge_dicts(default_settings, remove_none(settings))
+
+        # save the config file of the video group in the work dir
+        yaml.dump(videogroup, open(
+            os.path.join(config["work_dir"], group_name, "config.yaml"), "w"))
+
+        if tasks is None:
+            continue
         
         # split video sequences into frames
         if "split_sequences" in tasks:
@@ -73,7 +80,8 @@ def main(config_file, start_from_task):
             frames_root = os.path.join(
                 config["work_dir"], group_name, "splitted", "radiometric")
             output_dir = os.path.join(config["work_dir"], group_name, "segmented")
-            inference.run(frames_root, output_dir,
+            to_celsius = videogroup["raw_image_to_celsius"]
+            inference.run(frames_root, output_dir, to_celsius,
                 **settings["segment_pv_modules"])
 
         # track PV modules in subsequent frames
@@ -83,7 +91,8 @@ def main(config_file, start_from_task):
                 config["work_dir"], group_name, "splitted", "radiometric")
             inference_root = os.path.join(config["work_dir"], group_name, "segmented")
             output_dir = os.path.join(config["work_dir"], group_name, "tracking")
-            tracking.run(frames_root, inference_root, output_dir,
+            to_celsius = videogroup["raw_image_to_celsius"]
+            tracking.run(frames_root, inference_root, output_dir, to_celsius,
                 **settings["track_pv_modules"])
 
         # crop and rectify modules
@@ -93,8 +102,9 @@ def main(config_file, start_from_task):
             inference_root = os.path.join(config["work_dir"], group_name, "segmented")
             tracks_root = os.path.join(config["work_dir"], group_name, "tracking")
             output_dir = os.path.join(config["work_dir"], group_name, "patches")
+            to_celsius = videogroup["raw_image_to_celsius"]
             cropping.run(frames_root, inference_root, tracks_root,
-                output_dir, **settings["crop_and_rectify_modules"])
+                output_dir, to_celsius, **settings["crop_and_rectify_modules"])
 
         # prepare data for 3D reconstruction with OpenSfM
         if "prepare_opensfm" in tasks:
@@ -104,8 +114,9 @@ def main(config_file, start_from_task):
                 calibration_root = os.path.join(videogroup["cam_params_dir"], "ir")
                 output_dir = os.path.join(config["work_dir"], group_name, "mapping")
                 opensfm_settings = settings["opensfm"]
+                to_celsius = videogroup["raw_image_to_celsius"]
                 prepare_opensfm.run(cluster, frames_root, calibration_root, 
-                    output_dir, opensfm_settings, **settings["prepare_opensfm"])
+                    output_dir, to_celsius, opensfm_settings, **settings["prepare_opensfm"])
 
         # run OpenSfM for 3D reconstruction
         opensfm_tasks = [

@@ -78,7 +78,7 @@ def save(frame, frame_name, result, output_dir):
             csvriter.writerow([*roi, class_id, score])
 
 
-def run(frames_root, output_dir, output_video_fps):
+def run(frames_root, output_dir, to_celsius, output_video_fps):
 
     delete_output(output_dir)
 
@@ -97,7 +97,7 @@ def run(frames_root, output_dir, output_video_fps):
     model.load_weights(weights_file, by_name=True)
 
     frame_files = sorted(glob.glob(os.path.join(frames_root, "*.tiff")))
-    cap = Capture(frame_files, mask_files=None)
+    cap = Capture(frame_files, mask_files=None, to_celsius=to_celsius)
     step_idx = 0
 
     batch_size = model.config.BATCH_SIZE
