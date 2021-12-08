@@ -80,54 +80,6 @@ def replace_empty_fields(dict1):
             dict1[key] = {}
 
 
-# def raw_image_to_celsius(image, gain, offset):
-#     """Convert raw intensity values of radiometric image to Celsius scale."""
-#     return image*gain + offset
-
-
-# def preprocess_radiometric_frame(frame, equalize_hist=True):
-#     """Preprocesses raw radiometric frame.
-
-#     First, the raw 16-bit radiometric intensity values are converted to Celsius
-#     scale. Then, the image values are normalized to range [0, 255] and converted
-#     to 8-bit. Finally, histogram equalization is performed to normalize
-#     brightness and enhance contrast.
-#     """
-#     frame = to_celsius(frame)
-#     frame = (frame - np.min(frame)) / (np.max(frame) - np.min(frame))
-#     frame = (frame*255.0).astype(np.uint8)
-#     if equalize_hist:
-#         frame = cv2.equalizeHist(frame)
-#     return frame
-
-
-def truncate_patch(patch, margin=0.1):
-    """Truncates module edges by margin (percent of width) to remove module frame."""
-    width = patch.shape[1]
-    margin_px = int(margin*width)
-    patch = patch[margin_px:-margin_px, margin_px:-margin_px]
-    return patch
-
-
-def get_max_mean_temp_patch(patch_files, patch_idxs_sun_reflections=[]):
-    """Returns index of the patch in patch_files with largest mean temperature.
-    Optionally ignores patches with sun reflections."""
-    if len(patch_files) == 0:
-        return None
-    patch_idx = 0
-    previous_mean_temp = -np.inf
-    for idx, patch_file in enumerate(patch_files):
-        if idx in patch_idxs_sun_reflections:  # ignore patches with sun reflections
-            continue
-        patch = cv2.imread(patch_file, cv2.IMREAD_ANYDEPTH)
-        patch = truncate_patch(patch, margin=0.2)
-        mean_temp = to_celsius(np.mean(patch))
-        if mean_temp > previous_mean_temp:
-            patch_idx = idx
-            previous_mean_temp = mean_temp
-    return patch_idx
-
-
 def contour_and_convex_hull(mask):
     """Computes the contour and convex hull of a binary mask image.
 
@@ -234,16 +186,12 @@ def parse_sun_filter_file(sun_filter_file):
 
 class Capture:
     def __init__(self, image_files, mask_files=None, camera_matrix=None,
-            dist_coeffs=None, to_celsius=None):
+            dist_coeffs=None):
         self.frame_counter = 0
         self.image_files = image_files
         self.mask_files = mask_files
         self.camera_matrix = camera_matrix
         self.dist_coeffs = dist_coeffs
-        if to_celsius is None:
-            to_celsius = {"gain": 1.0, "offset": 0.0}
-        self.gain = to_celsius["gain"]
-        self.offset = to_celsius["offset"]
         self.num_images = len(self.image_files)
         # precompute undistortion maps
         probe_frame = cv2.imread(self.image_files[0], cv2.IMREAD_ANYDEPTH)
@@ -258,10 +206,6 @@ class Capture:
             assert len(mask_files) == len(image_files), "Number of mask_files and image_files do not match"
             self.mask_files = mask_files
 
-    def raw_to_celsius(self, image):
-        """Convert raw intensity values of radiometric image to Celsius scale."""
-        return image*self.gain + self.offset
-
     def preprocess_radiometric_frame(self, frame, equalize_hist):
         """Preprocesses raw radiometric frame.
 
@@ -270,7 +214,6 @@ class Capture:
         to 8-bit. Finally, histogram equalization is performed to normalize
         brightness and enhance contrast.
         """
-        frame = self.raw_to_celsius(frame)
         frame = (frame - np.min(frame)) / (np.max(frame) - np.min(frame))
         frame = (frame*255.0).astype(np.uint8)
         if equalize_hist:

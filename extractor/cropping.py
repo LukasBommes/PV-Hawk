@@ -275,7 +275,7 @@ def load_tracks(tracks_file):
     return tracks
 
 
-def run(frames_root, inference_root, tracks_root, output_dir, to_celsius,
+def run(frames_root, inference_root, tracks_root, output_dir,
     generate_preview_patches, min_iou, rotate_mode):
 
     delete_output(output_dir)
@@ -295,8 +295,8 @@ def run(frames_root, inference_root, tracks_root, output_dir, to_celsius,
     tracks_file = os.path.join(tracks_root, "tracks.csv")
     tracks = load_tracks(tracks_file)
 
-    cap_radiometric = Capture(frame_files_radiometric, mask_files, to_celsius=to_celsius)
-    cap_preview = Capture(frame_files_preview, mask_files=None, to_celsius=to_celsius)
+    cap_radiometric = Capture(frame_files_radiometric, mask_files)
+    cap_preview = Capture(frame_files_preview, mask_files=None)
 
     meta = {}
 

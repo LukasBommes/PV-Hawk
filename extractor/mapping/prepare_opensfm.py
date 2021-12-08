@@ -181,7 +181,7 @@ def select_frames_gps(gps, frame_selection_gps_distance):
     return selected_frames
 
 
-def run(cluster, frames_root, calibration_root, output_dir, to_celsius, opensfm_settings, 
+def run(cluster, frames_root, calibration_root, output_dir, opensfm_settings, 
         select_frames_mode, frame_selection_gps_distance, frame_selection_visual_distance, 
         orb_nfeatures, orb_fast_thres, orb_scale_factor, orb_nlevels, match_distance_thres,
         gps_dop, output_video_fps):
@@ -198,7 +198,7 @@ def run(cluster, frames_root, calibration_root, output_dir, to_celsius, opensfm_
     # get video frames
     frame_files = sorted(glob.glob(os.path.join(frames_root, "radiometric", "*.tiff")))
     frame_files = frame_files[frame_cluster[0]:frame_cluster[1]]
-    cap = Capture(frame_files, None, camera_matrix, dist_coeffs, to_celsius=to_celsius)
+    cap = Capture(frame_files, None, camera_matrix, dist_coeffs)
 
     make_camera_models_file(output_dir, camera_matrix, dist_coeffs, cap.img_w, cap.img_h)
 
