@@ -51,6 +51,7 @@ def main(config_file, start_from_task):
         settings = merge_dicts(default_settings, remove_none(settings))
 
         # save the config file of the video group in the work dir
+        os.makedirs(config["work_dir"], exist_ok=True)
         yaml.dump(videogroup, open(
             os.path.join(config["work_dir"], group_name, "config.yaml"), "w"))
 
