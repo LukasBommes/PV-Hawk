@@ -11,7 +11,7 @@ The following diagram shows the components of the extraction tool.
 
 ![Overview diagram of the tool](overview.png)
 
-Output is a directory containing multiple IR image patches for each PV module.
+Output is a directory containing multiple IR image patches for each PV module. We provide a desktop application for viewing and further analyzing the produced dataset. Please see [PV Drone Inspect Viewer](https://github.com/LukasBommes/PV-Drone-Inspect-Viewer) for details. 
 
 If you use PV Drone Inspect in your own research please consider citing us ([bibtex below](#citation)).
 
