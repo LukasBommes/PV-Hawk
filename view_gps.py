@@ -1,5 +1,6 @@
 import os
 import glob
+import json
 import argparse
 import numpy as np
 import cv2
@@ -7,8 +8,8 @@ import matplotlib.pyplot as plt
 
 
 def main(work_dir):
-    gps_file = os.path.join(work_dir, "splitted", "gps", "gps.csv")
-    positions = np.genfromtxt(gps_file, delimiter=",")
+    positions = json.load(open(os.path.join(work_dir, "splitted", "gps", "gps.json"), "r"))
+    positions = np.array(positions)
 
     frame_dir = os.path.join(work_dir, "splitted", "preview")
     frame_files = sorted(glob.glob(os.path.join(frame_dir, "*")))
