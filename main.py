@@ -7,6 +7,7 @@ video processing tasks, a configuration YAML file has to be provided.
 import os
 import sys
 import yaml
+import json
 import logging
 import argparse
 import subprocess
@@ -47,6 +48,12 @@ def main(config_file):
         os.makedirs(os.path.join(config["work_dir"], group_name), exist_ok=True)
         yaml.dump(videogroup, open(
             os.path.join(config["work_dir"], group_name, "config.yaml"), "w"))
+
+        # write dataset version info into workdir
+        version_info = {
+            "dataset_version": "v2"
+        }
+        json.dump(version_info, open(os.path.join(config["work_dir"], group_name, "version.json"), "w"))
 
         if tasks is None:
             continue
