@@ -170,30 +170,6 @@ def compute_mask_center(convex_hull, contour, method=1):
     return center
 
 
-def line(p1, p2):
-    """Converts line from a 2-point representation into a 3-parameter representation."""
-    A = (p1[1] - p2[1])
-    B = (p2[0] - p1[0])
-    C = (p1[0]*p2[1] - p2[0]*p1[1])
-    return A, B, -C
-
-
-def line_intersection(L1, L2):
-    """Computes intersection of two lines.
-
-    Source: https://stackoverflow.com/questions/20677795/how-do-i-compute-the-intersection-point-of-two-lines
-    """
-    D  = L1[0] * L2[1] - L1[1] * L2[0]
-    Dx = L1[2] * L2[1] - L1[1] * L2[2]
-    Dy = L1[0] * L2[2] - L1[2] * L2[0]
-    if D != 0:
-        x = Dx / D
-        y = Dy / D
-        return True, (x, y)
-    else:
-        return False, (0., 0.)
-
-
 def parse_sun_filter_file(sun_filter_file):
     """Parse the results of the sun filter into a dictionary. Keys are plant_ids
     and values lists of patch indices containing sun reflections."""

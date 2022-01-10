@@ -30,12 +30,36 @@ import cv2
 
 from extractor.common import Capture, delete_output, sort_cw, \
     contour_and_convex_hull, compute_mask_center, \
-    get_immediate_subdirectories, line, line_intersection
+    get_immediate_subdirectories
 
 
 logger = logging.getLogger(__name__)
 
 
+def line(p1, p2):
+    """Converts line from a 2-point representation into a 3-parameter representation."""
+    A = (p1[1] - p2[1])
+    B = (p2[0] - p1[0])
+    C = (p1[0]*p2[1] - p2[0]*p1[1])
+    return A, B, -C
+
+
+def line_intersection(L1, L2):
+    """Computes intersection of two lines.
+
+    Source: https://stackoverflow.com/questions/20677795/how-do-i-compute-the-intersection-point-of-two-lines
+    """
+    D  = L1[0] * L2[1] - L1[1] * L2[0]
+    Dx = L1[2] * L2[1] - L1[1] * L2[2]
+    Dy = L1[0] * L2[2] - L1[2] * L2[0]
+    if D != 0:
+        x = Dx / D
+        y = Dy / D
+        return True, (x, y)
+    else:
+        return False, (0., 0.)
+
+        
 def findEnclosingPolygon(convex_hull, num_vertices=4, visu=False):
     """Computes the enclosing k-polygon of a convex shape.
 
