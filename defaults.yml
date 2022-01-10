@@ -12,7 +12,6 @@ segment_pv_modules:
   output_video_fps: 8.0  # [Hz]
 
 crop_and_rectify_modules:
-  generate_preview_patches: True
   min_iou: 0.9
   rotate_mode: portrait
 

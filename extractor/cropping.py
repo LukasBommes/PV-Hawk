@@ -2,8 +2,7 @@
 
 This module is used to crop out and rectify an image patch for every segmented
 PV module in an IR video frame. Patches are generated from 16-bit radiometric
-TIFFs and 8-bit preview JPGs. The procedure for creating a single patch is as
-follows:
+TIFFs. The procedure for creating a single patch is as follows:
 
 1) Load binary segmentation mask of the PV module
 2) Compute the contour and convex hull of the mask
@@ -15,8 +14,7 @@ follows:
 7) Compute a homography from the corners of the quadrilateral to a rectangular
    destination image with the previously computed width and height
 8) Project the image region inside the quadrilateral onto the rectangular
-   destination image using the computed homography (repeat for both radiometric
-   and preview image)
+   destination image using the computed homography
 9) If the width is larger than the height, rotate the rectangular patch by 90
    degrees CCW
 """
@@ -275,8 +273,7 @@ def load_tracks(tracks_file):
     return tracks
 
 
-def run(frames_root, inference_root, tracks_root, output_dir,
-    generate_preview_patches, min_iou, rotate_mode):
+def run(frames_root, inference_root, tracks_root, output_dir, min_iou, rotate_mode):
 
     delete_output(output_dir)
     os.makedirs(output_dir, exist_ok=True)
@@ -284,8 +281,6 @@ def run(frames_root, inference_root, tracks_root, output_dir,
     # load frames & masks
     frame_files_radiometric = sorted(
         glob.glob(os.path.join(frames_root, "radiometric", "*.tiff")))
-    frame_files_preview = sorted(
-        glob.glob(os.path.join(frames_root, "preview", "*.jpg")))
     mask_dirs = sorted(get_immediate_subdirectories(
         os.path.join(inference_root, "masks")))
     mask_files = [sorted(glob.glob(os.path.join(inference_root, 
@@ -296,7 +291,6 @@ def run(frames_root, inference_root, tracks_root, output_dir,
     tracks = load_tracks(tracks_file)
 
     cap_radiometric = Capture(frame_files_radiometric, mask_files)
-    cap_preview = Capture(frame_files_preview, mask_files=None)
 
     meta = {}
 
@@ -306,9 +300,6 @@ def run(frames_root, inference_root, tracks_root, output_dir,
             cap_radiometric.get_next_frame(preprocess=False)
         if frame_radiometric is None:
             break
-        if generate_preview_patches:
-            frame_preview, _, _, _ = cap_preview.get_next_frame(
-                preprocess=False)
 
         # get minimum enclosing quadrilateral for each mask
         # (and compute mean IoU for all masks in the frame)
@@ -339,19 +330,6 @@ def run(frames_root, inference_root, tracks_root, output_dir,
             patch_file = os.path.join(
                 patch_dir, "{}_{}.tiff".format(frame_name, mask_name))
             cv2.imwrite(patch_file, module_patch)
-
-        # repeat for preview patches
-        if generate_preview_patches:
-            module_patches, _ = crop_modules(
-                frame_preview, quadrilaterals, rotate_mode=rotate_mode)
-            for module_patch, mask_name in zip(
-                    module_patches, mask_names_filtered):
-                module_id = tracks[(frame_name, mask_name)]
-                patch_dir = os.path.join(output_dir, "preview", module_id)
-                os.makedirs(patch_dir, exist_ok=True)
-                patch_file = os.path.join(
-                    patch_dir, "{}_{}.jpg".format(frame_name, mask_name))
-                cv2.imwrite(patch_file, module_patch)
 
         # save meta info (homographies, quadrilaterals, module centers)
         for homography, quadrilateral, center, mask_name in zip(

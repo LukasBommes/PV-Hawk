@@ -1,9 +1,4 @@
-"""Splits a multipage TIFF file of a FLIR IR camera into individual frames.
-
-The output directory contain the following directories:
- - `preview`: 8-bit grayscale preview frames (JPG) of the IR video
- - `radiometric`: 16-bit grayscale radiometric frames (TIFF) of the IR video
-"""
+"""Splits a multipage TIFF file of a FLIR IR camera into individual frames."""
 
 import glob
 import os
@@ -61,13 +56,6 @@ def get_gps_altitude(gps_info):
     return altitude
 
 
-def create_preview(image_radiometric):
-    temp_range = image_radiometric.max() - image_radiometric.min()
-    image_preview = (image_radiometric - image_radiometric.min()) / temp_range
-    image_preview = (255*image_preview).astype(np.uint8)
-    return image_preview
-
-
 def get_num_rgb_frames(rgb_files):
     """Return the number of frames in the provided videos.
 
@@ -104,7 +92,7 @@ def run(input, output_dir, input_rgb=None, extract_timestamps=True,
     extract_gps=True, extract_gps_altitude=False, sync_rgb=True):
 
     delete_output(output_dir)
-    for dirname in ["radiometric", "preview", "gps"]:
+    for dirname in ["radiometric", "gps"]:
         os.makedirs(os.path.join(output_dir, dirname), exist_ok=True)
 
     tiff_files = sorted(glob.glob(input))
@@ -129,15 +117,10 @@ def run(input, output_dir, input_rgb=None, extract_timestamps=True,
         with tifffile.TiffFile(tiff_file) as tif:
             for page in tqdm(tif.pages, total=len(tif.pages)):
                 image_radiometric = page.asarray().astype(np.uint16)  # BUG: for Optris camera conversion to int is detrimental to accuracy as raw values in TIFF are float
-                image_preview = create_preview(image_radiometric)
                 radiometric_file = os.path.join(
                     output_dir, "radiometric", "frame_{:06d}.tiff".format(
                     frame_idx))
-                preview_file = os.path.join(
-                    output_dir, "preview", "frame_{:06d}.jpg".format(
-                    frame_idx))
                 cv2.imwrite(radiometric_file, image_radiometric)
-                cv2.imwrite(preview_file, image_preview)
 
                 if extract_timestamps:
                     try:

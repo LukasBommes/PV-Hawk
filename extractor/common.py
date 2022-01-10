@@ -13,6 +13,21 @@ import cv2
 logger = logging.getLogger(__name__)
 
 
+def preprocess_radiometric_frame(frame, equalize_hist):
+        """Preprocesses raw radiometric frame.
+
+        First, the raw 16-bit radiometric intensity values are converted to Celsius
+        scale. Then, the image values are normalized to range [0, 255] and converted
+        to 8-bit. Finally, histogram equalization is performed to normalize
+        brightness and enhance contrast.
+        """
+        frame = (frame - np.min(frame)) / (np.max(frame) - np.min(frame))
+        frame = (frame*255.0).astype(np.uint8)
+        if equalize_hist:
+            frame = cv2.equalizeHist(frame)
+        return frame
+
+
 def delete_output(output_dir, cluster=None):
     """Deletes the specified directory.
     If a cluster is specified, the behaviour is different. Instead of deleting
@@ -206,20 +221,6 @@ class Capture:
             assert len(mask_files) == len(image_files), "Number of mask_files and image_files do not match"
             self.mask_files = mask_files
 
-    def preprocess_radiometric_frame(self, frame, equalize_hist):
-        """Preprocesses raw radiometric frame.
-
-        First, the raw 16-bit radiometric intensity values are converted to Celsius
-        scale. Then, the image values are normalized to range [0, 255] and converted
-        to 8-bit. Finally, histogram equalization is performed to normalize
-        brightness and enhance contrast.
-        """
-        frame = (frame - np.min(frame)) / (np.max(frame) - np.min(frame))
-        frame = (frame*255.0).astype(np.uint8)
-        if equalize_hist:
-            frame = cv2.equalizeHist(frame)
-        return frame
-
     def get_next_frame(self, preprocess=True, undistort=False,
             equalize_hist=True):
         frame, masks, frame_name, mask_names = self.get_frame(
@@ -243,7 +244,7 @@ class Capture:
                 masks = [cv2.imread(m, cv2.IMREAD_ANYDEPTH) for m in mask_file]
                 mask_names = [str.split(os.path.basename(m), ".")[0] for m in mask_file]
             if preprocess:
-                frame = self.preprocess_radiometric_frame(frame, equalize_hist)
+                frame = preprocess_radiometric_frame(frame, equalize_hist)
             if undistort and self.camera_matrix is not None and self.dist_coeffs is not None:
                 frame = cv2.remap(frame, self.mapx, self.mapy, cv2.INTER_CUBIC)
                 if self.mask_files is not None:
