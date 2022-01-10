@@ -1,3 +1,6 @@
+import sys
+sys.path.append("..")
+
 import os
 import glob
 import json
@@ -53,6 +56,7 @@ def main(work_dir):
                 idx = ind["ind"][0]
                 image = cv2.imread(frame_files[idx], cv2.IMREAD_ANYDEPTH)
                 image = preprocess_radiometric_frame(image, False)
+                image = np.stack((image, image, image), axis=2)
                 im.set_data(image)
                 update_annot(ind)
                 annot.set_visible(True)
