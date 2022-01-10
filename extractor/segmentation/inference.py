@@ -81,7 +81,7 @@ def run(frames_root, output_dir, output_video_fps):
     delete_output(output_dir)
 
     # create output paths
-    for p in ["preview", "masks", "rois"]:
+    for p in ["masks", "rois"]:
         os.makedirs(os.path.join(output_dir, p), exist_ok=True)
 
     inference_config = InferenceConfig()

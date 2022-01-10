@@ -95,6 +95,22 @@ def replace_empty_fields(dict1):
             dict1[key] = {}
 
 
+def sort_cw(pts):
+    """Sort points clockwise by first splitting
+    left/right points and then top/bottom."""
+    pts = [list(p) for p in pts.reshape(-1, 2)]
+    pts_sorted = sorted(pts , key=lambda k: k[0])
+    pts_left = pts_sorted[:2]
+    pts_right = pts_sorted[2:]
+    pts_left_sorted = sorted(pts_left , key=lambda k: k[1])
+    pts_right_sorted = sorted(pts_right , key=lambda k: k[1])
+    tl = pts_left_sorted[0]
+    bl = pts_left_sorted[1]
+    tr = pts_right_sorted[0]
+    br = pts_right_sorted[1]
+    return [tl, tr, br, bl]
+
+
 def contour_and_convex_hull(mask):
     """Computes the contour and convex hull of a binary mask image.
 
