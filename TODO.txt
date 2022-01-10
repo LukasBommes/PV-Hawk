@@ -1,5 +1,7 @@
 TODO:
 
+- remove reliance on two different GPS format (csv, json); use only one
+
 - store track IDs of PV modules that were merged in triangulate_modules script
 - include reprojection of 3D corners into image into graph optimization during refine_triangulation step
 

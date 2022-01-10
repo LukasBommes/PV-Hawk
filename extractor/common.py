@@ -80,54 +80,6 @@ def replace_empty_fields(dict1):
             dict1[key] = {}
 
 
-def to_celsius(image):
-    """Convert raw intensity values of radiometric image to Celsius scale."""
-    return image*0.04-273.15
-
-
-def preprocess_radiometric_frame(frame, equalize_hist=True):
-    """Preprocesses raw radiometric frame.
-
-    First, the raw 16-bit radiometric intensity values are converted to Celsius
-    scale. Then, the image values are normalized to range [0, 255] and converted
-    to 8-bit. Finally, histogram equalization is performed to normalize
-    brightness and enhance contrast.
-    """
-    frame = to_celsius(frame)
-    frame = (frame - np.min(frame)) / (np.max(frame) - np.min(frame))
-    frame = (frame*255.0).astype(np.uint8)
-    if equalize_hist:
-        frame = cv2.equalizeHist(frame)
-    return frame
-
-
-def truncate_patch(patch, margin=0.1):
-    """Truncates module edges by margin (percent of width) to remove module frame."""
-    width = patch.shape[1]
-    margin_px = int(margin*width)
-    patch = patch[margin_px:-margin_px, margin_px:-margin_px]
-    return patch
-
-
-def get_max_mean_temp_patch(patch_files, patch_idxs_sun_reflections=[]):
-    """Returns index of the patch in patch_files with largest mean temperature.
-    Optionally ignores patches with sun reflections."""
-    if len(patch_files) == 0:
-        return None
-    patch_idx = 0
-    previous_mean_temp = -np.inf
-    for idx, patch_file in enumerate(patch_files):
-        if idx in patch_idxs_sun_reflections:  # ignore patches with sun reflections
-            continue
-        patch = cv2.imread(patch_file, cv2.IMREAD_ANYDEPTH)
-        patch = truncate_patch(patch, margin=0.2)
-        mean_temp = to_celsius(np.mean(patch))
-        if mean_temp > previous_mean_temp:
-            patch_idx = idx
-            previous_mean_temp = mean_temp
-    return patch_idx
-
-
 def contour_and_convex_hull(mask):
     """Computes the contour and convex hull of a binary mask image.
 
@@ -254,6 +206,19 @@ class Capture:
             assert len(mask_files) == len(image_files), "Number of mask_files and image_files do not match"
             self.mask_files = mask_files
 
+    def preprocess_radiometric_frame(self, frame, equalize_hist):
+        """Preprocesses raw radiometric frame.
+
+        First, the raw 16-bit radiometric intensity values are converted to Celsius
+        scale. Then, the image values are normalized to range [0, 255] and converted
+        to 8-bit. Finally, histogram equalization is performed to normalize
+        brightness and enhance contrast.
+        """
+        frame = (frame - np.min(frame)) / (np.max(frame) - np.min(frame))
+        frame = (frame*255.0).astype(np.uint8)
+        if equalize_hist:
+            frame = cv2.equalizeHist(frame)
+        return frame
 
     def get_next_frame(self, preprocess=True, undistort=False,
             equalize_hist=True):
@@ -262,7 +227,6 @@ class Capture:
             equalize_hist)
         self.frame_counter += 1
         return frame, masks, frame_name, mask_names
-
 
     def get_frame(self, index, preprocess=True, undistort=False,
             equalize_hist=True):
@@ -279,7 +243,7 @@ class Capture:
                 masks = [cv2.imread(m, cv2.IMREAD_ANYDEPTH) for m in mask_file]
                 mask_names = [str.split(os.path.basename(m), ".")[0] for m in mask_file]
             if preprocess:
-                frame = preprocess_radiometric_frame(frame, equalize_hist)
+                frame = self.preprocess_radiometric_frame(frame, equalize_hist)
             if undistort and self.camera_matrix is not None and self.dist_coeffs is not None:
                 frame = cv2.remap(frame, self.mapx, self.mapy, cv2.INTER_CUBIC)
                 if self.mask_files is not None:

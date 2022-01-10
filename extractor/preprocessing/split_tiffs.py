@@ -210,13 +210,6 @@ def run(input, output_dir, input_rgb=None, extract_timestamps=True,
         gps = gps_from_ltp(gps, origin)
         gps = gps.tolist()
 
-        # save GPS trajectory to CSV
-        with open(os.path.join(
-                output_dir, "gps", "gps.csv"), "w", newline="") as csvfile:
-            writer = csv.writer(csvfile, delimiter=",")
-            for row in gps:
-                writer.writerow(row)
-
         # save GPS trajectory to JSON
         json.dump(gps, open(os.path.join(
             output_dir, "gps", "gps.json"), "w"))

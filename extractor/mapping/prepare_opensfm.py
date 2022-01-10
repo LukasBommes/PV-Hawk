@@ -198,7 +198,7 @@ def run(cluster, frames_root, calibration_root, output_dir, opensfm_settings,
     # get video frames
     frame_files = sorted(glob.glob(os.path.join(frames_root, "radiometric", "*.tiff")))
     frame_files = frame_files[frame_cluster[0]:frame_cluster[1]]
-    cap = Capture(frame_files, None, camera_matrix, dist_coeffs)    
+    cap = Capture(frame_files, None, camera_matrix, dist_coeffs)
 
     make_camera_models_file(output_dir, camera_matrix, dist_coeffs, cap.img_w, cap.img_h)
 
