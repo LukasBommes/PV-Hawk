@@ -346,7 +346,7 @@ def run(frames_root, inference_root, output_dir, motion_model, orb_nfeatures,
 
     # video writer
     video_shape = (cap.img_w, cap.img_h)
-    video_path = os.path.join(output_dir, "tracks_preview.avi")
+    video_path = os.path.join(output_dir, "preview.avi")
     fourcc = cv2.VideoWriter_fourcc(*"DIVX")
     videowriter = cv2.VideoWriter(video_path, fourcc, output_video_fps, video_shape)
 
