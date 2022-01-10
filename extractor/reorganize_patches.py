@@ -29,22 +29,21 @@ def run(mapping_root, patches_root, output_dir):
     module_corners = pickle.load(open(os.path.join(mapping_root, "module_corners.pkl"), "rb"))
 
     # copy patches from patches to final/patches and merge the patches of merged modules
-    for mode in ["preview", "radiometric"]:
-        logger.info("Reorganizing {} patches".format(mode))
-        for track_id in tqdm(module_corners.keys()):
-            dst = os.path.join(output_dir, mode, track_id)
-            os.makedirs(dst, exist_ok=True)
+    logger.info("Reorganizing patches")
+    for track_id in tqdm(module_corners.keys()):
+        dst = os.path.join(output_dir, "radiometric", track_id)
+        os.makedirs(dst, exist_ok=True)
 
-            # get modules the current module is (possibly) merged with
-            source_modules = set([track_id])
-            for modules in merged_modules:
-                if track_id in modules:
-                    source_modules |= set(modules)
+        # get modules the current module is (possibly) merged with
+        source_modules = set([track_id])
+        for modules in merged_modules:
+            if track_id in modules:
+                source_modules |= set(modules)
+        
+        # copy patches of the module and the ones it is merged with to destintation folder        
+        for track_id_ in source_modules:
+            patch_files = sorted(glob.glob(os.path.join(patches_root, "radiometric", track_id_, "*")))           
             
-            # copy patches of the module and the ones it is merged with to destintation folder        
-            for track_id_ in source_modules:
-                patch_files = sorted(glob.glob(os.path.join(patches_root, mode, track_id_, "*")))           
-                
-                for patch_file in patch_files:
-                    shutil.copy2(patch_file, dst)
-                    #print(patch_file, dst)
+            for patch_file in patch_files:
+                shutil.copy2(patch_file, dst)
+                #print(patch_file, dst)
