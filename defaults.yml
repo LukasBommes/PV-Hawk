@@ -20,6 +20,7 @@ track_pv_modules:
   match_distance_thres: 20.0  # maximum feature distance of two feature descriptors to be matched (needed to compute visual distance)
   max_distance: 60  # [px] maximum Euclidean distance a module center point can travel in two subsequent frames to still be considered the same module  
   output_video_fps: 8.0  # [Hz]
+  deterministic_track_ids: True  # True to make module UUIDs deterministic, i.e. produce same module UUIDs for multiple runs on same data
 
 compute_pv_module_quadrilaterals:
   min_iou: 0.9
