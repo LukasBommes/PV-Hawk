@@ -96,7 +96,7 @@ def main(config_file):
 
         # compute module corners
         if "compute_pv_module_quadrilaterals" in tasks:
-            logger.info("Obtaining PV module corners")
+            logger.info("Estimating bounding quadrilaterals for PV modules")
             frames_root = os.path.join(config["work_dir"], group_name, "splitted")
             inference_root = os.path.join(config["work_dir"], group_name, "segmented")
             tracks_root = os.path.join(config["work_dir"], group_name, "tracking")
@@ -155,7 +155,7 @@ def main(config_file):
             refine_triangulation.run(mapping_root, **settings["refine_triangulation"])
 
         if "crop_pv_modules" in tasks:
-            logger.info("Obtaining PV module corners")
+            logger.info("Cropping PV module patches")
             frames_root = os.path.join(config["work_dir"], group_name, "splitted")       
             quads_root = os.path.join(config["work_dir"], group_name, "quadrilaterals")
             mapping_root = os.path.join(config["work_dir"], group_name, "mapping")
