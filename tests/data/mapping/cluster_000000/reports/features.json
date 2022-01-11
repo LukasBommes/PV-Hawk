@@ -1,95 +1,95 @@
 {
-    "wall_time": 3.6211093140300363,
+    "wall_time": 2.8498117711860687,
     "image_reports": [
-        {
-            "image": "frame_000012.jpg",
-            "num_features": 4681,
-            "wall_time": 1.9515996070113033
-        },
         {
             "image": "frame_000000.jpg",
             "num_features": 4516,
-            "wall_time": 2.358850546879694
-        },
-        {
-            "image": "frame_000034.jpg",
-            "num_features": 4820,
-            "wall_time": 2.6521780660841614
-        },
-        {
-            "image": "frame_000030.jpg",
-            "num_features": 4737,
-            "wall_time": 1.7305642000865191
-        },
-        {
-            "image": "frame_000032.jpg",
-            "num_features": 4772,
-            "wall_time": 2.6986843368504196
-        },
-        {
-            "image": "frame_000036.jpg",
-            "num_features": 4903,
-            "wall_time": 2.6738603520207107
-        },
-        {
-            "image": "frame_000018.jpg",
-            "num_features": 4662,
-            "wall_time": 2.2141133709810674
-        },
-        {
-            "image": "frame_000028.jpg",
-            "num_features": 4699,
-            "wall_time": 2.545634469948709
-        },
-        {
-            "image": "frame_000044.jpg",
-            "num_features": 4889,
-            "wall_time": 2.342903808923438
-        },
-        {
-            "image": "frame_000038.jpg",
-            "num_features": 4852,
-            "wall_time": 1.5914285629987717
-        },
-        {
-            "image": "frame_000024.jpg",
-            "num_features": 4696,
-            "wall_time": 2.2601427477784455
-        },
-        {
-            "image": "frame_000006.jpg",
-            "num_features": 4588,
-            "wall_time": 2.3644792530685663
-        },
-        {
-            "image": "frame_000003.jpg",
-            "num_features": 4516,
-            "wall_time": 2.6071208340581506
-        },
-        {
-            "image": "frame_000009.jpg",
-            "num_features": 4600,
-            "wall_time": 2.547260269988328
-        },
-        {
-            "image": "frame_000026.jpg",
-            "num_features": 4710,
-            "wall_time": 1.4117271688301116
-        },
-        {
-            "image": "frame_000041.jpg",
-            "num_features": 4876,
-            "wall_time": 1.966734604910016
-        },
-        {
-            "image": "frame_000015.jpg",
-            "num_features": 4568,
-            "wall_time": 1.9471513128373772
+            "wall_time": 1.9575981020461768
         },
         {
             "image": "frame_000021.jpg",
             "num_features": 4663,
-            "wall_time": 2.308948141988367
+            "wall_time": 1.3627106370404363
+        },
+        {
+            "image": "frame_000009.jpg",
+            "num_features": 4600,
+            "wall_time": 2.371697578113526
+        },
+        {
+            "image": "frame_000028.jpg",
+            "num_features": 4699,
+            "wall_time": 2.04142151796259
+        },
+        {
+            "image": "frame_000032.jpg",
+            "num_features": 4772,
+            "wall_time": 2.342234177980572
+        },
+        {
+            "image": "frame_000036.jpg",
+            "num_features": 4903,
+            "wall_time": 1.3834970090538263
+        },
+        {
+            "image": "frame_000044.jpg",
+            "num_features": 4889,
+            "wall_time": 2.415960745885968
+        },
+        {
+            "image": "frame_000034.jpg",
+            "num_features": 4820,
+            "wall_time": 2.1594516709446907
+        },
+        {
+            "image": "frame_000030.jpg",
+            "num_features": 4737,
+            "wall_time": 1.2204332810360938
+        },
+        {
+            "image": "frame_000038.jpg",
+            "num_features": 4852,
+            "wall_time": 1.347945926943794
+        },
+        {
+            "image": "frame_000041.jpg",
+            "num_features": 4876,
+            "wall_time": 2.0850107460282743
+        },
+        {
+            "image": "frame_000024.jpg",
+            "num_features": 4696,
+            "wall_time": 1.6429757308214903
+        },
+        {
+            "image": "frame_000026.jpg",
+            "num_features": 4710,
+            "wall_time": 2.5427370939869434
+        },
+        {
+            "image": "frame_000015.jpg",
+            "num_features": 4568,
+            "wall_time": 2.554966554045677
+        },
+        {
+            "image": "frame_000018.jpg",
+            "num_features": 4662,
+            "wall_time": 2.198377959895879
+        },
+        {
+            "image": "frame_000006.jpg",
+            "num_features": 4588,
+            "wall_time": 1.2302640629932284
+        },
+        {
+            "image": "frame_000012.jpg",
+            "num_features": 4681,
+            "wall_time": 1.4746656429488212
+        },
+        {
+            "image": "frame_000003.jpg",
+            "num_features": 4516,
+            "wall_time": 2.546581109985709
         }
     ]
 }

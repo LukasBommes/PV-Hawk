@@ -1,4 +1,5 @@
 import os
+import pickle
 import unittest
 from tempfile import TemporaryDirectory
 
@@ -16,8 +17,10 @@ class TestQuadrilaterals(unittest.TestCase):
         self.frames_root = os.path.join(self.data_dir, "splitted")
         self.inference_root = os.path.join(self.data_dir, "segmented")
         self.tracks_root = os.path.join(self.data_dir, "tracking")
-        self.output_dir = os.path.join(self.work_dir.name, "quadrilaterals")
-        os.makedirs(self.output_dir, exist_ok=True)
+        self.output_dir = self.work_dir.name
+
+        # where to load files with desired output format from
+        self.ground_truth_dir = os.path.join(self.data_dir, "quadrilaterals")
 
     def test_run(self):
         quadrilaterals.run(
@@ -27,14 +30,12 @@ class TestQuadrilaterals(unittest.TestCase):
             self.output_dir, 
             **self.settings)
 
-        print(os.listdir(self.work_dir.name))
-        print(os.listdir(self.tracks_root))
-        print(os.listdir(self.output_dir))
-        
-        # check if output files have desired form
-        # 1) Load ground truth file from tests/data
-        # 2) compare
-        #assert
+        # check if outputs equal ground truth
+        with open(os.path.join(self.output_dir, "quadrilaterals.pkl"), "rb") as file:
+            quads = pickle.load(file)
+        with open(os.path.join(self.ground_truth_dir, "quadrilaterals.pkl"), "rb") as file:
+            quads_ground_truth = pickle.load(file)
+        self.assertEqual(quads, quads_ground_truth)
 
     def tearDown(self):
         self.work_dir.cleanup()

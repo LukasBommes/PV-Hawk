@@ -1,77 +1,361 @@
 {
-    "wall_time": 10.79156227200292,
+    "wall_time": 10.976236458169296,
     "num_pairs": 152,
     "pairs": [
         [
-            "frame_000015.jpg",
+            "frame_000012.jpg",
+            "frame_000038.jpg"
+        ],
+        [
+            "frame_000018.jpg",
+            "frame_000006.jpg"
+        ],
+        [
+            "frame_000012.jpg",
+            "frame_000034.jpg"
+        ],
+        [
+            "frame_000032.jpg",
             "frame_000024.jpg"
         ],
         [
-            "frame_000026.jpg",
+            "frame_000032.jpg",
+            "frame_000015.jpg"
+        ],
+        [
+            "frame_000038.jpg",
+            "frame_000028.jpg"
+        ],
+        [
+            "frame_000041.jpg",
+            "frame_000044.jpg"
+        ],
+        [
+            "frame_000041.jpg",
+            "frame_000021.jpg"
+        ],
+        [
+            "frame_000012.jpg",
+            "frame_000006.jpg"
+        ],
+        [
+            "frame_000032.jpg",
+            "frame_000006.jpg"
+        ],
+        [
+            "frame_000038.jpg",
+            "frame_000026.jpg"
+        ],
+        [
+            "frame_000012.jpg",
+            "frame_000015.jpg"
+        ],
+        [
+            "frame_000044.jpg",
+            "frame_000028.jpg"
+        ],
+        [
+            "frame_000000.jpg",
+            "frame_000041.jpg"
+        ],
+        [
+            "frame_000024.jpg",
+            "frame_000009.jpg"
+        ],
+        [
+            "frame_000006.jpg",
+            "frame_000036.jpg"
+        ],
+        [
+            "frame_000018.jpg",
+            "frame_000021.jpg"
+        ],
+        [
+            "frame_000000.jpg",
+            "frame_000009.jpg"
+        ],
+        [
+            "frame_000009.jpg",
+            "frame_000015.jpg"
+        ],
+        [
+            "frame_000021.jpg",
+            "frame_000028.jpg"
+        ],
+        [
+            "frame_000003.jpg",
+            "frame_000012.jpg"
+        ],
+        [
+            "frame_000003.jpg",
+            "frame_000015.jpg"
+        ],
+        [
+            "frame_000006.jpg",
+            "frame_000030.jpg"
+        ],
+        [
+            "frame_000028.jpg",
+            "frame_000026.jpg"
+        ],
+        [
+            "frame_000006.jpg",
+            "frame_000028.jpg"
+        ],
+        [
+            "frame_000000.jpg",
+            "frame_000028.jpg"
+        ],
+        [
+            "frame_000009.jpg",
             "frame_000034.jpg"
+        ],
+        [
+            "frame_000030.jpg",
+            "frame_000044.jpg"
+        ],
+        [
+            "frame_000044.jpg",
+            "frame_000026.jpg"
+        ],
+        [
+            "frame_000030.jpg",
+            "frame_000021.jpg"
+        ],
+        [
+            "frame_000030.jpg",
+            "frame_000028.jpg"
+        ],
+        [
+            "frame_000018.jpg",
+            "frame_000009.jpg"
+        ],
+        [
+            "frame_000038.jpg",
+            "frame_000009.jpg"
+        ],
+        [
+            "frame_000000.jpg",
+            "frame_000036.jpg"
+        ],
+        [
+            "frame_000012.jpg",
+            "frame_000009.jpg"
+        ],
+        [
+            "frame_000036.jpg",
+            "frame_000030.jpg"
+        ],
+        [
+            "frame_000012.jpg",
+            "frame_000024.jpg"
+        ],
+        [
+            "frame_000032.jpg",
+            "frame_000034.jpg"
+        ],
+        [
+            "frame_000003.jpg",
+            "frame_000028.jpg"
+        ],
+        [
+            "frame_000036.jpg",
+            "frame_000015.jpg"
+        ],
+        [
+            "frame_000024.jpg",
+            "frame_000028.jpg"
+        ],
+        [
+            "frame_000018.jpg",
+            "frame_000024.jpg"
+        ],
+        [
+            "frame_000000.jpg",
+            "frame_000030.jpg"
+        ],
+        [
+            "frame_000041.jpg",
+            "frame_000012.jpg"
+        ],
+        [
+            "frame_000006.jpg",
+            "frame_000009.jpg"
+        ],
+        [
+            "frame_000032.jpg",
+            "frame_000021.jpg"
+        ],
+        [
+            "frame_000018.jpg",
+            "frame_000038.jpg"
+        ],
+        [
+            "frame_000032.jpg",
+            "frame_000044.jpg"
+        ],
+        [
+            "frame_000041.jpg",
+            "frame_000028.jpg"
+        ],
+        [
+            "frame_000000.jpg",
+            "frame_000021.jpg"
+        ],
+        [
+            "frame_000041.jpg",
+            "frame_000032.jpg"
+        ],
+        [
+            "frame_000038.jpg",
+            "frame_000015.jpg"
+        ],
+        [
+            "frame_000041.jpg",
+            "frame_000038.jpg"
+        ],
+        [
+            "frame_000018.jpg",
+            "frame_000028.jpg"
+        ],
+        [
+            "frame_000018.jpg",
+            "frame_000030.jpg"
+        ],
+        [
+            "frame_000044.jpg",
+            "frame_000021.jpg"
+        ],
+        [
+            "frame_000018.jpg",
+            "frame_000003.jpg"
+        ],
+        [
+            "frame_000038.jpg",
+            "frame_000006.jpg"
+        ],
+        [
+            "frame_000036.jpg",
+            "frame_000028.jpg"
+        ],
+        [
+            "frame_000009.jpg",
+            "frame_000021.jpg"
+        ],
+        [
+            "frame_000003.jpg",
+            "frame_000032.jpg"
+        ],
+        [
+            "frame_000012.jpg",
+            "frame_000030.jpg"
+        ],
+        [
+            "frame_000032.jpg",
+            "frame_000026.jpg"
+        ],
+        [
+            "frame_000036.jpg",
+            "frame_000009.jpg"
+        ],
+        [
+            "frame_000009.jpg",
+            "frame_000044.jpg"
+        ],
+        [
+            "frame_000012.jpg",
+            "frame_000036.jpg"
+        ],
+        [
+            "frame_000024.jpg",
+            "frame_000026.jpg"
+        ],
+        [
+            "frame_000006.jpg",
+            "frame_000015.jpg"
         ],
         [
             "frame_000000.jpg",
             "frame_000003.jpg"
         ],
         [
-            "frame_000015.jpg",
-            "frame_000036.jpg"
-        ],
-        [
-            "frame_000026.jpg",
-            "frame_000038.jpg"
+            "frame_000041.jpg",
+            "frame_000009.jpg"
         ],
         [
             "frame_000000.jpg",
-            "frame_000034.jpg"
+            "frame_000024.jpg"
         ],
         [
-            "frame_000012.jpg",
-            "frame_000026.jpg"
+            "frame_000000.jpg",
+            "frame_000006.jpg"
         ],
         [
-            "frame_000021.jpg",
-            "frame_000041.jpg"
+            "frame_000036.jpg",
+            "frame_000024.jpg"
         ],
         [
-            "frame_000015.jpg",
-            "frame_000044.jpg"
-        ],
-        [
-            "frame_000032.jpg",
+            "frame_000000.jpg",
             "frame_000038.jpg"
         ],
         [
             "frame_000041.jpg",
-            "frame_000038.jpg"
+            "frame_000026.jpg"
         ],
         [
-            "frame_000000.jpg",
+            "frame_000015.jpg",
+            "frame_000030.jpg"
+        ],
+        [
+            "frame_000018.jpg",
             "frame_000032.jpg"
         ],
         [
-            "frame_000006.jpg",
-            "frame_000021.jpg"
-        ],
-        [
-            "frame_000028.jpg",
+            "frame_000038.jpg",
             "frame_000036.jpg"
         ],
         [
-            "frame_000036.jpg",
-            "frame_000018.jpg"
+            "frame_000000.jpg",
+            "frame_000015.jpg"
+        ],
+        [
+            "frame_000038.jpg",
+            "frame_000034.jpg"
         ],
         [
             "frame_000003.jpg",
-            "frame_000028.jpg"
+            "frame_000030.jpg"
         ],
         [
             "frame_000012.jpg",
+            "frame_000032.jpg"
+        ],
+        [
+            "frame_000041.jpg",
+            "frame_000024.jpg"
+        ],
+        [
+            "frame_000003.jpg",
+            "frame_000026.jpg"
+        ],
+        [
+            "frame_000015.jpg",
+            "frame_000034.jpg"
+        ],
+        [
+            "frame_000009.jpg",
+            "frame_000026.jpg"
+        ],
+        [
+            "frame_000018.jpg",
             "frame_000041.jpg"
         ],
         [
-            "frame_000006.jpg",
+            "frame_000044.jpg",
+            "frame_000034.jpg"
+        ],
+        [
+            "frame_000003.jpg",
             "frame_000038.jpg"
         ],
         [
@@ -79,536 +363,252 @@
             "frame_000044.jpg"
         ],
         [
-            "frame_000028.jpg",
+            "frame_000018.jpg",
             "frame_000044.jpg"
-        ],
-        [
-            "frame_000015.jpg",
-            "frame_000009.jpg"
-        ],
-        [
-            "frame_000000.jpg",
-            "frame_000009.jpg"
-        ],
-        [
-            "frame_000028.jpg",
-            "frame_000021.jpg"
-        ],
-        [
-            "frame_000028.jpg",
-            "frame_000041.jpg"
         ],
         [
             "frame_000003.jpg",
-            "frame_000044.jpg"
-        ],
-        [
-            "frame_000021.jpg",
-            "frame_000044.jpg"
-        ],
-        [
-            "frame_000000.jpg",
-            "frame_000015.jpg"
-        ],
-        [
-            "frame_000028.jpg",
             "frame_000024.jpg"
         ],
         [
-            "frame_000012.jpg",
-            "frame_000018.jpg"
-        ],
-        [
-            "frame_000012.jpg",
-            "frame_000021.jpg"
-        ],
-        [
-            "frame_000003.jpg",
-            "frame_000034.jpg"
-        ],
-        [
-            "frame_000006.jpg",
-            "frame_000036.jpg"
-        ],
-        [
-            "frame_000003.jpg",
-            "frame_000036.jpg"
-        ],
-        [
-            "frame_000032.jpg",
-            "frame_000018.jpg"
-        ],
-        [
-            "frame_000024.jpg",
-            "frame_000030.jpg"
-        ],
-        [
-            "frame_000021.jpg",
-            "frame_000030.jpg"
-        ],
-        [
-            "frame_000009.jpg",
-            "frame_000012.jpg"
-        ],
-        [
-            "frame_000009.jpg",
-            "frame_000036.jpg"
-        ],
-        [
-            "frame_000006.jpg",
-            "frame_000044.jpg"
-        ],
-        [
-            "frame_000003.jpg",
-            "frame_000006.jpg"
-        ],
-        [
-            "frame_000012.jpg",
-            "frame_000036.jpg"
-        ],
-        [
-            "frame_000009.jpg",
-            "frame_000044.jpg"
-        ],
-        [
-            "frame_000026.jpg",
-            "frame_000021.jpg"
-        ],
-        [
-            "frame_000021.jpg",
-            "frame_000038.jpg"
-        ],
-        [
-            "frame_000003.jpg",
-            "frame_000038.jpg"
-        ],
-        [
             "frame_000041.jpg",
-            "frame_000018.jpg"
-        ],
-        [
-            "frame_000015.jpg",
-            "frame_000030.jpg"
-        ],
-        [
-            "frame_000041.jpg",
-            "frame_000032.jpg"
-        ],
-        [
-            "frame_000026.jpg",
-            "frame_000018.jpg"
-        ],
-        [
-            "frame_000032.jpg",
-            "frame_000030.jpg"
-        ],
-        [
-            "frame_000009.jpg",
-            "frame_000030.jpg"
-        ],
-        [
-            "frame_000000.jpg",
-            "frame_000018.jpg"
-        ],
-        [
-            "frame_000024.jpg",
-            "frame_000012.jpg"
+            "frame_000036.jpg"
         ],
         [
             "frame_000012.jpg",
-            "frame_000038.jpg"
-        ],
-        [
-            "frame_000024.jpg",
-            "frame_000026.jpg"
-        ],
-        [
-            "frame_000028.jpg",
-            "frame_000026.jpg"
-        ],
-        [
-            "frame_000028.jpg",
-            "frame_000030.jpg"
-        ],
-        [
-            "frame_000009.jpg",
-            "frame_000032.jpg"
+            "frame_000028.jpg"
         ],
         [
             "frame_000030.jpg",
-            "frame_000018.jpg"
+            "frame_000026.jpg"
         ],
         [
-            "frame_000028.jpg",
-            "frame_000012.jpg"
-        ],
-        [
-            "frame_000006.jpg",
-            "frame_000030.jpg"
-        ],
-        [
-            "frame_000028.jpg",
+            "frame_000000.jpg",
             "frame_000034.jpg"
         ],
         [
-            "frame_000000.jpg",
-            "frame_000006.jpg"
+            "frame_000009.jpg",
+            "frame_000030.jpg"
         ],
         [
-            "frame_000034.jpg",
-            "frame_000041.jpg"
-        ],
-        [
-            "frame_000024.jpg",
-            "frame_000006.jpg"
-        ],
-        [
-            "frame_000028.jpg",
-            "frame_000038.jpg"
-        ],
-        [
-            "frame_000012.jpg",
-            "frame_000032.jpg"
-        ],
-        [
-            "frame_000015.jpg",
-            "frame_000018.jpg"
-        ],
-        [
-            "frame_000003.jpg",
-            "frame_000041.jpg"
+            "frame_000009.jpg",
+            "frame_000028.jpg"
         ],
         [
             "frame_000036.jpg",
+            "frame_000044.jpg"
+        ],
+        [
+            "frame_000036.jpg",
+            "frame_000021.jpg"
+        ],
+        [
+            "frame_000018.jpg",
+            "frame_000036.jpg"
+        ],
+        [
+            "frame_000021.jpg",
+            "frame_000026.jpg"
+        ],
+        [
+            "frame_000006.jpg",
+            "frame_000044.jpg"
+        ],
+        [
+            "frame_000000.jpg",
+            "frame_000012.jpg"
+        ],
+        [
+            "frame_000041.jpg",
             "frame_000030.jpg"
         ],
         [
             "frame_000015.jpg",
-            "frame_000012.jpg"
+            "frame_000026.jpg"
         ],
         [
-            "frame_000036.jpg",
-            "frame_000032.jpg"
+            "frame_000034.jpg",
+            "frame_000021.jpg"
         ],
         [
-            "frame_000015.jpg",
-            "frame_000041.jpg"
+            "frame_000012.jpg",
+            "frame_000026.jpg"
         ],
         [
-            "frame_000026.jpg",
-            "frame_000032.jpg"
+            "frame_000032.jpg",
+            "frame_000030.jpg"
+        ],
+        [
+            "frame_000006.jpg",
+            "frame_000024.jpg"
+        ],
+        [
+            "frame_000006.jpg",
+            "frame_000034.jpg"
         ],
         [
             "frame_000003.jpg",
-            "frame_000018.jpg"
+            "frame_000034.jpg"
+        ],
+        [
+            "frame_000018.jpg",
+            "frame_000000.jpg"
+        ],
+        [
+            "frame_000018.jpg",
+            "frame_000012.jpg"
         ],
         [
             "frame_000024.jpg",
             "frame_000021.jpg"
         ],
         [
-            "frame_000021.jpg",
-            "frame_000018.jpg"
-        ],
-        [
-            "frame_000000.jpg",
-            "frame_000021.jpg"
-        ],
-        [
-            "frame_000028.jpg",
-            "frame_000015.jpg"
+            "frame_000030.jpg",
+            "frame_000034.jpg"
         ],
         [
             "frame_000024.jpg",
             "frame_000044.jpg"
         ],
         [
+            "frame_000003.jpg",
+            "frame_000009.jpg"
+        ],
+        [
+            "frame_000032.jpg",
+            "frame_000036.jpg"
+        ],
+        [
+            "frame_000041.jpg",
+            "frame_000006.jpg"
+        ],
+        [
+            "frame_000038.jpg",
+            "frame_000024.jpg"
+        ],
+        [
             "frame_000034.jpg",
+            "frame_000028.jpg"
+        ],
+        [
+            "frame_000032.jpg",
+            "frame_000028.jpg"
+        ],
+        [
+            "frame_000018.jpg",
+            "frame_000034.jpg"
+        ],
+        [
+            "frame_000024.jpg",
+            "frame_000034.jpg"
+        ],
+        [
+            "frame_000041.jpg",
+            "frame_000015.jpg"
+        ],
+        [
+            "frame_000038.jpg",
+            "frame_000032.jpg"
+        ],
+        [
+            "frame_000018.jpg",
+            "frame_000015.jpg"
+        ],
+        [
+            "frame_000003.jpg",
+            "frame_000021.jpg"
+        ],
+        [
+            "frame_000006.jpg",
+            "frame_000021.jpg"
+        ],
+        [
+            "frame_000041.jpg",
+            "frame_000034.jpg"
+        ],
+        [
+            "frame_000012.jpg",
+            "frame_000044.jpg"
+        ],
+        [
+            "frame_000012.jpg",
+            "frame_000021.jpg"
+        ],
+        [
+            "frame_000034.jpg",
+            "frame_000026.jpg"
+        ],
+        [
+            "frame_000041.jpg",
+            "frame_000003.jpg"
+        ],
+        [
+            "frame_000036.jpg",
+            "frame_000034.jpg"
+        ],
+        [
+            "frame_000003.jpg",
+            "frame_000006.jpg"
+        ],
+        [
+            "frame_000000.jpg",
+            "frame_000032.jpg"
+        ],
+        [
+            "frame_000003.jpg",
             "frame_000036.jpg"
         ],
         [
             "frame_000032.jpg",
-            "frame_000044.jpg"
+            "frame_000009.jpg"
+        ],
+        [
+            "frame_000036.jpg",
+            "frame_000026.jpg"
+        ],
+        [
+            "frame_000018.jpg",
+            "frame_000026.jpg"
         ],
         [
             "frame_000038.jpg",
-            "frame_000018.jpg"
-        ],
-        [
-            "frame_000015.jpg",
-            "frame_000032.jpg"
-        ],
-        [
-            "frame_000003.jpg",
-            "frame_000032.jpg"
+            "frame_000030.jpg"
         ],
         [
             "frame_000024.jpg",
-            "frame_000034.jpg"
-        ],
-        [
-            "frame_000024.jpg",
-            "frame_000036.jpg"
-        ],
-        [
-            "frame_000034.jpg",
-            "frame_000044.jpg"
+            "frame_000030.jpg"
         ],
         [
             "frame_000015.jpg",
-            "frame_000021.jpg"
-        ],
-        [
-            "frame_000021.jpg",
-            "frame_000036.jpg"
-        ],
-        [
-            "frame_000009.jpg",
-            "frame_000018.jpg"
-        ],
-        [
-            "frame_000009.jpg",
-            "frame_000021.jpg"
-        ],
-        [
-            "frame_000028.jpg",
-            "frame_000032.jpg"
-        ],
-        [
-            "frame_000000.jpg",
             "frame_000028.jpg"
         ],
         [
-            "frame_000009.jpg",
-            "frame_000026.jpg"
-        ],
-        [
-            "frame_000034.jpg",
-            "frame_000038.jpg"
-        ],
-        [
-            "frame_000034.jpg",
-            "frame_000030.jpg"
-        ],
-        [
-            "frame_000000.jpg",
-            "frame_000036.jpg"
-        ],
-        [
-            "frame_000003.jpg",
+            "frame_000015.jpg",
             "frame_000021.jpg"
         ],
         [
-            "frame_000000.jpg",
-            "frame_000024.jpg"
-        ],
-        [
-            "frame_000015.jpg",
-            "frame_000026.jpg"
-        ],
-        [
-            "frame_000003.jpg",
+            "frame_000024.jpg",
             "frame_000015.jpg"
         ],
         [
-            "frame_000024.jpg",
-            "frame_000038.jpg"
-        ],
-        [
-            "frame_000034.jpg",
-            "frame_000032.jpg"
-        ],
-        [
-            "frame_000036.jpg",
+            "frame_000015.jpg",
             "frame_000044.jpg"
         ],
         [
-            "frame_000009.jpg",
-            "frame_000006.jpg"
-        ],
-        [
-            "frame_000028.jpg",
-            "frame_000018.jpg"
-        ],
-        [
-            "frame_000028.jpg",
-            "frame_000009.jpg"
-        ],
-        [
-            "frame_000009.jpg",
-            "frame_000041.jpg"
-        ],
-        [
-            "frame_000015.jpg",
-            "frame_000034.jpg"
-        ],
-        [
-            "frame_000024.jpg",
-            "frame_000032.jpg"
-        ],
-        [
-            "frame_000012.jpg",
-            "frame_000006.jpg"
-        ],
-        [
             "frame_000003.jpg",
-            "frame_000012.jpg"
+            "frame_000044.jpg"
         ],
         [
-            "frame_000015.jpg",
-            "frame_000038.jpg"
-        ],
-        [
-            "frame_000026.jpg",
-            "frame_000036.jpg"
-        ],
-        [
-            "frame_000003.jpg",
+            "frame_000000.jpg",
             "frame_000026.jpg"
         ],
         [
-            "frame_000026.jpg",
-            "frame_000044.jpg"
-        ],
-        [
-            "frame_000026.jpg",
-            "frame_000041.jpg"
-        ],
-        [
-            "frame_000000.jpg",
-            "frame_000041.jpg"
-        ],
-        [
-            "frame_000024.jpg",
-            "frame_000041.jpg"
-        ],
-        [
-            "frame_000026.jpg",
-            "frame_000006.jpg"
-        ],
-        [
-            "frame_000041.jpg",
-            "frame_000030.jpg"
-        ],
-        [
-            "frame_000000.jpg",
-            "frame_000030.jpg"
-        ],
-        [
-            "frame_000044.jpg",
-            "frame_000030.jpg"
-        ],
-        [
-            "frame_000000.jpg",
-            "frame_000012.jpg"
-        ],
-        [
-            "frame_000003.jpg",
-            "frame_000030.jpg"
-        ],
-        [
-            "frame_000012.jpg",
-            "frame_000044.jpg"
-        ],
-        [
-            "frame_000024.jpg",
-            "frame_000009.jpg"
-        ],
-        [
-            "frame_000024.jpg",
-            "frame_000018.jpg"
+            "frame_000006.jpg",
+            "frame_000026.jpg"
         ],
         [
             "frame_000038.jpg",
-            "frame_000030.jpg"
-        ],
-        [
-            "frame_000015.jpg",
-            "frame_000006.jpg"
-        ],
-        [
-            "frame_000012.jpg",
-            "frame_000034.jpg"
-        ],
-        [
-            "frame_000006.jpg",
-            "frame_000032.jpg"
-        ],
-        [
-            "frame_000003.jpg",
-            "frame_000024.jpg"
-        ],
-        [
-            "frame_000006.jpg",
-            "frame_000018.jpg"
-        ],
-        [
-            "frame_000012.jpg",
-            "frame_000030.jpg"
-        ],
-        [
-            "frame_000044.jpg",
-            "frame_000018.jpg"
-        ],
-        [
-            "frame_000009.jpg",
-            "frame_000034.jpg"
-        ],
-        [
-            "frame_000034.jpg",
-            "frame_000018.jpg"
-        ],
-        [
-            "frame_000034.jpg",
             "frame_000021.jpg"
-        ],
-        [
-            "frame_000009.jpg",
-            "frame_000038.jpg"
-        ],
-        [
-            "frame_000028.jpg",
-            "frame_000006.jpg"
-        ],
-        [
-            "frame_000000.jpg",
-            "frame_000038.jpg"
-        ],
-        [
-            "frame_000036.jpg",
-            "frame_000038.jpg"
-        ],
-        [
-            "frame_000041.jpg",
-            "frame_000044.jpg"
-        ],
-        [
-            "frame_000021.jpg",
-            "frame_000032.jpg"
-        ],
-        [
-            "frame_000034.jpg",
-            "frame_000006.jpg"
-        ],
-        [
-            "frame_000006.jpg",
-            "frame_000041.jpg"
-        ],
-        [
-            "frame_000026.jpg",
-            "frame_000030.jpg"
-        ],
-        [
-            "frame_000041.jpg",
-            "frame_000036.jpg"
-        ],
-        [
-            "frame_000000.jpg",
-            "frame_000026.jpg"
-        ],
-        [
-            "frame_000003.jpg",
-            "frame_000009.jpg"
         ]
     ],
     "num_pairs_distance": 152,
