@@ -21,10 +21,6 @@ track_pv_modules:
   max_distance: 60  # [px] maximum Euclidean distance a module center point can travel in two subsequent frames to still be considered the same module  
   output_video_fps: 8.0  # [Hz]
 
-#crop_and_rectify_modules:
-#  min_iou: 0.9
-#  rotate_mode: portrait
-
 compute_pv_module_quadrilaterals:
   min_iou: 0.9
 
@@ -61,8 +57,6 @@ refine_triangulation:
   max_module_depth: -1  # [meters] project only modules which are at most this far away from reconstructed camera center
   max_num_modules: 300  # if number of modules per frame exceeds this value skip do not consider this frame for refinement
   optimizer_steps: 10  # number of graph optimization steps to perform
-
-#reorganize_patches:
 
 crop_pv_modules:
   rotate_mode: portrait
