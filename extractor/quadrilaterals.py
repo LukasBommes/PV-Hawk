@@ -1,22 +1,15 @@
-"""Crops and rectifies segmented PV modules.
+"""Estimates a boudning quadrilateral for each segmented PV module.
 
-This module is used to crop out and rectify an image patch for every segmented
-PV module in an IR video frame. Patches are generated from 16-bit radiometric
-TIFFs. The procedure for creating a single patch is as follows:
+This module computes a bounding quadrilateral (polygon with 4 points)
+from the segmentation mask of each PV module. The procedure works as
+follows:
 
 1) Load binary segmentation mask of the PV module
 2) Compute the contour and convex hull of the mask
 3) Find the approximately smallest enclosing quadrilateral of the convex hull
-4) If the IoU between convex hull and quadrilaterl is lower than a specified
-   threshold abort the procedure and do not crop out this PV module
-5) Else, sort the corner points of the quadrilateral in CW order
-6) Compute the maximum width and height of the quadrilateral
-7) Compute a homography from the corners of the quadrilateral to a rectangular
-   destination image with the previously computed width and height
-8) Project the image region inside the quadrilateral onto the rectangular
-   destination image using the computed homography
-9) If the width is larger than the height, rotate the rectangular patch by 90
-   degrees CCW
+4) If the IoU between convex hull and quadrilateral is lower than a specified
+   threshold abort the procedure and skip this PV module
+5) Else, sort the corner points of the quadrilateral in clockwise order
 """
 
 import os

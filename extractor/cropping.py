@@ -1,3 +1,28 @@
+"""Crops and rectifies PV modules from IR frames.
+
+This module is used to crop out and rectify an image patch for every segmented
+PV module in an IR video frame. The outlines of each module are based on
+the quadrilaterals, which are computed from the segmentation mask of each module
+in the `quadrilaterals` module.
+
+You can run the cropping either directely after having estimated the module 
+quadrilaterals or later after completion of the mapping step. If you run cropping
+after mapping, then only a single patch directory will be created for multiple
+modules in case they were merged during the mapping. If instead you run cropping before 
+mapping, a separate patch directory will be created for each of those merged modules.
+
+The procedure for creating a single patch is as follows:
+
+1) Load quadrilateral of each PV module
+2) Compute the maximum width and height of the quadrilateral
+3) Compute a homography from the corners of the quadrilateral to a rectangular
+   destination image with the previously computed width and height
+4) Project the image region inside the quadrilateral onto the rectangular
+   destination image using the computed homography
+5) If the width is larger than the height, rotate the rectangular patch by 90
+   degrees counter-clockwise
+"""
+
 import os
 import glob
 import re
