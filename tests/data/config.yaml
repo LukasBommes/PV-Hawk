@@ -1,0 +1,14 @@
+cam_params_dir: calibration/camera_8hz/parameters
+clusters:
+- cluster_idx: 0
+  frame_idx_end: 2541
+  frame_idx_start: 0
+name: 2_rows
+row_orientation: horizontal
+settings:
+  opensfm:
+    align_method: orientation_prior
+    align_orientation_prior: vertical
+    matching_gps_distance: 15
+  prepare_opensfm:
+    select_frames_mode: gps_visual

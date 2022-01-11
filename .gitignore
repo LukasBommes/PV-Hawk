@@ -7,7 +7,8 @@ pvextractor-geo.tar
 
 docker_command.txt
 
-testing/configs
+tests/htmlcov
+tests/.coverage
 
 extractor/segmentation/Mask_RCNN/logs
 extractor/segmentation/Mask_RCNN/mask_rcnn_coco.h5

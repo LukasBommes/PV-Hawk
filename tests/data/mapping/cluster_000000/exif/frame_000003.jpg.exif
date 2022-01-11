@@ -1,0 +1,17 @@
+{
+    "make": "unknown",
+    "model": "unknown",
+    "width": 640,
+    "height": 512,
+    "projection_type": "perspective",
+    "focal_ratio": 0.0,
+    "orientation": 1,
+    "capture_time": 0.0,
+    "gps": {
+        "latitude": 49.61277444444508,
+        "longitude": 10.180660436507603,
+        "altitude": 0.0,
+        "dop": 0.1
+    },
+    "camera": "v2 unknown unknown 640 512 perspective 0.0"
+}
