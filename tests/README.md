@@ -37,11 +37,7 @@ Perform mutation tests of a single test case with
 ```
 mutmut --paths-to-mutate="tests/test_quadrilaterals.py" --runner="python -m unittest" run
 ```
-where `test_quadrilaterals` could be any other test case module.
-Or run it for all modules with
-```
-mutmut --paths-to-mutate="tests/test_*.py" --runner="python -m unittest" run
-```
+where `test_quadrilaterals` could be any other test module.
 
 ### Origin of Test Data
 
