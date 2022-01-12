@@ -53,10 +53,6 @@ class TestPrepareOpensfm(unittest.TestCase):
             self.opensfm_settings, 
             **self.settings)
 
-        #print(os.listdir(self.output_dir))
-        #print(os.listdir(os.path.join(self.output_dir, "cluster_000000")))
-        #print(os.listdir(os.path.join(self.output_dir, "cluster_000000", "images")))
-
         # check if outputs equal ground truth
         self.assertTrue(
             dirs_equal(
