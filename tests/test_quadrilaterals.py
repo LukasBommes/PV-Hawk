@@ -4,13 +4,14 @@ import unittest
 from tempfile import TemporaryDirectory
 
 from extractor import quadrilaterals
+from tests.common import temp_dir_prefix
 
 
 class TestQuadrilaterals(unittest.TestCase):
 
     def setUp(self):
         self.data_dir = os.path.join("tests", "data")
-        self.work_dir = TemporaryDirectory()
+        self.work_dir = TemporaryDirectory(prefix=temp_dir_prefix)
         self.settings = {
             "min_iou": 0.9
         }
