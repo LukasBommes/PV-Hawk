@@ -1,5 +1,5 @@
 plant_name: Create test data
-work_dir: tests/data
+work_dir: tests/data/large
 groups:
 - row_orientation: horizontal
   cam_params_dir: calibration/camera_8hz/parameters
