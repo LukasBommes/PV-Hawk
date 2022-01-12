@@ -337,7 +337,7 @@ def run(frames_root, inference_root, output_dir, motion_model, orb_nfeatures,
         random_seed = 0
 
     # load frames & masks
-    frame_files = sorted(glob.glob(os.path.join(frames_root, "*.tiff")))
+    frame_files = sorted(glob.glob(os.path.join(frames_root, "radiometric", "*.tiff")))
     mask_dirs = sorted(get_immediate_subdirectories(os.path.join(
         inference_root, "masks")))
     mask_files = [sorted(glob.glob(os.path.join(
