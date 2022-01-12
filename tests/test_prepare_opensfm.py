@@ -28,7 +28,7 @@ class TestPrepareOpensfm(unittest.TestCase):
         self.opensfm_settings = {
             "matching_gps_distance": 15,
             "processes": 16,
-            "use_altitude_tag": "no",
+            "use_altitude_tag": False,
             "align_method": "orientation_prior",
             "align_orientation_prior": "vertical"
         }
