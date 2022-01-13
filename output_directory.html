@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Output Directory Structure &mdash; PV Drone Inspect  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="How PV Drone Inspect Works" href="method.html" />
+    <link rel="prev" title="Config File Reference" href="config_file_reference.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> PV Drone Inspect
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Quickstart</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="using_own_data.html">Using Your Own Data</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="finetune_segmentation.html">Finetuning the Mask R-CNN Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config_file_reference.html">Config File Reference</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Output Directory Structure</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">About</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="method.html">How PV Drone Inspect Works</a></li>
+<li class="toctree-l1"><a class="reference internal" href="limitations.html">Current Limitations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PV Drone Inspect</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Output Directory Structure</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/LukasBommes/PV-Drone-Inspect/blob/master/docs/source/output_directory.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="output-directory-structure">
+<h1>Output Directory Structure<a class="headerlink" href="#output-directory-structure" title="Permalink to this headline"></a></h1>
+<p>After completing a processing task a new subdirectory with results of that task will be created under the <cite>work_dir</cite> specified in the config file. E.g. after running the <cite>segment_pv_modules</cite> tasks, there will be a new directory called <cite>segmented</cite>. Whenever you rerun a task, the respective subdirectory is deleted automatically before that task starts.</p>
+<p>Note, that the directory tree below only shows important files and subdirectories. We will briefly explain them below.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>/workdir
+  |-- splitted
+  |    |-- timestamps.csv
+  |    |-- gps
+  |    |     |-- gps.json
+  |    |     |-- gps.kml
+  |    |-- preview
+  |    |     |-- frame_000000.jpg
+  |    |     |-- frame_000001.jpg
+  |    |     |-- ...
+  |    |-- radiometric
+  |    |     |-- frame_000000.tiff
+  |    |     |-- frame_000001.tiff
+  |    |     |-- ...
+  |-- segmented
+  |    |-- preview.avi
+  |    |-- ...
+  |-- tracking
+  |    |-- tracks_preview.avi
+  |    |-- tracks.csv
+  |-- patches
+  |    |-- meta.pkl
+  |    |-- preview
+  |    |     |-- ...
+  |    |-- radiometric
+  |    |     |-- ...
+  |-- mapping
+  |    |-- cluster_000000
+  |    |     |-- reconstruction.json
+  |    |     |-- ...
+  |    |-- cluster_000001
+  |    |     |-- reconstruction.json
+  |    |     |-- ...
+  |    |-- ...
+  |    |-- module_geolocations_refined.geojson
+  |    |-- ...
+  |-- patches_final
+  |    |-- preview
+  |    |     |-- ...
+  |    |-- radiometric
+  |    |     |-- 840d60c7-e634-45be-9043-48110873c8e4
+  |    |     |     |-- frame_010401_mask_000010.tiff
+  |    |     |     |-- frame_010402_mask_000009.tiff
+  |    |     |     |-- frame_010403_mask_000007.tiff
+  |    |     |     |-- ...
+  |    |     |-- 05bee5f1-9d66-4ac7-aee4-c724d59663b1
+  |    |     |     |-- ...
+  |    |     |-- ...
+</pre></div>
+</div>
+<p class="rubric">splitted (split_sequences)</p>
+<p>Contains the individual IR video frames as 16-bit TIFF images and additional 8-bit JPEG preview images. The <cite>gps.json</cite> files contains the longitude, latitude, and altitude (in this order) of each video frame. The <cite>timestamps.csv</cite> contains timestamps of each video frame.</p>
+<p class="rubric">segmented (segment_pv_modules)</p>
+<p>Contains results of the Mask R-CNN instance segmentation model applied to each video frame. Specifically, this directory contains binary segmentation masks of PV modules, bounding boxes and preview images. To validate correctness of the instance segmentation you can look at the preview video in <cite>preview.avi</cite>.</p>
+<p class="rubric">tracking (track_pv_modules)</p>
+<p>Contains the results of PV module tracking over subsequent video frames. The <cite>tracks.csv</cite> contains the frame name, mask name, tracking ID, and module center point in the image (x, y in pixels). Each PV module has a unique tracking ID that stays constant over subsequent video frame, in which the module is visible. To validate correctness of the module tracking you can look at the preview video in <cite>tracks_preview.avi</cite>.</p>
+<p class="rubric">patches (crop_and_rectify_modules)</p>
+<p>Contains the cropped and rectified image patches of each PV module. The <cite>preview</cite> directory contains 8-bit JPEG preview images and the <cite>radiometric</cite> directory the respective 16-bit TIFF images. For each PV module there is a directory named after the module’s tracking ID, which contains the individual image patches showing the same module in subsequent video frames. The <cite>meta.pkl</cite> is a Python pickle file, containing additional information about each image patch, such as the image coordinates of the module’s center point, the bounding quadrilateral that was fit to the module’s segmentation mask, and the homography used to rectify the module image.</p>
+<p class="rubric">mapping (prepare_opensfm, …, refine_triangulation)</p>
+<p>Contains the inputs and outputs of the tasks relating to the georeferencing of PV modules, which is performed using <a class="reference external" href="https://github.com/mapillary/OpenSfM">OpenSfM</a>. For each cluster configured in the config file there is a subdirectory, which contains the OpenSfM dataset for that cluster and which has the structure described <a class="reference external" href="https://opensfm.org/docs/dataset.html">here</a>. Most notably, each of these subdirectories contains the <cite>reconstruction.json</cite> file with the reconstructed camera poses and 3D map points produced by OpenSfM.
+The main result stored in the mapping directory is a GeoJSON file <cite>module_geolocations_refined.geojson</cite>. This file follows the <a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc7946">GeoJSON specification</a> and contains a feature collection of polygons and points for each PV module. The polygon resembles the longitude, latitude and altitude of the four corner points of the PV module in <a class="reference external" href="https://epsg.io/4326">WGS 84 coordinates</a>. The point is the geocoordinate of the module’s center point. Each polygon and each point have a <cite>track_id</cite> property, which is the tracking ID of the respective PV module.</p>
+<p class="rubric">patches_final (reorganize_patches)</p>
+<p>This directory has the same overall structure as the <cite>patches</cite> directory, but considers the merging of tracking IDs. Merged tracking IDs occur when the same PV module has two different tracking IDs, which can happen occasionally due to a tracking error. These duplicates are identified during the georeferencing procedure. If for example the trackings IDs <cite>abc123</cite> and <cite>def456</cite> belong to the same module, there will be only one directory in the <cite>patches_final</cite> directory named after the first tracking ID (<cite>abc123</cite>), which contains all module images of both subfolders <cite>abc123</cite> and <cite>def456</cite> from the <cite>patches</cite> directory.</p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="config_file_reference.html" class="btn btn-neutral float-left" title="Config File Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="method.html" class="btn btn-neutral float-right" title="How PV Drone Inspect Works" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Lukas Bommes.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

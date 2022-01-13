@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Installation &mdash; PV Drone Inspect  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Tutorial" href="tutorial.html" />
+    <link rel="prev" title="PV Drone Inspect" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> PV Drone Inspect
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Quickstart</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#step-1-install-prerequisites">Step 1: Install prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-2-clone-source-code">Step 2: Clone source code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-3-download-mask-r-cnn-model-files">Step 3: Download Mask R-CNN model files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-4-build-docker-image">Step 4: Build Docker image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-5-test-the-installation">Step 5: Test the installation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="using_own_data.html">Using Your Own Data</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="finetune_segmentation.html">Finetuning the Mask R-CNN Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config_file_reference.html">Config File Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="output_directory.html">Output Directory Structure</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">About</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="method.html">How PV Drone Inspect Works</a></li>
+<li class="toctree-l1"><a class="reference internal" href="limitations.html">Current Limitations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PV Drone Inspect</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Installation</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/LukasBommes/PV-Drone-Inspect/blob/master/docs/source/installation.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline"></a></h1>
+<p>Follow the steps below to setup PV Drone Inspect on your machine.</p>
+<section id="step-1-install-prerequisites">
+<h2>Step 1: Install prerequisites<a class="headerlink" href="#step-1-install-prerequisites" title="Permalink to this headline"></a></h2>
+<p>To run PV Drone Inspect you need a machine running Ubuntu 18.04 LTS / 20.04 LTS and a Nvidia CUDA-compatible GPU with the latest Nvidia drivers installed. Furthermore, you need to install <a class="reference external" href="https://docs.docker.com/engine/install/ubuntu/">Docker CE</a> and the <a class="reference external" href="https://github.com/NVIDIA/nvidia-docker">Nvidia container toolkit</a>.</p>
+</section>
+<section id="step-2-clone-source-code">
+<h2>Step 2: Clone source code<a class="headerlink" href="#step-2-clone-source-code" title="Permalink to this headline"></a></h2>
+<p>Clone the Git repository to your machine</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">git clone https://github.com/LukasBommes/PV-Drone-Inspect</span>
+</pre></div>
+</div>
+</section>
+<section id="step-3-download-mask-r-cnn-model-files">
+<h2>Step 3: Download Mask R-CNN model files<a class="headerlink" href="#step-3-download-mask-r-cnn-model-files" title="Permalink to this headline"></a></h2>
+<p>The tool uses a pretrained <a class="reference external" href="https://github.com/matterport/Mask_RCNN">Mask R-CNN</a> for PV module detection. Download the pretrained Mask R-CNN model weights from <a class="reference external" href="https://drive.google.com/file/d/1F0GiR8QpKZEHV-4wtfbPeE5dvIiOeIG3/view">here</a>, extract the zip archive and place the folder “pv_modules20210521T1611” under <cite>extractor/segmentation/Mask_RCNN/logs</cite>. The resulting directory structure should look like follows:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>|-- extractor/segmentation/Mask_RCNN/logs
+|    |-- pv_modules20210521T1611
+|    |     |-- events.out.tfevents.1621613480.27049cbf8e56
+|    |     |-- events.out.tfevents.1621782508.27049cbf8e56
+|    |     |-- mask_rcnn_pv_modules_0060.h5
+|    |     |-- mask_rcnn_pv_modules_0120.h5
+</pre></div>
+</div>
+</section>
+<section id="step-4-build-docker-image">
+<h2>Step 4: Build Docker image<a class="headerlink" href="#step-4-build-docker-image" title="Permalink to this headline"></a></h2>
+<p>We use Docker to provide a consistent environment for the execution of PV Drone Inspect. When building the provided Docker image all required dependencies, e.g., Python, CUDA, Tensorflow, and OpenSfM, are installed and configured automatically. There are two ways to use the Docker image: A) building the image from the provided Dockerfile, or B) load a prebuilt image.</p>
+<section id="variant-a-build-docker-image-from-source">
+<h3>Variant A: Build Docker image from source<a class="headerlink" href="#variant-a-build-docker-image-from-source" title="Permalink to this headline"></a></h3>
+<p>To build the Docker image from the provided Dockerfile run the following command from the root directory of PV Drone Inspect</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo docker build . --tag=pvextractor-geo</span>
+</pre></div>
+</div>
+</section>
+<section id="variant-b-load-prebuild-docker-image">
+<h3>Variant B: Load prebuild Docker image<a class="headerlink" href="#variant-b-load-prebuild-docker-image" title="Permalink to this headline"></a></h3>
+<p>Alternatively, you can download a prebuilt Docker image from <a class="reference external" href="https://drive.google.com/file/d/1ksjtbYPbpkMeZbChfqtSVkXBKHAq9Nbo/view">here</a>. Place the tar archive in the project’s root directory an load the Docker image by executing</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo docker load &lt; pvextractor-geo.tar</span>
+</pre></div>
+</div>
+<p>Note, that the image was built on a machine with Ubuntu 20.04 LTS. Transferability to other operating systems is not guaranteed. If you run into issue with the prebuild image, please build the image from source as specified above.</p>
+</section>
+</section>
+<section id="step-5-test-the-installation">
+<h2>Step 5: Test the installation<a class="headerlink" href="#step-5-test-the-installation" title="Permalink to this headline"></a></h2>
+<p>Test whether PV Drone Inspect was correctly installed by running the Docker container with the following command from the project’s root directory</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo docker run -it \</span>
+<span class="go">  --ipc=host \</span>
+<span class="go">  --env=&quot;DISPLAY&quot; \</span>
+<span class="go">  --gpus=all \</span>
+<span class="go">  -v /tmp/.X11-unix:/tmp/.X11-unix:rw \</span>
+<span class="go">  -v &quot;$(pwd)&quot;:/pvextractor \</span>
+<span class="go">  pvextractor-geo \</span>
+<span class="go">  bash</span>
+</pre></div>
+</div>
+<p>This should start an interactive terminal session in the Docker container you just built.</p>
+<p>If you encounter a “permission denied” error make the entrypoint script executable by running</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">chmod +x docker-entrypoint.sh</span>
+</pre></div>
+</div>
+<p>from the project’s root directory.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="PV Drone Inspect" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="tutorial.html" class="btn btn-neutral float-right" title="Tutorial" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Lukas Bommes.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

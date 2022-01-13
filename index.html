@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PV Drone Inspect &mdash; PV Drone Inspect  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Installation" href="installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="#" class="icon icon-home"> PV Drone Inspect
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Quickstart</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="using_own_data.html">Using Your Own Data</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="finetune_segmentation.html">Finetuning the Mask R-CNN Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config_file_reference.html">Config File Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="output_directory.html">Output Directory Structure</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">About</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="method.html">How PV Drone Inspect Works</a></li>
+<li class="toctree-l1"><a class="reference internal" href="limitations.html">Current Limitations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">PV Drone Inspect</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home"></a> &raquo;</li>
+      <li>PV Drone Inspect</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/LukasBommes/PV-Drone-Inspect/blob/master/docs/source/index.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="pv-drone-inspect">
+<h1>PV Drone Inspect<a class="headerlink" href="#pv-drone-inspect" title="Permalink to this headline"></a></h1>
+<p>PV Drone Inspect is a computer vision pipeline for the <strong>automated inspection</strong> of large-scale <strong>photovoltaic (PV) plants</strong> by means of <strong>thermal infrared (IR) videos</strong> acquired by a drone.</p>
+<p>After recording an IR video of a PV plant, individual video frames and the corresponding coarse GPS position (latitude, longitude, and optionally altitude) of the drone are fed into PV Drone Inspect. PV Drone Inspect crops each PV module from each video frame and stores the resulting IR image patches. Geocoordinates of the PV module corners are obtained faciliating visualization of analysis results on a map. You can use the <a class="reference external" href="https://github.com/LukasBommes/PV-Drone-Inspect-Viewer">PV Drone Inspect Viewer</a> to browse the resulting map of your PV plant and to perform analyses, such as PV module defect prediction, based on the extracted IR images.</p>
+<img alt="_images/high_level_overview.png" src="_images/high_level_overview.png" />
+<p>The method is described in more detail in <a class="reference internal" href="method.html"><span class="doc">How PV Drone Inspect Works</span></a> and in our journal papers:</p>
+<p>[1] L. Bommes, T. Pickel, C. Buerhop-Lutz, J. Hauch, C. Brabec, I. Peters, ”Computer vision tool for detection, mapping, and fault classification of photovoltaics modules in aerial IR videos,” Progress in Photovoltaics: Research and Applications, 2021. [<a class="reference external" href="https://onlinelibrary.wiley.com/doi/10.1002/pip.3448">Wiley PIP</a>, <a class="reference external" href="https://arxiv.org/abs/2106.07314">ArXiv</a>]</p>
+<p>[2] L. Bommes, T. Pickel, C. Buerhop-Lutz, J. Hauch, C. Brabec, I. Peters, ”Georeferencing of photovoltaic modules from aerial infrared videos using structure-from-motion,” Progress in Photovoltaics: Research and Applications, 2022 (submitted, acceptance pending).</p>
+<p>[3] L. Bommes, M. Hoffmann, C. Buerhop-Lutz, T. Pickel, J. Hauch, C. Brabec, A. Maier, I. Peters, ”Anomaly detection in IR images of PV modules using supervised contrastive learning,” Progress in Photovoltaics: Research and Applications, 2022 (accepted for publication). [<a class="reference external" href="https://arxiv.org/abs/2112.02922">ArXiv</a>]</p>
+<p>PV Drone Inspect is a command line tool written in Python. It is free of charge, open-source, and MIT licensed. Source code is available on <a class="reference external" href="https://github.com/LukasBommes/PV-Drone-Inspect">GitHub</a>.</p>
+<section id="why-is-pv-drone-inspect-needed">
+<h2>Why is PV Drone Inspect needed?<a class="headerlink" href="#why-is-pv-drone-inspect-needed" title="Permalink to this headline"></a></h2>
+<p>PV plants contain typically around 10 percent anomalous PV modules, which are potential fire hazards and cause significant power and yield losses. Thus, to enable safe and profitable operation PV plants should be regularly inspected. A popular inspection technique is drone-based thermal IR imaging, which detects anomalous PV modules in a contectless way based on heat dissipated in defective regions of the PV module. Thermal IR imaging has been applied sucessfully to small PV systems. However, when applied to large-scale PV plants with many thousands to millions of PV modules so much video data is produced that manual sighting is economically infeasible. This is where PV Drone Inspect comes into play for the fully automated processing of the generated IR videos.</p>
+</section>
+<section id="project-status">
+<h2>Project status<a class="headerlink" href="#project-status" title="Permalink to this headline"></a></h2>
+<p>PV Drone Inspect is a research project built during my PhD. In its current state PV Drone Inspect should be seen more as a proof-of-concept instead of a production-grade system. Please do not expect the pipeline to work smoothly and produce best results on the first attempt. Especially the OpenSfM-based reconstruction stage can be instable and may require multiple trials with different settings until you get a good result. When using your own IR videos it is important that you carefully follow the instructions in <a class="reference internal" href="using_own_data.html#using-own-data"><span class="std std-ref">Using Your Own Data</span></a>. Furthermore, breaking changes to the configuration file specification and structure of the input and output files are possible.</p>
+</section>
+<section id="examplary-results">
+<h2>Examplary results<a class="headerlink" href="#examplary-results" title="Permalink to this headline"></a></h2>
+<p>[Show some example maps of reconstructed PV plants]</p>
+</section>
+<section id="who-are-the-target-audiences">
+<h2>Who are the target audiences?<a class="headerlink" href="#who-are-the-target-audiences" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p>Researchers who want to assemble large-scale IR image datasets of PV modules, for instance, to develop machine learning algorithms for defect detection, or power prediction.</p></li>
+<li><p>Companies or individuals who want to inspect their own PV plants or want to offer PV plant inspection as a service.</p></li>
+</ul>
+</section>
+<section id="how-to-use-pv-drone-inspect">
+<h2>How to use PV Drone Inspect?<a class="headerlink" href="#how-to-use-pv-drone-inspect" title="Permalink to this headline"></a></h2>
+<p>Please follow the <a class="reference internal" href="installation.html"><span class="doc">Installation</span></a> instructions to setup PV Drone Inspect on your machine. Afterwards, follow the <a class="reference internal" href="tutorial.html"><span class="doc">Tutorial</span></a> to get started with an exemplary IR video dataset recorded by us. After you learned how to use PV Drone Inspect, you can proceed to <a class="reference internal" href="using_own_data.html#using-own-data"><span class="std std-ref">Using Your Own Data</span></a> to learn how to record suitable IR videos of your own PV plant with your own IR camera and drone.</p>
+</section>
+<section id="what-do-you-need-to-run-pv-drone-inspect">
+<h2>What do you need to run PV Drone Inspect?<a class="headerlink" href="#what-do-you-need-to-run-pv-drone-inspect" title="Permalink to this headline"></a></h2>
+<p>PV Drone Inspect should be installed on a sufficiently powerful workstation with Ubuntu 18.04 or newer and CUDA-compatible GPU. We developed and tested PV Drone Inspect on a machine with Ubuntu 20.04 LTS, Intel Core i9-9900K, 64GB of DDR4 RAM, an SSD and a GeForce RTX 2080 Ti. Furthermore, you need a drone and a thermal IR camera. Details on this are provided in <a class="reference internal" href="using_own_data.html#hardware-setup"><span class="std std-ref">Hardware Setup</span></a>.</p>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Quickstart</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#step-1-install-prerequisites">Step 1: Install prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#step-2-clone-source-code">Step 2: Clone source code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#step-3-download-mask-r-cnn-model-files">Step 3: Download Mask R-CNN model files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#step-4-build-docker-image">Step 4: Build Docker image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#step-5-test-the-installation">Step 5: Test the installation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#step-1-get-the-example-dataset">Step 1: Get the example dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#step-2-run-the-docker-image">Step 2: Run the Docker image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#step-3-create-a-config-file">Step 3: Create a config file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#step-4-run-the-pipeline">Step 4: Run the pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#step-5-visualize-results">Step 5: Visualize results</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="using_own_data.html">Using Your Own Data</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="using_own_data.html#hardware-setup">Hardware Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="using_own_data.html#camera-calibration">Camera Calibration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="using_own_data.html#video-recording">Video Recording</a></li>
+<li class="toctree-l2"><a class="reference internal" href="using_own_data.html#dataset-creation-from-videos">Dataset Creation from Videos</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Advanced</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="finetune_segmentation.html">Finetuning the Mask R-CNN Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config_file_reference.html">Config File Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="output_directory.html">Output Directory Structure</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">About</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="method.html">How PV Drone Inspect Works</a></li>
+<li class="toctree-l1"><a class="reference internal" href="limitations.html">Current Limitations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="limitations.html#plant-layouts">Plant layouts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="limitations.html#opensfm-reconstruction-failures">OpenSfM reconstruction failures</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#pv-module-segmentation">PV module segmentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#use-of-visual-videos-in-addition-to-ir-videos">Use of visual videos in addition to IR videos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#extension-to-el-pl-imaging">Extension to EL/PL Imaging</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="about.html#license">License</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about.html#citation">Citation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+</section>
+<section id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline"></a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="installation.html" class="btn btn-neutral float-right" title="Installation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Lukas Bommes.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

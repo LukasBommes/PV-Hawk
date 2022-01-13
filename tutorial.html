@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tutorial &mdash; PV Drone Inspect  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Using Your Own Data" href="using_own_data.html" />
+    <link rel="prev" title="Installation" href="installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> PV Drone Inspect
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Quickstart</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#step-1-get-the-example-dataset">Step 1: Get the example dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-2-run-the-docker-image">Step 2: Run the Docker image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-3-create-a-config-file">Step 3: Create a config file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-4-run-the-pipeline">Step 4: Run the pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-5-visualize-results">Step 5: Visualize results</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="using_own_data.html">Using Your Own Data</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="finetune_segmentation.html">Finetuning the Mask R-CNN Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config_file_reference.html">Config File Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="output_directory.html">Output Directory Structure</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">About</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="method.html">How PV Drone Inspect Works</a></li>
+<li class="toctree-l1"><a class="reference internal" href="limitations.html">Current Limitations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PV Drone Inspect</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Tutorial</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/LukasBommes/PV-Drone-Inspect/blob/master/docs/source/tutorial.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="tutorial">
+<h1>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline"></a></h1>
+<p>This tutorial will get you started with PV Drone Inspect on an exemplary IR video dataset. After finishing this tutorial, head over to <a class="reference internal" href="using_own_data.html#using-own-data"><span class="std std-ref">Using Your Own Data</span></a> to learn how to create your own dataset.</p>
+<ul class="simple">
+<li><p>download and place example dataset (already splitted images, link to data acquisition for further information on acquiring own dataset)</p></li>
+<li><p>run docker image with correct path mapping</p></li>
+<li><p>create config file and briefly explain the different settings (link to config file reference and explain how to use view_gps.py script to select clusters, explain important settings)</p></li>
+<li><p>run video processing pipeline (first four steps, then latter), explain how to validate intermediate outputs</p></li>
+<li><p>visualize final results</p></li>
+<li><p>open result in pv drone inspect viewer</p></li>
+</ul>
+<section id="step-1-get-the-example-dataset">
+<h2>Step 1: Get the example dataset<a class="headerlink" href="#step-1-get-the-example-dataset" title="Permalink to this headline"></a></h2>
+<p>[…]</p>
+</section>
+<section id="step-2-run-the-docker-image">
+<span id="run-the-docker-image"></span><h2>Step 2: Run the Docker image<a class="headerlink" href="#step-2-run-the-docker-image" title="Permalink to this headline"></a></h2>
+<p>You have to run PV Drone Inspect in an interactive terminal session inside the Docker image that you built in the previous steps. Before doing so, make sure access control of your machine’s X server is disabled by running</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">xhost +</span>
+</pre></div>
+</div>
+<p>This enables graphical output from the Docker container to be forwarded to your machine. Note, that you have to repeat this step every time you rebooted your machine.</p>
+<p>To run the interactive terminal session inside the Docker container run the following command from the project’s root directory</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo docker run -it \</span>
+<span class="go">  --ipc=host \</span>
+<span class="go">  --env=&quot;DISPLAY&quot; \</span>
+<span class="go">  --gpus=all \</span>
+<span class="go">  -v /tmp/.X11-unix:/tmp/.X11-unix:rw \</span>
+<span class="go">  -v &quot;$(pwd)&quot;:/pvextractor \</span>
+<span class="go">  -v /storage:/storage \</span>
+<span class="go">  -p &quot;8888:8888&quot; \</span>
+<span class="go">  pvextractor-geo \</span>
+<span class="go">  bash</span>
+</pre></div>
+</div>
+<p>You can omit the <cite>-p “8888:8888”</cite> option if you do not plan to use jupyter lab inside the container. Jupyter lab is needed, for instance, for camera claibration or to fine-tune the Mask R-CNN model contained in this tool.</p>
+<p>If you encounter a “permission denied” error make the entrypoint script executable by running the following in the project’s root directory</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">chmod +x docker-entrypoint.sh</span>
+</pre></div>
+</div>
+</section>
+<section id="step-3-create-a-config-file">
+<h2>Step 3: Create a config file<a class="headerlink" href="#step-3-create-a-config-file" title="Permalink to this headline"></a></h2>
+</section>
+<section id="step-4-run-the-pipeline">
+<h2>Step 4: Run the pipeline<a class="headerlink" href="#step-4-run-the-pipeline" title="Permalink to this headline"></a></h2>
+<p>Once the config file is created, you can process the data by executing the following command inside the interactive session in the Docker container</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python main.py testing/configs/config_plant_A.yml</span>
+</pre></div>
+</div>
+<p>To control which tasks are executed you can (un)comment tasks under <cite>tasks</cite> in the config file. Note, that you cannot skip any of the tasks, i.e. you will have to run each tasks at least once in the order specified in the config file.</p>
+<p>We recommend to first uncomment the steps “split_sequences”, “segment_pv_modules”, “track_pv_modules”, “crop_and_rectify_modules” and commenting all subsequent steps. These are preprocessing steps. You should ensure the correctness of the output of these steps before continuing with the remaining processing steps. To continue, comment out the first four steps and uncomment the remaining steps. Rerun <code class="code docutils literal notranslate"><span class="pre">python</span> <span class="pre">main.py</span> <span class="pre">testing/configs/config_plant_A.yml</span></code>.</p>
+</section>
+<section id="step-5-visualize-results">
+<h2>Step 5: Visualize results<a class="headerlink" href="#step-5-visualize-results" title="Permalink to this headline"></a></h2>
+<p>We provide a script <cite>extractor/mapping/plot_reconstruction.py</cite> for plotting the reconstructed camera poses, PV modules and map points. You can use this script to validate whether your PV plant was reconstructed and georeferenced correctly.</p>
+<p>To this end, run the script from within the interactive Docker session and provide the <cite>work_dir</cite> of the plant</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python plot_reconstruction.py &quot;/storage-2/pvextractor-georeferencing/Plant_A/workdir&quot;</span>
+</pre></div>
+</div>
+<p>You can view the help for additional optional arguments</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python plot_reconstruction.py -h</span>
+</pre></div>
+</div>
+<p>[mention how to use PV Drone Inspect Viewer for actual inspection of the data]</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="using_own_data.html" class="btn btn-neutral float-right" title="Using Your Own Data" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Lukas Bommes.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
