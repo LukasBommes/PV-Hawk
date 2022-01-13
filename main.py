@@ -78,8 +78,7 @@ def main(config_file):
         if "segment_pv_modules" in tasks:
             from extractor.segmentation import inference            
             logger.info("Segmenting PV modules")
-            frames_root = os.path.join(
-                config["work_dir"], group_name, "splitted", "radiometric")
+            frames_root = os.path.join(config["work_dir"], group_name, "splitted")
             output_dir = os.path.join(config["work_dir"], group_name, "segmented")
             inference.run(frames_root, output_dir,
                 **settings["segment_pv_modules"])
@@ -87,8 +86,7 @@ def main(config_file):
         # track PV modules in subsequent frames
         if "track_pv_modules" in tasks:
             logger.info("Tracking PV modules in subsequent frames")
-            frames_root = os.path.join(
-                config["work_dir"], group_name, "splitted", "radiometric")
+            frames_root = os.path.join(config["work_dir"], group_name, "splitted")
             inference_root = os.path.join(config["work_dir"], group_name, "segmented")
             output_dir = os.path.join(config["work_dir"], group_name, "tracking")
             tracking.run(frames_root, inference_root, output_dir,

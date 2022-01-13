@@ -1,0 +1,31 @@
+plant_name: Create test data
+work_dir: tests/data/large
+groups:
+- row_orientation: horizontal
+  cam_params_dir: calibration/camera_8hz/parameters
+  clusters:
+  - cluster_idx: 0
+    frame_idx_start: 0
+    frame_idx_end: 2541
+  settings:
+    prepare_opensfm:
+      select_frames_mode: gps_visual
+    opensfm:
+      matching_gps_distance: 15
+      align_method: orientation_prior
+      align_orientation_prior: vertical
+
+tasks:
+  #- split_sequences
+  - segment_pv_modules
+  - track_pv_modules
+  - compute_pv_module_quadrilaterals
+  - prepare_opensfm
+  - opensfm_extract_metadata
+  - opensfm_detect_features
+  - opensfm_match_features
+  - opensfm_create_tracks
+  - opensfm_reconstruct
+  - triangulate_pv_modules
+  - refine_triangulation
+  - crop_pv_modules

@@ -94,7 +94,7 @@ def run(frames_root, output_dir, output_video_fps):
     logger.info("Loading weights from {}".format(weights_file))
     model.load_weights(weights_file, by_name=True)
 
-    frame_files = sorted(glob.glob(os.path.join(frames_root, "*.tiff")))
+    frame_files = sorted(glob.glob(os.path.join(frames_root, "radiometric", "*.tiff")))
     cap = Capture(frame_files, mask_files=None)
     step_idx = 0
 

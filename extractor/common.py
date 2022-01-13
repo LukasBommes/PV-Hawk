@@ -108,7 +108,7 @@ def sort_cw(pts):
     bl = pts_left_sorted[1]
     tr = pts_right_sorted[0]
     br = pts_right_sorted[1]
-    return [tl, tr, br, bl]
+    return np.array([tl, tr, br, bl])
 
 
 def contour_and_convex_hull(mask):
