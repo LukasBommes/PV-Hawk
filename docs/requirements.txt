@@ -1,3 +1,3 @@
 furo==2021.11.16
 sphinx-rtd-theme
-pip install git+https://github.com/sphinx-contrib/video.git@d5e64ea43b3715e733724a8382c419aa2437783d#egg=sphinxcontrib-video
+git+https://github.com/sphinx-contrib/video.git@d5e64ea43b3715e733724a8382c419aa2437783d#egg=sphinxcontrib-video
