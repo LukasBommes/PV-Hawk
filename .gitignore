@@ -19,3 +19,5 @@ calibration/camera_8hz/images_calibration
 calibration/camera_8hz/images_undistorted
 calibration/camera_30hz/images_calibration
 calibration/camera_30hz/images_undistorted
+
+docs/build
