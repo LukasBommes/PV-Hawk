@@ -418,9 +418,7 @@ def run(frames_root, inference_root, output_dir, motion_model, orb_nfeatures,
                 csvwriter.writerow([
                     frame_name,
                     mask_names[detection_id_tracked],
-                    module_id,
-                    module_tracked[0],
-                    module_tracked[1]])
+                    module_id])
 
             videowriter.write(vis_frame)
 
