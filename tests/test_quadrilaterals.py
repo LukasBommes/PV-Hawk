@@ -2,6 +2,7 @@ import os
 import pickle
 import unittest
 from tempfile import TemporaryDirectory
+from deepdiff import DeepDiff 
 
 from extractor import quadrilaterals
 from tests.common import temp_dir_prefix
@@ -32,11 +33,18 @@ class TestQuadrilaterals(unittest.TestCase):
             **self.settings)
 
         # check if outputs equal ground truth
-        with open(os.path.join(self.output_dir, "quadrilaterals.pkl"), "rb") as file:
-            quads = pickle.load(file)
-        with open(os.path.join(self.ground_truth_dir, "quadrilaterals.pkl"), "rb") as file:
-            quads_ground_truth = pickle.load(file)
-        self.assertEqual(quads, quads_ground_truth)
+        file_name = "quadrilaterals.pkl"
+        with open(os.path.join(self.output_dir, file_name), "rb") as file:
+            content = pickle.load(file)
+        with open(os.path.join(self.ground_truth_dir, file_name), "rb") as file:
+            content_ground_truth = pickle.load(file)
+        self.assertEqual(
+            DeepDiff(
+                content_ground_truth, 
+                content
+            ), {},
+            "{} differs from ground truth".format(file_name)
+        )
 
     def tearDown(self):
         self.work_dir.cleanup()
