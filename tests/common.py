@@ -3,6 +3,7 @@ import os.path
 import json
 import pickle
 import yaml
+import csv
 
 
 temp_dir_prefix = "pv-drone-inspect-test-"
@@ -72,7 +73,19 @@ def load_file(root, root_ground_truth, file_name):
         with open(os.path.join(root, file_name), "r") as file:
             content = yaml.safe_load(file)
         with open(os.path.join(root_ground_truth, file_name), "r") as file:
-            content_ground_truth = yaml.safe_load(file)        
+            content_ground_truth = yaml.safe_load(file) 
+
+    elif os.path.splitext(file_name)[1] == ".csv":
+        content = []
+        with open(os.path.join(root, file_name), newline='') as csvfile:
+            csvreader = csv.reader(csvfile, delimiter=',')
+            for row in csvreader:
+                content.append(row)
+        content_ground_truth = []
+        with open(os.path.join(root_ground_truth, file_name), newline='') as csvfile:
+            csvreader = csv.reader(csvfile, delimiter=',')
+            for row in csvreader:
+                content_ground_truth.append(row)       
 
     else:
         raise ValueError("Unknown file format.")

@@ -66,6 +66,7 @@ class TestPrepareOpensfm(unittest.TestCase):
             "config.yaml"
         ]
 
+        # compare with deepdiff
         for file_name in file_names:
             content, content_ground_truth = load_file(
                 os.path.join(self.output_dir, "cluster_000000"), 

@@ -1,10 +1,10 @@
 import os
 import unittest
-import filecmp
 from tempfile import TemporaryDirectory
+from deepdiff import DeepDiff 
 
 from extractor import tracking
-from tests.common import temp_dir_prefix
+from tests.common import temp_dir_prefix, load_file
 
 
 class TestTracking(unittest.TestCase):
@@ -39,14 +39,19 @@ class TestTracking(unittest.TestCase):
 
         # check if outputs equal ground truth
         file_name = "tracks.csv"
-        self.assertTrue(
-            filecmp.cmp(
-                os.path.join(self.output_dir, file_name), 
-                os.path.join(self.ground_truth_dir, file_name), 
-                shallow=False
-            ),
+        content, content_ground_truth = load_file(
+            self.output_dir, 
+            self.ground_truth_dir, 
+            file_name)
+
+        self.assertEqual(
+            DeepDiff(
+                content_ground_truth, 
+                content
+            ), {},
             "{} differs from ground truth".format(file_name)
         )
+        
 
     def tearDown(self):
         self.work_dir.cleanup()
