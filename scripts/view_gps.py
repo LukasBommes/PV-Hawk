@@ -1,3 +1,6 @@
+import sys
+sys.path.append("..")
+
 import os
 import glob
 import json
@@ -6,12 +9,14 @@ import numpy as np
 import cv2
 import matplotlib.pyplot as plt
 
+from extractor.common import preprocess_radiometric_frame
+
 
 def main(work_dir):
     positions = json.load(open(os.path.join(work_dir, "splitted", "gps", "gps.json"), "r"))
     positions = np.array(positions)
 
-    frame_dir = os.path.join(work_dir, "splitted", "preview")
+    frame_dir = os.path.join(work_dir, "splitted", "radiometric")
     frame_files = sorted(glob.glob(os.path.join(frame_dir, "*")))
 
     # if limits is not None:
@@ -49,7 +54,9 @@ def main(work_dir):
             cont, ind = sc.contains(event)
             if cont:
                 idx = ind["ind"][0]
-                image = cv2.imread(frame_files[idx])
+                image = cv2.imread(frame_files[idx], cv2.IMREAD_ANYDEPTH)
+                image = preprocess_radiometric_frame(image, False)
+                image = np.stack((image, image, image), axis=2)
                 im.set_data(image)
                 update_annot(ind)
                 annot.set_visible(True)

@@ -13,6 +13,21 @@ import cv2
 logger = logging.getLogger(__name__)
 
 
+def preprocess_radiometric_frame(frame, equalize_hist):
+        """Preprocesses raw radiometric frame.
+
+        First, the raw 16-bit radiometric intensity values are converted to Celsius
+        scale. Then, the image values are normalized to range [0, 255] and converted
+        to 8-bit. Finally, histogram equalization is performed to normalize
+        brightness and enhance contrast.
+        """
+        frame = (frame - np.min(frame)) / (np.max(frame) - np.min(frame))
+        frame = (frame*255.0).astype(np.uint8)
+        if equalize_hist:
+            frame = cv2.equalizeHist(frame)
+        return frame
+
+
 def delete_output(output_dir, cluster=None):
     """Deletes the specified directory.
     If a cluster is specified, the behaviour is different. Instead of deleting
@@ -80,6 +95,22 @@ def replace_empty_fields(dict1):
             dict1[key] = {}
 
 
+def sort_cw(pts):
+    """Sort points clockwise by first splitting
+    left/right points and then top/bottom."""
+    pts = [list(p) for p in pts.reshape(-1, 2)]
+    pts_sorted = sorted(pts , key=lambda k: k[0])
+    pts_left = pts_sorted[:2]
+    pts_right = pts_sorted[2:]
+    pts_left_sorted = sorted(pts_left , key=lambda k: k[1])
+    pts_right_sorted = sorted(pts_right , key=lambda k: k[1])
+    tl = pts_left_sorted[0]
+    bl = pts_left_sorted[1]
+    tr = pts_right_sorted[0]
+    br = pts_right_sorted[1]
+    return [tl, tr, br, bl]
+
+
 def contour_and_convex_hull(mask):
     """Computes the contour and convex hull of a binary mask image.
 
@@ -139,30 +170,6 @@ def compute_mask_center(convex_hull, contour, method=1):
     return center
 
 
-def line(p1, p2):
-    """Converts line from a 2-point representation into a 3-parameter representation."""
-    A = (p1[1] - p2[1])
-    B = (p2[0] - p1[0])
-    C = (p1[0]*p2[1] - p2[0]*p1[1])
-    return A, B, -C
-
-
-def line_intersection(L1, L2):
-    """Computes intersection of two lines.
-
-    Source: https://stackoverflow.com/questions/20677795/how-do-i-compute-the-intersection-point-of-two-lines
-    """
-    D  = L1[0] * L2[1] - L1[1] * L2[0]
-    Dx = L1[2] * L2[1] - L1[1] * L2[2]
-    Dy = L1[0] * L2[2] - L1[2] * L2[0]
-    if D != 0:
-        x = Dx / D
-        y = Dy / D
-        return True, (x, y)
-    else:
-        return False, (0., 0.)
-
-
 def parse_sun_filter_file(sun_filter_file):
     """Parse the results of the sun filter into a dictionary. Keys are plant_ids
     and values lists of patch indices containing sun reflections."""
@@ -206,20 +213,6 @@ class Capture:
             assert len(mask_files) == len(image_files), "Number of mask_files and image_files do not match"
             self.mask_files = mask_files
 
-    def preprocess_radiometric_frame(self, frame, equalize_hist):
-        """Preprocesses raw radiometric frame.
-
-        First, the raw 16-bit radiometric intensity values are converted to Celsius
-        scale. Then, the image values are normalized to range [0, 255] and converted
-        to 8-bit. Finally, histogram equalization is performed to normalize
-        brightness and enhance contrast.
-        """
-        frame = (frame - np.min(frame)) / (np.max(frame) - np.min(frame))
-        frame = (frame*255.0).astype(np.uint8)
-        if equalize_hist:
-            frame = cv2.equalizeHist(frame)
-        return frame
-
     def get_next_frame(self, preprocess=True, undistort=False,
             equalize_hist=True):
         frame, masks, frame_name, mask_names = self.get_frame(
@@ -243,7 +236,7 @@ class Capture:
                 masks = [cv2.imread(m, cv2.IMREAD_ANYDEPTH) for m in mask_file]
                 mask_names = [str.split(os.path.basename(m), ".")[0] for m in mask_file]
             if preprocess:
-                frame = self.preprocess_radiometric_frame(frame, equalize_hist)
+                frame = preprocess_radiometric_frame(frame, equalize_hist)
             if undistort and self.camera_matrix is not None and self.dist_coeffs is not None:
                 frame = cv2.remap(frame, self.mapx, self.mapy, cv2.INTER_CUBIC)
                 if self.mask_files is not None:

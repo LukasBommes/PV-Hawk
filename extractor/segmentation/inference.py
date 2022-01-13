@@ -45,12 +45,10 @@ def draw_masks(image, masks, alpha=0.6):
     return image
 
 
-def save(frame, frame_name, result, output_dir):
-    # write output image
-    frame_masks = draw_masks(frame, result["masks"], alpha=0.6)
-    preview_file = os.path.join(
-        output_dir, "preview", "{}.jpg".format(frame_name))
-    cv2.imwrite(preview_file, frame_masks)
+def save(frame, frame_name, result, output_dir, videowriter):
+    # add frame to output video
+    frame_preview = draw_masks(frame, result["masks"], alpha=0.6)
+    videowriter.write(frame_preview)
 
     # write masks as PNG files
     mask_path_extended = os.path.join(output_dir, "masks", frame_name)
@@ -83,7 +81,7 @@ def run(frames_root, output_dir, output_video_fps):
     delete_output(output_dir)
 
     # create output paths
-    for p in ["preview", "masks", "rois"]:
+    for p in ["masks", "rois"]:
         os.makedirs(os.path.join(output_dir, p), exist_ok=True)
 
     inference_config = InferenceConfig()
@@ -104,6 +102,12 @@ def run(frames_root, output_dir, output_video_fps):
     frames_batch = []
     frame_names_batch = []
 
+    # video writer
+    video_shape = (cap.img_w, cap.img_h)
+    video_path = os.path.join(output_dir, "preview.avi")
+    fourcc = cv2.VideoWriter_fourcc(*"DIVX")
+    videowriter = cv2.VideoWriter(video_path, fourcc, output_video_fps, video_shape)
+
     pbar = tqdm(total=len(frame_files))
     while True:
         frame, _, frame_name, _ = cap.get_next_frame(preprocess=True)
@@ -123,7 +127,7 @@ def run(frames_root, output_dir, output_video_fps):
             frames_batch = frames_batch[:orig_batch_len]
             for frame, frame_name, result in zip(
                     frames_batch, frame_names_batch, results):
-                save(frame, frame_name, result, output_dir)
+                save(frame, frame_name, result, output_dir, videowriter)
             break
 
         # run inference on a batch of frames
@@ -131,7 +135,7 @@ def run(frames_root, output_dir, output_video_fps):
             results = model.detect(frames_batch, verbose=0)
             for frame, frame_name, result in zip(
                     frames_batch, frame_names_batch, results):
-                save(frame, frame_name, result, output_dir)
+                save(frame, frame_name, result, output_dir, videowriter)
             frames_batch = []
             frame_names_batch = []
 
@@ -139,21 +143,4 @@ def run(frames_root, output_dir, output_video_fps):
         step_idx += 1
 
     pbar.close()
-
-    # create video
-    logger.info("Creating preview video for PV module segmentation")
-    video_shape = (cap.img_w, cap.img_h)
-    preview_frame_files = glob.glob(
-        os.path.join(output_dir, "preview", "*.jpg"))
-    preview_frame_files = sorted(preview_frame_files, key=lambda k: str.split(
-        os.path.basename(k), ".")[0])
-    video_path = os.path.join(output_dir, "preview.avi")
-
-    fourcc = cv2.VideoWriter_fourcc(*"DIVX")
-    writer = cv2.VideoWriter(video_path, fourcc, output_video_fps, video_shape)
-
-    for preview_frame_file in tqdm(preview_frame_files):
-        preview_frame = cv2.imread(preview_frame_file, -1)
-        writer.write(preview_frame)
-
-    writer.release()
+    videowriter.release()

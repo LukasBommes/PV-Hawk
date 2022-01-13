@@ -1,7 +1,15 @@
 TODO:
 
-- remove reliance on two different GPS format (csv, json); use only one
+- upload files (example datasets, model weights) to release assets and download automatically from there if not found locally
 
+- remove preview images to make user experience easier (modify view_gps.py which uses preview images), update docs (using your own data)
+- remove split_tiffs and rotate step and move into scripts directory (also put split_seqs there), update docs accordingly (using your own data)
+- move cropping after mapping and consider merged modules directly in the cropping, so that we can prevent copying the patches folder to patches_final
+- zip the patches of each module using Python ZipFile
+
+
+ 
+ 
 - store track IDs of PV modules that were merged in triangulate_modules script
 - include reprojection of 3D corners into image into graph optimization during refine_triangulation step
 
@@ -14,3 +22,11 @@ TODO:
 - use RGB frames for PV module detection to see if accuracy and generalization can be increased
 
 - consider output of sun reflection filter
+
+
+
+Docs:
+- write docs locally
+- merge docs with master branch and push
+- activate github pages
+- install sphinx-video in requirements.txt so that docs can be built with github workflow

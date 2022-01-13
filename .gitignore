@@ -1,5 +1,7 @@
 __pycache__
 .ipynb_checkpoints
+.vscode
+
 debug.txt
 pvextractor-geo.tar
 

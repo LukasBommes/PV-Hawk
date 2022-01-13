@@ -7,6 +7,7 @@ video processing tasks, a configuration YAML file has to be provided.
 import os
 import sys
 import yaml
+import json
 import logging
 import argparse
 import subprocess
@@ -14,7 +15,7 @@ import subprocess
 from extractor.common import get_group_name, merge_dicts, remove_none, \
     replace_empty_fields
 from extractor.preprocessing import split_tiffs, rotate
-from extractor import cropping, tracking, reorganize_patches
+from extractor import tracking, quadrilaterals, cropping
 from extractor.mapping import prepare_opensfm, triangulate_modules, \
     refine_triangulation
 
@@ -23,17 +24,10 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-def main(config_file, start_from_task):
+def main(config_file):
     # load config file
     config = yaml.safe_load(open(config_file, "r"))
     tasks = config["tasks"]
-
-    assert start_from_task is None or start_from_task in tasks, \
-        "start_from_task must be one of the tasks specified in the config file"
-
-    # run only the tasks specified by "start_from_tasks" and all subsequent tasks
-    if start_from_task is not None:
-        tasks = tasks[tasks.index(start_from_task):]
     logger.info("The following tasks will be run: {}".format(tasks))
 
     default_settings = yaml.safe_load(open("/pvextractor/defaults.yml", "r"))
@@ -54,6 +48,12 @@ def main(config_file, start_from_task):
         os.makedirs(os.path.join(config["work_dir"], group_name), exist_ok=True)
         yaml.dump(videogroup, open(
             os.path.join(config["work_dir"], group_name, "config.yaml"), "w"))
+
+        # write dataset version info into workdir
+        version_info = {
+            "dataset_version": "v2"
+        }
+        json.dump(version_info, open(os.path.join(config["work_dir"], group_name, "version.json"), "w"))
 
         if tasks is None:
             continue
@@ -94,15 +94,15 @@ def main(config_file, start_from_task):
             tracking.run(frames_root, inference_root, output_dir,
                 **settings["track_pv_modules"])
 
-        # crop and rectify modules
-        if "crop_and_rectify_modules" in tasks:
-            logger.info("Cropping and rectifying image patches of PV modules")
+        # compute module corners
+        if "compute_pv_module_quadrilaterals" in tasks:
+            logger.info("Estimating bounding quadrilaterals for PV modules")
             frames_root = os.path.join(config["work_dir"], group_name, "splitted")
             inference_root = os.path.join(config["work_dir"], group_name, "segmented")
             tracks_root = os.path.join(config["work_dir"], group_name, "tracking")
-            output_dir = os.path.join(config["work_dir"], group_name, "patches")
-            cropping.run(frames_root, inference_root, tracks_root,
-                output_dir, **settings["crop_and_rectify_modules"])
+            output_dir = os.path.join(config["work_dir"], group_name, "quadrilaterals")
+            quadrilaterals.run(frames_root, inference_root, tracks_root,
+                output_dir, **settings["compute_pv_module_quadrilaterals"])
 
         # prepare data for 3D reconstruction with OpenSfM
         if "prepare_opensfm" in tasks:
@@ -146,29 +146,28 @@ def main(config_file, start_from_task):
         if "triangulate_pv_modules" in tasks:
             mapping_root = os.path.join(config["work_dir"], group_name, "mapping")
             tracks_root = os.path.join(config["work_dir"], group_name, "tracking")
-            patches_root = os.path.join(config["work_dir"], group_name, "patches")
-            triangulate_modules.run(mapping_root, tracks_root, patches_root, 
+            quads_root = os.path.join(config["work_dir"], group_name, "quadrilaterals")
+            triangulate_modules.run(mapping_root, tracks_root, quads_root, 
                 **settings["triangulate_pv_modules"])
 
         if "refine_triangulation" in tasks:
             mapping_root = os.path.join(config["work_dir"], group_name, "mapping")
             refine_triangulation.run(mapping_root, **settings["refine_triangulation"])
 
-        if "reorganize_patches" in tasks:
-            output_dir = os.path.join(config["work_dir"], group_name, "patches_final")
+        if "crop_pv_modules" in tasks:
+            logger.info("Cropping PV module patches")
+            frames_root = os.path.join(config["work_dir"], group_name, "splitted")       
+            quads_root = os.path.join(config["work_dir"], group_name, "quadrilaterals")
             mapping_root = os.path.join(config["work_dir"], group_name, "mapping")
-            patches_root = os.path.join(config["work_dir"], group_name, "patches")
-            reorganize_patches.run(mapping_root, patches_root, output_dir,
-                **settings["reorganize_patches"])
+            output_dir = os.path.join(config["work_dir"], group_name, "patches")
+            cropping.run(frames_root, quads_root, mapping_root, output_dir, 
+                **settings["crop_pv_modules"])
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('config', type=str,
         help="Path of to the config YAML file.")
-    parser.add_argument('--start_from_task', type=str,
-        help=("start the pipeline from this task (including the task). Must be "
-              "one of the tasks specified in the config file."))
     args = parser.parse_args()
 
-    main(args.config, args.start_from_task)
+    main(args.config)

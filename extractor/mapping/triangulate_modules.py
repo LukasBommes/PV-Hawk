@@ -152,19 +152,19 @@ def get_camera_parameters(pose_graph, reconstructions):
     return pose_graph
 
 
-def get_module_points(metas, track_id, frame_name, mask_name, 
+def get_module_points(quadrilaterals, track_id, frame_name, mask_name, 
     camera_matrix=None, dist_coeffs=None):
     """Loads module corners and center points. Undistorts points if 
     dist_coeffs and camera_matrix are not None."""
     try:
-        meta = metas[(track_id, frame_name, mask_name)]
+        quadrilateral = quadrilaterals[(track_id, frame_name, mask_name)]
     except KeyError:
         points = None
-        logger.info("Meta data for module {} not found".format(track_id))
+        logger.info("Meta data for module {} not found".format(track_id))  # possible due to min_iou filter in cropping
     else:
-        center = np.array(meta["center"]).reshape(1, 2).astype(np.float64)
-        quadrilateral = np.array(meta["quadrilateral"]).reshape(-1, 2).astype(np.float64)
-        points = np.vstack((center, quadrilateral))
+        center = np.array(quadrilateral["center"]).reshape(1, 2).astype(np.float64)
+        quad = np.array(quadrilateral["quadrilateral"]).reshape(-1, 2).astype(np.float64)
+        points = np.vstack((center, quad))
         
         if dist_coeffs is not None:
             points = cv2.undistortPoints(
@@ -244,11 +244,11 @@ def merge_list_of_dicts(dicts):
     return merged
 
 
-def triangulate(pose_graph, tracks_file, patches_meta_file, min_track_len, 
+def triangulate(pose_graph, tracks_file, quadrilaterals_file, min_track_len, 
     max_combinations, reproj_thres, min_ray_angle_degrees):
     """Triangulate PV module corners and centers."""
     _, tracks_per_id = load_tracks(tracks_file)
-    metas = pickle.load(open(patches_meta_file, "rb"))
+    quadrilaterals = pickle.load(open(quadrilaterals_file, "rb"))
 
     # keep only tracks of key frames
     tracks_per_id_filtered = defaultdict(list)
@@ -271,7 +271,7 @@ def triangulate(pose_graph, tracks_file, patches_meta_file, min_track_len,
         for frame_name, mask_name in frame_mask_names:
             camera_matrix = pose_graph.nodes[frame_name]["camera_matrix"]
             dist_coeffs = pose_graph.nodes[frame_name]["dist_coeffs"]
-            points = get_module_points(metas, track_id, 
+            points = get_module_points(quadrilaterals, track_id, 
                 frame_name, mask_name, camera_matrix, dist_coeffs)
             if points is not None:
                 observations[track_id][frame_name] = points
@@ -334,13 +334,13 @@ def merge_modules(pose_graph, module_corners, observations,
     return module_corners, merge_candidates
 
 
-def run(mapping_root, tracks_root, patches_root, min_track_len=3, 
+def run(mapping_root, tracks_root, quads_root, min_track_len=3, 
     merge_overlapping_modules=True, merge_threshold=20, max_module_depth=-1, 
     max_num_modules=300, max_combinations=-1, reproj_thres=5.0, 
     min_ray_angle_degrees=1.0):
 
     tracks_file = os.path.join(tracks_root, "tracks.csv")
-    patches_meta_file = os.path.join(patches_root, "meta.pkl")
+    quadrilaterals_file = os.path.join(quads_root, "quadrilaterals.pkl")
 
     reconstructions = load_reconstructions(mapping_root)
     logger.info("Number of reconstructions: {}".format(len(reconstructions)))
@@ -364,7 +364,7 @@ def run(mapping_root, tracks_root, patches_root, min_track_len=3,
 
     logger.info("Triangulating modules")
     module_corners, observations = triangulate(
-        pose_graph, tracks_file, patches_meta_file, min_track_len, 
+        pose_graph, tracks_file, quadrilaterals_file, min_track_len, 
         max_combinations, reproj_thres, min_ray_angle_degrees)
 
     if merge_overlapping_modules:

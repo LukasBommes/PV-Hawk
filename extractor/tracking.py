@@ -54,6 +54,7 @@ import os
 import glob
 import csv
 import uuid
+import random
 import logging
 from tqdm import tqdm
 import numpy as np
@@ -164,7 +165,7 @@ def match_modules(t_points, d_points, max_distance):
 
 class Tracker:
     def __init__(self, motion_model, orb_nfeatures, orb_fast_thres, orb_scale_factor, 
-        orb_nlevels, match_distance_thres, max_distance):
+        orb_nlevels, match_distance_thres, max_distance, random_seed):
         self.modules_tracked = np.zeros((0, 2), dtype=np.float32)
         self.module_ids = []
         self.detection_ids_tracked = []
@@ -181,6 +182,10 @@ class Tracker:
         self.motion_model = motion_model
         self.match_distance_thres = match_distance_thres
         self.max_distance = max_distance
+
+        self.random_generator = random.Random()
+        if random_seed is not None:
+            self.random_generator.seed(random_seed)
 
 
     def predict(self, previous_frame, frame, previous_points):
@@ -255,7 +260,8 @@ class Tracker:
             self.modules_tracked = np.zeros((0, 2), dtype=np.float32)
             self.detection_ids_tracked = []
             for d in range(len(detected_modules)):
-                self.module_ids.append(uuid.uuid4())
+                new_uuid = uuid.UUID(int=self.random_generator.getrandbits(128), version=4)
+                self.module_ids.append(new_uuid)
                 self.modules_tracked = np.vstack(
                     (self.modules_tracked, detected_modules[d]))
                 self.detection_ids_tracked.append(d)
@@ -274,7 +280,8 @@ class Tracker:
 
             # handle unmatched detected modules
             for d in unmatched_detected_modules_idx:
-                self.module_ids.append(uuid.uuid4())
+                new_uuid = uuid.UUID(int=self.random_generator.getrandbits(128), version=4)
+                self.module_ids.append(new_uuid)
                 self.modules_tracked = np.vstack(
                     (self.modules_tracked, detected_modules[d]))
                 self.detection_ids_tracked.append(d)
@@ -321,9 +328,13 @@ class Tracker:
 
 def run(frames_root, inference_root, output_dir, motion_model, orb_nfeatures, 
         orb_fast_thres, orb_scale_factor, orb_nlevels, match_distance_thres, 
-        max_distance, output_video_fps):
+        max_distance, output_video_fps, deterministic_track_ids):
     delete_output(output_dir)
     os.makedirs(output_dir, exist_ok=True)
+
+    random_seed = None
+    if deterministic_track_ids:
+        random_seed = 0
 
     # load frames & masks
     frame_files = sorted(glob.glob(os.path.join(frames_root, "*.tiff")))
@@ -340,13 +351,14 @@ def run(frames_root, inference_root, output_dir, motion_model, orb_nfeatures,
         orb_scale_factor, 
         orb_nlevels, 
         match_distance_thres, 
-        max_distance)
+        max_distance,
+        random_seed)
 
     lost_track = False
 
     # video writer
     video_shape = (cap.img_w, cap.img_h)
-    video_path = os.path.join(output_dir, "tracks_preview.avi")
+    video_path = os.path.join(output_dir, "preview.avi")
     fourcc = cv2.VideoWriter_fourcc(*"DIVX")
     videowriter = cv2.VideoWriter(video_path, fourcc, output_video_fps, video_shape)
 
@@ -380,6 +392,9 @@ def run(frames_root, inference_root, output_dir, motion_model, orb_nfeatures,
                 continue
 
             if lost_track:
+                if deterministic_track_ids:
+                    random_seed += 1
+
                 tracker = Tracker(
                     motion_model, 
                     orb_nfeatures, 
@@ -387,7 +402,8 @@ def run(frames_root, inference_root, output_dir, motion_model, orb_nfeatures,
                     orb_scale_factor, 
                     orb_nlevels, 
                     match_distance_thres, 
-                    max_distance)
+                    max_distance,
+                    random_seed)
                 lost_track = False
 
             mask_centers = np.vstack(mask_centers).reshape(-1, 2)
