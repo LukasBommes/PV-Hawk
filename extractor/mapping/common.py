@@ -38,9 +38,7 @@ def load_tracks(tracks_file):
         csvfile.seek(0)
         csvreader = csv.reader(csvfile, dialect)
         for row in csvreader:
-            frame_name = row[0]
-            mask_name = row[1]
-            track_id = row[2]
+            frame_name, mask_name, track_id = row
             tracks_per_frame[frame_name].append((mask_name, track_id))
             tracks_per_id[track_id].append((frame_name, mask_name))
     return tracks_per_frame, tracks_per_id

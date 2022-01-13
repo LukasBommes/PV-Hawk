@@ -140,7 +140,7 @@ def load_tracks(tracks_file):
         csvfile.seek(0)
         csvreader = csv.reader(csvfile, dialect)
         for row in csvreader:
-            frame_name, mask_name, track_id, _, _ = row
+            frame_name, mask_name, track_id = row
             tracks[(frame_name, mask_name)] = track_id
     return tracks
 
@@ -195,7 +195,7 @@ def run(frames_root, inference_root, tracks_root, output_dir, min_iou):
             
             module_id = tracks[(frame_name, mask_name)]
             quadrilaterals[(module_id, frame_name, mask_name)] = {
-                "quadrilateral": sort_cw(quad),
+                "quadrilateral": sort_cw(quad).tolist(),
                 "center": center,
             }
 

@@ -78,7 +78,7 @@ def crop_module(frame, quadrilateral, crop_width=None, crop_aspect=None,
     """
     quadrilateral = clip_to_image_region(
         quadrilateral, frame.shape[1], frame.shape[0])
-    tl, tr, br, bl = sort_cw(quadrilateral.reshape(-1, 2))
+    tl, tr, br, bl = sort_cw(quadrilateral.reshape(-1, 2)).tolist()
 
     if crop_width is not None and crop_aspect is not None:
         crop_width = int(crop_width)
