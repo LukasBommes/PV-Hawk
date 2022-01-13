@@ -1,13 +1,13 @@
 import os
+import glob
 import sys
 import shutil
-import json
 import subprocess
 import unittest
 from tempfile import TemporaryDirectory
 from deepdiff import DeepDiff 
 
-from tests.common import temp_dir_prefix
+from tests.common import temp_dir_prefix, load_file
 
 
 class TestOpenSfm(unittest.TestCase):
@@ -50,10 +50,6 @@ class TestOpenSfm(unittest.TestCase):
             opensfm_command.append(f'{self.opensfm_bin} {task[8:]} "{mapping_root}"')
         opensfm_command = " && ".join(opensfm_command)
 
-        #print(opensfm_command)
-        #print(os.listdir(mapping_root))
-        #print(os.listdir(self.ground_truth_dir))
-
         proc = subprocess.Popen(opensfm_command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         for line in proc.stdout:
             sys.stdout.write(line.decode("utf-8"))
@@ -62,21 +58,55 @@ class TestOpenSfm(unittest.TestCase):
         file_names = [
             "camera_models.json",
             "reference_lla.json",
-            "reconstruction.json",
         ]
 
         for file_name in file_names:
-            with open(os.path.join(mapping_root, file_name)) as file:
-                content = json.load(file)
-            with open(os.path.join(self.ground_truth_dir, file_name)) as file:
-                content_ground_truth = json.load(file)
+            content, content_ground_truth = load_file(
+                mapping_root, 
+                self.ground_truth_dir, 
+                file_name)
+
             self.assertEqual(
                 DeepDiff(
                     content_ground_truth, 
-                    content
+                    content,
+                    math_epsilon=1e-5
                 ), {},
                 "{} differs from ground truth".format(file_name)
             )
+
+        # due to randomness in OpenSfM the reconstruction differs between runs 
+        # and we can test only some characteristics
+        reconstruction, reconstruction_ground_truth = load_file(
+                mapping_root, 
+                self.ground_truth_dir, 
+                "reconstruction.json")
+
+        self.assertEqual(len(reconstruction), len(reconstruction_ground_truth))
+
+        self.assertEqual(DeepDiff(
+            reconstruction_ground_truth[0]["reference_lla"], 
+            reconstruction[0]["reference_lla"],
+            math_epsilon=1e-5
+        ), {})
+
+        self.assertEqual(DeepDiff(
+            reconstruction_ground_truth[0]["biases"], 
+            reconstruction[0]["biases"],
+            math_epsilon=1e-5
+        ), {})
+
+        self.assertEqual(DeepDiff(
+            reconstruction_ground_truth[0]["cameras"], 
+            reconstruction[0]["cameras"],
+            math_epsilon=1e-2 # maybe set to 1e-1 to tolerate larger deviations
+        ), {})
+
+        self.assertTrue(len(reconstruction[0]["points"]) > 1000)
+        self.assertEqual(
+            len(reconstruction[0]["shots"]),
+            len(glob.glob(os.path.join(mapping_root, "images", "*.jpg")))
+        )
 
     def tearDown(self):
         self.work_dir.cleanup()

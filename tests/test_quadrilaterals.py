@@ -41,7 +41,8 @@ class TestQuadrilaterals(unittest.TestCase):
         self.assertEqual(
             DeepDiff(
                 content_ground_truth, 
-                content
+                content,
+                math_epsilon=1e-5
             ), {},
             "{} differs from ground truth".format(file_name)
         )

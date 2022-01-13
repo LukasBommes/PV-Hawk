@@ -44,14 +44,14 @@ class TestTracking(unittest.TestCase):
             self.ground_truth_dir, 
             file_name)
 
+        # Note: Test will fail when order of rows in tracks is permutated
         self.assertEqual(
             DeepDiff(
                 content_ground_truth, 
                 content
             ), {},
             "{} differs from ground truth".format(file_name)
-        )
-        
+        )        
 
     def tearDown(self):
         self.work_dir.cleanup()
