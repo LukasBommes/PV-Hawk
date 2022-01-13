@@ -1,11 +1,11 @@
 import os
 import shutil
-import filecmp
 import unittest
 from tempfile import TemporaryDirectory
+from deepdiff import DeepDiff
 
 from extractor.mapping import refine_triangulation
-from tests.common import temp_dir_prefix
+from tests.common import temp_dir_prefix, load_file
 
 
 class TestRefineTriangulation(unittest.TestCase):
@@ -44,13 +44,19 @@ class TestRefineTriangulation(unittest.TestCase):
             "module_geolocations_refined.geojson",
         ]
 
+        # compare with deepdiff
         for file_name in file_names:
-            self.assertTrue(
-                filecmp.cmp(
-                    os.path.join(mapping_root, file_name), 
-                    os.path.join(self.ground_truth_dir, file_name), 
-                    shallow=False
-                ),
+            content, content_ground_truth = load_file(
+                mapping_root, 
+                self.ground_truth_dir, 
+                file_name)
+
+            self.assertEqual(
+                DeepDiff(
+                    content_ground_truth, 
+                    content,
+                    math_epsilon=1e-5
+                ), {},
                 "{} differs from ground truth".format(file_name)
             )
         

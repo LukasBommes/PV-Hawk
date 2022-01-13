@@ -1,11 +1,10 @@
 import os
 import unittest
 from tempfile import TemporaryDirectory
-import json
-import yaml
+from deepdiff import DeepDiff
 
 from extractor.mapping import prepare_opensfm
-from tests.common import temp_dir_prefix, dirs_equal
+from tests.common import temp_dir_prefix, dirs_equal, load_file
 
 
 class TestPrepareOpensfm(unittest.TestCase):
@@ -61,26 +60,26 @@ class TestPrepareOpensfm(unittest.TestCase):
             )
         )
 
-        self.assertEqual(
-            json.load(open(os.path.join(
-                self.output_dir, "cluster_000000", "exif_overrides.json"), "r")),
-            json.load(open(os.path.join(
-                self.ground_truth_dir, "cluster_000000", "exif_overrides.json"), "r")),
-        )
+        file_names = [
+            "exif_overrides.json",
+            "camera_models_overrides.json",
+            "config.yaml"
+        ]
 
-        self.assertEqual(
-            json.load(open(os.path.join(
-                self.output_dir, "cluster_000000", "camera_models_overrides.json"), "r")),
-            json.load(open(os.path.join(
-                self.ground_truth_dir, "cluster_000000", "camera_models_overrides.json"), "r")),
-        )
+        for file_name in file_names:
+            content, content_ground_truth = load_file(
+                os.path.join(self.output_dir, "cluster_000000"), 
+                os.path.join(self.ground_truth_dir, "cluster_000000"), 
+                file_name)
 
-        self.assertEqual(
-            yaml.safe_load(open(os.path.join(
-                self.output_dir, "cluster_000000", "config.yaml"), "r")),
-            yaml.safe_load(open(os.path.join(
-                self.ground_truth_dir, "cluster_000000", "config.yaml"), "r")),
-        )
+            self.assertEqual(
+                DeepDiff(
+                    content_ground_truth, 
+                    content,
+                    math_epsilon=1e-5
+                ), {},
+                "{} differs from ground truth".format(file_name)
+            )
 
         self.assertTrue(
             "selected_images.avi" in os.listdir(os.path.join(self.output_dir, "cluster_000000"))

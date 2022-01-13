@@ -1,5 +1,8 @@
 import filecmp
 import os.path
+import json
+import pickle
+import yaml
 
 
 temp_dir_prefix = "pv-drone-inspect-test-"
@@ -46,3 +49,32 @@ def dirs_equal(dir1, dir2, ignore_file_contents=False):
         if not dirs_equal(new_dir1, new_dir2, ignore_file_contents):
             return False
     return True
+
+
+def load_file(root, root_ground_truth, file_name):
+    """Loads and returns file contents of a file named
+    `file_name` from both a `root` directory and 
+    `root_ground_truth` directory."""
+
+    if os.path.splitext(file_name)[1] == ".pkl":
+        with open(os.path.join(root, file_name), "rb") as file:
+            content = pickle.load(file)
+        with open(os.path.join(root_ground_truth, file_name), "rb") as file:
+            content_ground_truth = pickle.load(file)
+
+    elif os.path.splitext(file_name)[1] == ".json" or os.path.splitext(file_name)[1] == ".geojson":
+        with open(os.path.join(root, file_name), "r") as file:
+            content = json.load(file)
+        with open(os.path.join(root_ground_truth, file_name), "r") as file:
+            content_ground_truth = json.load(file)
+
+    elif os.path.splitext(file_name)[1] == ".yml" or os.path.splitext(file_name)[1] == ".yaml":
+        with open(os.path.join(root, file_name), "r") as file:
+            content = yaml.safe_load(file)
+        with open(os.path.join(root_ground_truth, file_name), "r") as file:
+            content_ground_truth = yaml.safe_load(file)        
+
+    else:
+        raise ValueError("Unknown file format.")
+
+    return content, content_ground_truth

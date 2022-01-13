@@ -1,6 +1,12 @@
 ### Run Tests
 
-Run test suite within Docker container in `/pvextractor` directory with the command
+Tests require DeepDiff, which you can install with
+```
+python -m pip install deepdiff==5.7.0
+```
+from within the Docker container.
+
+Then, run the test suite inside the Docker container in the `/pvextractor` directory with the command
 ```
 python -m unittest tests/test_*.py
 ```
