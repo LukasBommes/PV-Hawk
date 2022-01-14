@@ -6,7 +6,7 @@ import cv2
 
 from extractor.segmentation import inference
 from extractor.common import get_immediate_subdirectories
-from tests.common import temp_dir_prefix, dirs_equal
+from .common import temp_dir_prefix, dirs_equal
 
 
 class TestSegmentation(unittest.TestCase):

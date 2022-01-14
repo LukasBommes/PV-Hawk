@@ -4,33 +4,28 @@ import unittest
 from tempfile import TemporaryDirectory
 from deepdiff import DeepDiff
 
-from extractor.mapping import triangulate_modules
-from tests.common import temp_dir_prefix, load_file
+from extractor.mapping import refine_triangulation
+from .common import temp_dir_prefix, load_file
 
 
-class TestTriangulateModules(unittest.TestCase):
+class TestRefineTriangulation(unittest.TestCase):
 
     def setUp(self):
         self.data_dir = os.path.join("tests", "data", "large")
         self.work_dir = TemporaryDirectory(prefix=temp_dir_prefix)
         self.settings = {
-            "min_track_len": 2,
-            "merge_overlapping_modules": True,
-            "merge_threshold": 20,
+            "merge_threshold_image": 20,
+            "merge_threshold_world": 1,
             "max_module_depth": -1,
             "max_num_modules": 300,
-            "max_combinations": -1,
-            "reproj_thres": 5.0,
-            "min_ray_angle_degrees": 1.0 
+            "optimizer_steps": 10
         }
-        self.tracks_root = os.path.join(self.data_dir, "tracking")        
-        self.quads_root = os.path.join(self.data_dir, "quadrilaterals")
         mapping_root = os.path.join(self.data_dir, "mapping")
         
-        # copy files into temporary directory as triangulation works in-place
+        # copy files into temporary directory as refining works in-place
         shutil.copytree(
-            src=os.path.join(mapping_root, "cluster_000000"), 
-            dst=os.path.join(self.work_dir.name, "mapping", "cluster_000000")
+            src=os.path.join(mapping_root), 
+            dst=os.path.join(self.work_dir.name, "mapping")
         )
 
         # where to load files with desired output format from
@@ -38,21 +33,15 @@ class TestTriangulateModules(unittest.TestCase):
 
     def test_run(self):
         mapping_root = os.path.join(self.work_dir.name, "mapping")
-        triangulate_modules.run(
+        refine_triangulation.run(
             mapping_root, 
-            self.tracks_root, 
-            self.quads_root, 
-            **self.settings)
+            **self.settings
+        )
         
         # check if outputs equal ground truth
         file_names = [
-            "modules.pkl",
-            "module_geolocations.geojson",
-            "pose_graph.pkl",
-            "module_corners.pkl",
-            "merged_modules.pkl",
-            "map_points.pkl",
-            "reference_lla.pkl"
+            "modules_refined.pkl",
+            "module_geolocations_refined.geojson",
         ]
 
         # compare with deepdiff
@@ -70,6 +59,7 @@ class TestTriangulateModules(unittest.TestCase):
                 ), {},
                 "{} differs from ground truth".format(file_name)
             )
+        
 
     def tearDown(self):
         self.work_dir.cleanup()

@@ -6,9 +6,13 @@ python -m pip install deepdiff==5.7.0
 ```
 from within the Docker container.
 
-Then, run the test suite inside the Docker container in the `/pvextractor` directory with the command
+For integration tests run the test suite inside the Docker container in the `/pvextractor` directory with the command
 ```
-python -m unittest tests/test_*.py
+python -m unittest tests/integration/test_*.py
+```
+Similarly, for unit tests run
+```
+python -m unittest tests/unit/test_*.py
 ```
 
 ### Coverage Report
@@ -20,7 +24,7 @@ python -m pip install coverage
 
 Analyze coverage by running the following command from project root
 ```
-coverage run --source=. --branch -m unittest tests/test_*.py
+coverage run --source=. --branch -m unittest tests/integration/test_*.py
 ```
 
 View coverage report with
@@ -41,7 +45,7 @@ python -m pip install mutmut
 
 Perform mutation tests of a single test case with
 ```
-mutmut --paths-to-mutate="tests/test_quadrilaterals.py" --runner="python -m unittest" run
+mutmut --paths-to-mutate="tests/integration/test_quadrilaterals.py" --runner="python -m unittest" run
 ```
 where `test_quadrilaterals` could be any other test module.
 

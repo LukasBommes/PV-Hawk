@@ -3,7 +3,7 @@ import unittest
 from tempfile import TemporaryDirectory
 
 from extractor import cropping
-from tests.common import temp_dir_prefix, dirs_equal
+from .common import temp_dir_prefix, dirs_equal
 
 
 class TestCropping(unittest.TestCase):

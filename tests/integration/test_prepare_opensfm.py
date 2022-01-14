@@ -4,7 +4,7 @@ from tempfile import TemporaryDirectory
 from deepdiff import DeepDiff
 
 from extractor.mapping import prepare_opensfm
-from tests.common import temp_dir_prefix, dirs_equal, load_file
+from .common import temp_dir_prefix, dirs_equal, load_file
 
 
 class TestPrepareOpensfm(unittest.TestCase):

@@ -7,7 +7,7 @@ import unittest
 from tempfile import TemporaryDirectory
 from deepdiff import DeepDiff 
 
-from tests.common import temp_dir_prefix, load_file
+from .common import temp_dir_prefix, load_file
 
 
 class TestOpenSfm(unittest.TestCase):
