@@ -38,7 +38,9 @@ def line(p1, p2):
 
 
 def line_intersection(L1, L2):
-    """Computes intersection of two lines.
+    """Computes intersection of two lines. 
+    Colinear lines are treated as if they had
+    no intersection.
 
     Source: https://stackoverflow.com/questions/20677795/how-do-i-compute-the-intersection-point-of-two-lines
     """
@@ -53,7 +55,7 @@ def line_intersection(L1, L2):
         return False, (0., 0.)
 
         
-def findEnclosingPolygon(convex_hull, num_vertices=4, visu=False):
+def find_enclosing_polygon(convex_hull, num_vertices=4):
     """Computes the enclosing k-polygon of a convex shape.
 
     The algorithm works as follows:
@@ -127,7 +129,7 @@ def findEnclosingPolygon(convex_hull, num_vertices=4, visu=False):
 def compute_iou(convex_hull, quadrilateral):
     """Computes the IoU of the convex hull and
     the estimated bounding quadrilateral."""
-    intersect_area, _p12 = cv2.intersectConvexConvex(convex_hull, quadrilateral)
+    intersect_area, _ = cv2.intersectConvexConvex(convex_hull, quadrilateral)
     iou = intersect_area / cv2.contourArea(quadrilateral)
     return iou
 
@@ -181,7 +183,7 @@ def run(frames_root, inference_root, tracks_root, output_dir, min_iou):
         for mask, mask_name in zip(masks, mask_names):
             convex_hull, contour = contour_and_convex_hull(mask)
             center = compute_mask_center(convex_hull, contour, method=1)
-            quad = findEnclosingPolygon(convex_hull, num_vertices=4)
+            quad = find_enclosing_polygon(convex_hull, num_vertices=4)
             iou = compute_iou(convex_hull, quad)
             if iou > min_iou:
                 quads.append(quad)

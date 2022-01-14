@@ -10,6 +10,7 @@ docker_command.txt
 htmlcov
 .coverage
 .cache
+.hypothesis
 .mutmut-cache
 
 extractor/segmentation/Mask_RCNN/logs
