@@ -20,6 +20,12 @@ Similarly, for unit tests run
 python -m unittest tests/unit/test_*.py
 ```
 
+### Run All Tests
+Both unit and integration tests can be run as follows
+```
+python -m unittest tests/**/test_*.py
+```
+
 ### Coverage Report
 
 Make sure coverage is installed by running
@@ -34,6 +40,10 @@ coverage run --source=. --branch -m unittest tests/integration/test_*.py
 or similarly for coverage of unit tests
 ```
 coverage run --source=. --branch -m unittest tests/unit/test_*.py
+```
+or for both unit and integration tests
+```
+coverage run --source=. --branch -m unittest tests/**/test_*.py
 ```
 
 View coverage report with

@@ -55,7 +55,7 @@ def line_intersection(L1, L2):
         return False, (0., 0.)
 
         
-def find_enclosing_polygon(convex_hull, num_vertices=4, visu=False):
+def find_enclosing_polygon(convex_hull, num_vertices=4):
     """Computes the enclosing k-polygon of a convex shape.
 
     The algorithm works as follows:
@@ -129,7 +129,7 @@ def find_enclosing_polygon(convex_hull, num_vertices=4, visu=False):
 def compute_iou(convex_hull, quadrilateral):
     """Computes the IoU of the convex hull and
     the estimated bounding quadrilateral."""
-    intersect_area, _p12 = cv2.intersectConvexConvex(convex_hull, quadrilateral)
+    intersect_area, _ = cv2.intersectConvexConvex(convex_hull, quadrilateral)
     iou = intersect_area / cv2.contourArea(quadrilateral)
     return iou
 
