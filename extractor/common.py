@@ -14,18 +14,18 @@ logger = logging.getLogger(__name__)
 
 
 def preprocess_radiometric_frame(frame, equalize_hist):
-        """Preprocesses raw radiometric frame.
+    """Preprocesses raw radiometric frame.
 
-        First, the raw 16-bit radiometric intensity values are converted to Celsius
-        scale. Then, the image values are normalized to range [0, 255] and converted
-        to 8-bit. Finally, histogram equalization is performed to normalize
-        brightness and enhance contrast.
-        """
-        frame = (frame - np.min(frame)) / (np.max(frame) - np.min(frame))
-        frame = (frame*255.0).astype(np.uint8)
-        if equalize_hist:
-            frame = cv2.equalizeHist(frame)
-        return frame
+    First, the raw 16-bit radiometric intensity values are converted to Celsius
+    scale. Then, the image values are normalized to range [0, 255] and converted
+    to 8-bit. Finally, histogram equalization is performed to normalize
+    brightness and enhance contrast.
+    """
+    frame = (frame - np.min(frame)) / (np.max(frame) - np.min(frame))
+    frame = (frame*255.0).astype(np.uint8)
+    if equalize_hist:
+        frame = cv2.equalizeHist(frame)
+    return frame
 
 
 def delete_output(output_dir, cluster=None):
@@ -97,7 +97,11 @@ def replace_empty_fields(dict1):
 
 def sort_cw(pts):
     """Sort points clockwise by first splitting
-    left/right points and then top/bottom."""
+    left/right points and then top/bottom.
+    
+    Acts on image coordinates, e.g. x-axis points
+    rights and y-axis down.
+    """
     pts = [list(p) for p in pts.reshape(-1, 2)]
     pts_sorted = sorted(pts , key=lambda k: k[0])
     pts_left = pts_sorted[:2]

@@ -10,7 +10,7 @@ from .common import temp_dir_prefix, dirs_equal, load_file
 class TestPrepareOpensfm(unittest.TestCase):
 
     def setUp(self):
-        self.data_dir = os.path.join("tests", "data", "large")
+        self.data_dir = os.path.join("tests", "integration", "data")
         self.work_dir = TemporaryDirectory(prefix=temp_dir_prefix)
         self.settings = {
             "select_frames_mode": "gps_visual",
@@ -37,7 +37,7 @@ class TestPrepareOpensfm(unittest.TestCase):
             "frame_idx_end": 2541
         }
         self.frames_root = os.path.join(self.data_dir, "splitted")
-        self.calibration_root = os.path.join(self.data_dir, "..", "calibration_params")
+        self.calibration_root = os.path.join(self.data_dir, "calibration_params")
         self.output_dir = self.work_dir.name
 
         # where to load files with desired output format from

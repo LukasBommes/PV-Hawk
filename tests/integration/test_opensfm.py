@@ -13,7 +13,7 @@ from .common import temp_dir_prefix, load_file
 class TestOpenSfm(unittest.TestCase):
 
     def setUp(self):
-        self.data_dir = os.path.join("tests", "data", "large")
+        self.data_dir = os.path.join("tests", "integration", "data")
         self.work_dir = TemporaryDirectory(prefix=temp_dir_prefix)
         self.settings = {
             "matching_gps_distance": 15,
