@@ -174,27 +174,6 @@ def compute_mask_center(convex_hull, contour, method=1):
     return center
 
 
-def parse_sun_filter_file(sun_filter_file):
-    """Parse the results of the sun filter into a dictionary. Keys are plant_ids
-    and values lists of patch indices containing sun reflections."""
-    patch_idxs_sun_reflections = defaultdict(list)
-    try:
-        with open(sun_filter_file, newline='', encoding="utf-8-sig") as csvfile:  # specifying the encoding skips optional BOM
-            # automatically infer CSV file format
-            dialect = csv.Sniffer().sniff(csvfile.readline(), delimiters=",;")
-            csvfile.seek(0)
-            csvreader = csv.reader(csvfile, dialect)
-            for row in csvreader:
-                plant_id = row[0]
-                patch_idx = int(row[1])
-                if patch_idx != -1:
-                    patch_idxs_sun_reflections[plant_id].append(patch_idx)
-    except FileNotFoundError:
-        logger.info("Sun filter file not found. Ignoring.")
-    finally:
-        return patch_idxs_sun_reflections
-
-
 class Capture:
     def __init__(self, image_files, mask_files=None, camera_matrix=None,
             dist_coeffs=None):
