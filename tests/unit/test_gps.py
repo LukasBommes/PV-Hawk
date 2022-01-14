@@ -20,8 +20,7 @@ class TestGps(unittest.TestCase):
             elements=some.floats(-90, 90)
         )
     )
-    def test_gps_to_ltp_consistency(self, gps):
-        
+    def test_gps_to_ltp_consistency(self, gps):        
         gps_ltp, origin = gps_to_ltp(gps)
         gps_recovered = gps_from_ltp(gps_ltp, origin)
 
@@ -37,6 +36,7 @@ class TestGps(unittest.TestCase):
                 gps_recovered
             )
         )
+
 
     def test_gps_interpolation(self):
         gps = np.array([

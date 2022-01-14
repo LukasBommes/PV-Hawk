@@ -35,7 +35,11 @@ from extractor.common import Capture, delete_output, sort_cw
 
 
 def clip_to_image_region(quadrilateral, image_width, image_height):
-    """Clips quadrilateral to image region."""
+    """Clips quadrilateral to image region.
+    Note: Quadrilateral is modified in-place.
+    """
+    assert image_width > 0 and image_height > 0
+    assert quadrilateral.shape == (4, 1, 2)
     quadrilateral[:, 0, 0] = np.clip(
         quadrilateral[:, 0, 0], 0, image_width - 1)
     quadrilateral[:, 0, 1] = np.clip(
@@ -53,7 +57,7 @@ def crop_module(frame, quadrilateral, crop_width=None, crop_aspect=None,
 
         quadrilaterals (`numpy.ndarray`): Shape (4, 1, 2). The four corner
             points of the module in the frame which were obtained by
-            `findEnclosingPolygon` with `num_vertices = 4`.
+            `find_enclosing_polygon` with `num_vertices = 4`.
 
         crop_width (`int`): If specified the resulting image patch will have
             this width. Its height is computed based on the provided value of
