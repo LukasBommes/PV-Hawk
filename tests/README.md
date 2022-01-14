@@ -1,8 +1,8 @@
 ### Run Tests
 
-Tests require DeepDiff, which you can install with
+Tests require DeepDiff and hypothesis, which you can install with
 ```
-python -m pip install deepdiff==5.7.0
+python -m pip install deepdiff==5.7.0 hypothesis[numpy]==6.31.6
 ```
 from within the Docker container.
 

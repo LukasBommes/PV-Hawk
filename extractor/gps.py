@@ -11,8 +11,19 @@ def interpolate_gps(gps):
     constant for several frames and then jumps abruptly. This 
     function smooths out the abrupt changes by linearly interpolating
     positions between the jumps.
+
+    Args:
+        gps (`numpy.ndarray`): Shape (-1, 3). Each row is a GPS position in
+            local tangent plant coordinates of the form East (meters), 
+            North (meters), height (meters).
+
+    Returns:
+        gps_interpolated (`numpy.ndarray`): Shape (-1, 3). Interpolated GPS 
+        positions in local tangent plane coordinates.
+
     """
-    
+    assert gps.shape[0] > 0
+
     # compute differences at steps, i.e. at the points where the GPS signal updates
     diffs = np.diff(gps, axis=0)
     
@@ -31,8 +42,9 @@ def interpolate_gps(gps):
             gps_diffs.append(j*(gps_diff / n_steps))
     gps_diffs.append(np.zeros_like(gps_diffs[-1]))  # to match length of original GPS signal
     gps_diffs = np.array(gps_diffs)
+    gps_interpolated = gps + gps_diffs
 
-    return gps + gps_diffs
+    return gps_interpolated
 
 
 def gps_to_ltp(gps):
@@ -53,6 +65,7 @@ def gps_to_ltp(gps):
         origin (`tuple` of `float`): WGS-84 latitue, longitude and height of
             the selected origin of the local tangent plane.
     """
+    assert gps.shape[0] > 0
     lon0, lat0, h0 = gps[0, :]
     gps_ltp = np.zeros_like(gps)
     for i, (lon, lat, h) in enumerate(gps):
@@ -64,6 +77,7 @@ def gps_to_ltp(gps):
 
 def gps_from_ltp(gps_ltp, origin):
     """Converts GPS readings from local tangent plane to WGS-84 (lon, lat, height)."""
+    assert gps_ltp.shape[0] > 0
     gps = np.zeros_like(gps_ltp)
     for i, (e, n, u) in enumerate(gps_ltp):
         lat, lon, alt = enu2geodetic(e, n, u, *origin)
