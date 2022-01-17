@@ -1,0 +1,33 @@
+# Ignore everything
+*
+
+# Pick what to include
+!requirements.txt
+
+!extractor/mapping/OpenSfM/bin
+!extractor/mapping/OpenSfM/data/berlin/config.yaml
+!extractor/mapping/OpenSfM/data/berlin/gcp_list.txt
+!extractor/mapping/OpenSfM/data/berlin/images
+!extractor/mapping/OpenSfM/data/berlin/reconstruction_example.json
+!extractor/mapping/OpenSfM/data/lund/images
+!extractor/mapping/OpenSfM/doc
+!extractor/mapping/OpenSfM/LICENSE
+!extractor/mapping/OpenSfM/opensfm
+!extractor/mapping/OpenSfM/README.md
+!extractor/mapping/OpenSfM/requirements.txt
+!extractor/mapping/OpenSfM/setup.cfg
+!extractor/mapping/OpenSfM/setup.py
+!extractor/mapping/OpenSfM/viewer
+
+!extractor/segmentation/Mask_RCNN/mrcnn
+!extractor/segmentation/Mask_RCNN/MANIFEST.in
+!extractor/segmentation/Mask_RCNN/README.md
+!extractor/segmentation/Mask_RCNN/requirements.txt
+!extractor/segmentation/Mask_RCNN/setup.cfg
+!extractor/segmentation/Mask_RCNN/setup.py
+
+# Picking exceptions
+extractor/mapping/OpenSfM/doc/build
+**/*.so
+**/*.pyc
+**/__pycache__
