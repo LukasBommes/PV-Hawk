@@ -1,0 +1,15 @@
+# Ignore everything
+*
+
+# Pick what to include
+!mrcnn
+!MANIFEST.in
+!README.md
+!requirements.txt
+!setup.cfg
+!setup.py
+
+# Picking exceptions
+**/*.so
+**/*.pyc
+**/__pycache__

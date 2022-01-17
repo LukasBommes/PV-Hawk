@@ -124,12 +124,25 @@ WORKDIR /code/g2opy
 
 ###############################################################################
 #
-#                          Container Startup
+#                          Setup OpenSfM
 #
 ###############################################################################
 
-# Run entrypoint script
+COPY ./extractor/mapping/OpenSfM /pvextractor/extractor/mapping/OpenSfM
+
+WORKDIR /pvextractor/extractor/mapping/OpenSfM
+RUN python setup.py build
 WORKDIR /pvextractor
-COPY docker-entrypoint.sh /pvextractor
-RUN chmod +x /pvextractor/docker-entrypoint.sh
-ENTRYPOINT ["./docker-entrypoint.sh"]
+
+
+###############################################################################
+#
+#                          Setup Mask R-CNN
+#
+###############################################################################
+
+COPY ./extractor/segmentation/Mask_RCNN /pvextractor/extractor/segmentation/Mask_RCNN
+
+WORKDIR /pvextractor/extractor/segmentation/Mask_RCNN
+RUN python setup.py install
+WORKDIR /pvextractor
