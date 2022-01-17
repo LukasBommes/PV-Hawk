@@ -3,7 +3,7 @@ name: Run automated tests
 on:
   push:
     #branches: [ master ]
-    branches: [ added_workflows ]
+    branches: [ added_workflows ] # tODO remove
   
 jobs:
   run-tests:
