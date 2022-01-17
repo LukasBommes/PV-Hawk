@@ -70,18 +70,10 @@ RUN apt-get update \
     && apt-get install -y \
         build-essential \
         cmake \
-        #git \
         libeigen3-dev \
         libgoogle-glog-dev \
         libopencv-dev \
         libsuitesparse-dev \
-        #python3-dev \
-        #python3-numpy \
-        #python3-opencv \
-        #python3-pip \
-        #python3-pyproj \
-        #python3-scipy \
-        #python3-yaml \
         curl \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
