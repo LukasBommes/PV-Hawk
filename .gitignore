@@ -3,7 +3,7 @@ __pycache__
 .vscode
 
 debug.txt
-pvextractor-geo.tar
+pv-drone-inspect.tar
 
 docker_command.txt
 

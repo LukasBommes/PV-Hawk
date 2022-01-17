@@ -11,10 +11,10 @@ jobs:
     runs-on: ubuntu-20.04
     
     container:
-      image: ghcr.io/lukasbommes/pv-drone-inspect:latest
+      image: lubo1994/pv-drone-inspect:latest
       credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
           
     steps:
       - name: Checkout
@@ -23,33 +23,22 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install flake8 deepdiff coverage
+          pip install deepdiff==5.7.0 hypothesis[numpy]==6.31.6 flake8==4.0.1 coverage==6.2
+          
+      - name: Lint with flake8
+       run: |
+         # stop if there are syntax errors or undefined names
+         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+         # exit-zero treats all errors as warnings, the GitHub editor is 127 chars wide
+         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
         
       - name: Test with unittest
         run: |
-          python -m unittest test/test_*.py
-    
-    #- name: Set up Python 3.10
-    #  uses: actions/setup-python@v2
-    #  with:
-    #    python-version: "3.10"
-    # - name: Install dependencies
-    #   run: |
-    #     python -m pip install --upgrade pip
-    #     python -m pip install flake8 coverage
-    #     python -m pip install -r requirements.txt
-    # - name: Lint with flake8
-    #   run: |
-    #     # stop if there are syntax errors or undefined names
-    #     flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-    #     # exit-zero treats all errors as warnings, the GitHub editor is 127 chars wide
-    #     flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-    # - name: Test with pytest
-    #   run: |
-    #     python -m unittest tests/test_*.py
-    # - name: Test coverage analysis
-    #   run: |
-    #     coverage run --source=. --branch -m unittest tests/test_*.py
-    #     coverage report -m
-    #     # create html coverage report in htmlcov
-    #     coverage html
+          python -m unittest tests/**/test_*.py
+          
+      - name: Test coverage analysis
+       run: |
+         coverage run --source=. --branch -m unittest tests/**/test_*.py
+         coverage report -m
+         # create html coverage report in htmlcov
+         coverage html
