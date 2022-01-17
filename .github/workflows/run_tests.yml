@@ -1,24 +1,33 @@
-# This workflow will install Python dependencies, run tests and lint with a single version of Python
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
-
-name: Run Test Suite
+name: Run automated tests
 
 on:
   push:
     #branches: [ master ]
-    branches: [ added_tests ]
-  pull_request:
-    branches: [ master ]
-
+    branches: [ added_workflows ]
+  
 jobs:
-  build:
-
-    runs-on: ubuntu-18.04
-
+  run-tests:
+ 
+    runs-on: ubuntu-20.04
+    
+    container:
+      image: ghcr.io/lukasbommes/pv-drone-inspect:latest
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+          
     steps:
-    - uses: actions/checkout@v2
-    - name: Build Docker container
-      uses: ./
+      - name: Checkout
+        uses: actions/checkout@v2
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install flake8 deepdiff coverage
+        
+      - name: Test with unittest
+        run: |
+          python -m unittest test/test_*.py
     
     #- name: Set up Python 3.10
     #  uses: actions/setup-python@v2
