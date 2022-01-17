@@ -25,12 +25,12 @@ jobs:
           python -m pip install --upgrade pip
           pip install deepdiff==5.7.0 hypothesis[numpy]==6.31.6 flake8==4.0.1 coverage==6.2
           
-      - name: Lint with flake8
-        run: |
-          # stop if there are syntax errors or undefined names
-          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-          # exit-zero treats all errors as warnings, the GitHub editor is 127 chars wide
-          flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+      #- name: Lint with flake8
+      #  run: |
+      #    # stop if there are syntax errors or undefined names
+      #    flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+      #    # exit-zero treats all errors as warnings, the GitHub editor is 127 chars wide
+      #    flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
         
       - name: Test with unittest
         run: |
