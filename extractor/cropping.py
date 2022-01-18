@@ -80,6 +80,12 @@ def crop_module(frame, quadrilateral, crop_width=None, crop_aspect=None,
         Homography (`numpy.ndarray`): The homography which maps the
         quadrilateral onto a rectangular region.
     """
+    assert frame.ndim == 2 or frame.ndim == 3
+    assert quadrilateral.shape == (4, 1, 2)
+    assert crop_width is None or crop_width > 0
+    assert crop_aspect is None or crop_aspect > 0
+    assert rotate_mode is None or rotate_mode in ["portrait", "landscape"]
+
     quadrilateral = clip_to_image_region(
         quadrilateral, frame.shape[1], frame.shape[0])
     tl, tr, br, bl = sort_cw(quadrilateral.reshape(-1, 2)).tolist()
