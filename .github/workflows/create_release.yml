@@ -16,7 +16,7 @@ on:
 jobs:
   tagged-release:
   
-    if: github.event.base_ref == 'refs/heads/added_workflows' # TODO change back to master # only when tag is pushed on master branch
+    if: github.event.base_ref == 'refs/heads/fix_actions' # TODO change back to master # only when tag is pushed on master branch
  
     runs-on: ubuntu-20.04
           
