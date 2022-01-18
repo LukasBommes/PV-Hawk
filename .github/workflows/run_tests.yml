@@ -25,7 +25,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install deepdiff==5.7.0 hypothesis[numpy]==6.31.6 flake8==4.0.1 coverage==6.2
           
-      #- name: Lint with flake8 
+      #- name: Lint with flake8
       #  run: |
       #    # stop if there are syntax errors or undefined names
       #    flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics

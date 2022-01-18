@@ -13,6 +13,8 @@ htmlcov
 .hypothesis
 .mutmut-cache
 
+data
+
 extractor/segmentation/Mask_RCNN/logs
 extractor/segmentation/Mask_RCNN/mask_rcnn_coco.h5
 extractor/segmentation/Mask_RCNN/build/
