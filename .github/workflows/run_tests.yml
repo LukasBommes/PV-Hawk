@@ -2,8 +2,7 @@ name: Run automated tests
 
 on:
   push:
-    #branches: [ master ]
-    branches: [ fix_actions ] # tODO remove
+    branches: [ master ]
   
 jobs:
   run-tests:
@@ -36,9 +35,9 @@ jobs:
         run: |
           python -m unittest tests/**/test_*.py
           
-      - name: Test coverage analysis
-        run: |
-          coverage run --source=. --branch -m unittest tests/**/test_*.py
-          coverage report -m
-          # create html coverage report in htmlcov
-          coverage html
+      #- name: Test coverage analysis
+      #  run: |
+      #    coverage run --source=. --branch -m unittest tests/**/test_*.py
+      #    coverage report -m
+      #    # create html coverage report in htmlcov
+      #    coverage html
