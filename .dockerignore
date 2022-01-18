@@ -2,8 +2,6 @@
 *
 
 # Pick what to include
-!requirements.txt
-
 !extractor/mapping/OpenSfM/bin
 !extractor/mapping/OpenSfM/data/berlin/config.yaml
 !extractor/mapping/OpenSfM/data/berlin/gcp_list.txt
@@ -25,6 +23,10 @@
 !extractor/segmentation/Mask_RCNN/requirements.txt
 !extractor/segmentation/Mask_RCNN/setup.cfg
 !extractor/segmentation/Mask_RCNN/setup.py
+
+!extractor/segmentation/Mask_RCNN/logs/pv_modules20210521T1611/mask_rcnn_pv_modules_0120.h5
+
+!requirements.txt
 
 # Picking exceptions
 extractor/mapping/OpenSfM/doc/build
