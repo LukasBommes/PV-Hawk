@@ -16,15 +16,6 @@ COPY requirements.txt /
 RUN pip3 install --upgrade pip
 RUN pip3 install -r /requirements.txt
 
-# Flirpy installs opencv-headless which does not come with GUI, so we remove it
-RUN pip3 uninstall -y opencv-python-headless
-
-# Removing opencv-headless breaks existing opencv installation, so we install
-# opencv only after opencv-headless has been removed. We use opencv 4.2 as
-# opencv 4.3 has GUI issue (see https://github.com/opencv/opencv/issues/17827)
-RUN pip install opencv-python==4.2.0.34 \
-    opencv-contrib-python==4.2.0.34
-
 
 ##############################################################################
 #
@@ -52,7 +43,7 @@ RUN apt-get update && \
 RUN python3 -m pip install pyopengl Pillow pybind11
 
 WORKDIR /home
-RUN git clone https://github.com/LukasBommes/Pangolin.git pangolin
+RUN git clone https://github.com/lukasbommes-forked-projects/Pangolin.git pangolin
 
 WORKDIR /home/pangolin
 RUN git submodule init && git submodule update
@@ -79,18 +70,10 @@ RUN apt-get update \
     && apt-get install -y \
         build-essential \
         cmake \
-        git \
         libeigen3-dev \
         libgoogle-glog-dev \
         libopencv-dev \
         libsuitesparse-dev \
-        python3-dev \
-        python3-numpy \
-        python3-opencv \
-        python3-pip \
-        python3-pyproj \
-        python3-scipy \
-        python3-yaml \
         curl \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
@@ -115,37 +98,17 @@ RUN \
 
 RUN apt-get update && \
   apt-get install -y \
-    software-properties-common \
-    lsb-release \
-    mesa-utils \
-    wget \
-    curl \
-    sudo vim \
-  && apt-get clean \
-  && rm -rf /var/lib/apt/lists/*
-
-RUN apt-get update && \
-  apt-get install -y \
     cmake \
     git \
     build-essential \
     libeigen3-dev \
     libsuitesparse-dev \
     qtdeclarative5-dev \
-    qt5-qmake \
-    libqglviewer-dev-qt4 \
-  && apt-get clean \
-  && rm -rf /var/lib/apt/lists/*
-
-RUN apt-get update && \
-  apt-get install -y \
-    python-dev \
-    python3-dev \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /code
-RUN git clone https://github.com/LukasBommes/g2opy.git
+RUN git clone https://github.com/lukasbommes-forked-projects/g2opy.git
 
 WORKDIR /code/g2opy/build
   RUN cmake .. \
@@ -161,12 +124,25 @@ WORKDIR /code/g2opy
 
 ###############################################################################
 #
-#                          Container Startup
+#                          Setup OpenSfM
 #
 ###############################################################################
 
-# Run entrypoint script
+COPY ./extractor/mapping/OpenSfM /pvextractor/extractor/mapping/OpenSfM
+
+WORKDIR /pvextractor/extractor/mapping/OpenSfM
+RUN python setup.py build
 WORKDIR /pvextractor
-COPY docker-entrypoint.sh /pvextractor
-RUN chmod +x /pvextractor/docker-entrypoint.sh
-ENTRYPOINT ["./docker-entrypoint.sh"]
+
+
+###############################################################################
+#
+#                          Setup Mask R-CNN
+#
+###############################################################################
+
+COPY ./extractor/segmentation/Mask_RCNN /pvextractor/extractor/segmentation/Mask_RCNN
+
+WORKDIR /pvextractor/extractor/segmentation/Mask_RCNN
+RUN python setup.py install
+WORKDIR /pvextractor
