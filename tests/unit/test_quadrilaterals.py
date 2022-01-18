@@ -25,6 +25,7 @@ convex_hull_gt = np.array([
     [[499, 300]]
 ], dtype=np.int32)
 
+
 class TestQuadrilaterals(unittest.TestCase):
     
     def test_line(self):
@@ -32,45 +33,40 @@ class TestQuadrilaterals(unittest.TestCase):
         self.assertEqual(line([0, 1], [1, 0]), (1, 1, 1))
         self.assertEqual(line([0, 0], [-1, -1]), (1, -1, 0))
     
-    def test_line_intersection(self):
-        # intersecting lines
+
+    def test_line_intersection_intersecting_lines(self):
         l1 = (-1, 1, 0) # line([0, 0], [1, 1])
         l2 = (1, 1, 1) # line([0, 1], [1, 0])
         has_intersect, intersect_pt = line_intersection(l1, l2)
         self.assertTrue(has_intersect)
         self.assertEqual(intersect_pt, (0.5, 0.5))
-        
-        # intersecting lines 2
+    
+
+    def test_line_intersection_intersecting_lines2(self):
         l1 = (1, -1, 0) # line([0, 0], [-1, -1])
         l2 = (1, 1, 1) # line([0, 1], [1, 0])
         has_intersect, intersect_pt = line_intersection(l1, l2)
         self.assertTrue(has_intersect)
         self.assertEqual(intersect_pt, (0.5, 0.5))
-        
-        # colinear lines
+    
+
+    def test_line_intersection_colinear_lines(self):
         l1 = (-1, 1, 0) # line([0, 0], [1, 1])
         l2 = (-1, 1, 0) # line([1, 1], [2, 2])
         has_intersect, intersect_pt = line_intersection(l1, l2)
         self.assertFalse(has_intersect)
         self.assertEqual(intersect_pt, (0.0, 0.0))
-        
-        # parallel lines
+    
+
+    def test_line_intersection_parallel_lines(self):
         l1 = (0, 1, 0) # line([0, 0], [1, 0])
         l2 = (0, 1, 1) # line([0, 1], [1, 1])
         has_intersect, intersect_pt = line_intersection(l1, l2)
         self.assertFalse(has_intersect)
         self.assertEqual(intersect_pt, (0.0, 0.0))
-    
-    def test_find_enclosing_polygon(self):
-        # ensure method does not return enclosing polygon with more vertices than original
-        enclosing_poly = find_enclosing_polygon(convex_hull_gt, num_vertices=20)
-        self.assertTrue(
-            np.allclose(
-                enclosing_poly,
-                convex_hull_gt
-            )
-        )
-        
+
+
+    def test_find_enclosing_polygon_four_vertices(self):        
         enclosing_poly = find_enclosing_polygon(convex_hull_gt, num_vertices=4)
         enclosing_poly_gt = np.array([
             [[499, 327]],
@@ -84,7 +80,9 @@ class TestQuadrilaterals(unittest.TestCase):
                 enclosing_poly_gt
             )
         )
-        
+    
+
+    def test_find_enclosing_polygon_five_vertices(self): 
         enclosing_poly = find_enclosing_polygon(convex_hull_gt, num_vertices=5)
         enclosing_poly_gt = np.array([
             [[499, 326]],
@@ -99,9 +97,19 @@ class TestQuadrilaterals(unittest.TestCase):
                 enclosing_poly_gt
             )
         )  
+
+    
+    def test_find_enclosing_polygon_more_vertices_than_original_polygon(self):
+        enclosing_poly = find_enclosing_polygon(convex_hull_gt, num_vertices=20)
+        self.assertTrue(
+            np.allclose(
+                enclosing_poly,
+                convex_hull_gt
+            )
+        )
         
-    def test_compute_iou(self):
-        # partial overlap
+
+    def test_compute_iou_partial_overlap(self):
         quad = np.array([
             [[499, 327]],
             [[421, 323]],
@@ -110,15 +118,24 @@ class TestQuadrilaterals(unittest.TestCase):
         ], dtype=np.int32)
         iou = compute_iou(convex_hull_gt, quad)
         self.assertAlmostEqual(iou, 0.9794293394183168)
-        
-        # full overlap
+    
+
+    def test_compute_iou_full_overlap(self):
+        quad = np.array([
+            [[499, 327]],
+            [[421, 323]],
+            [[424, 279]],
+            [[499, 280]]
+        ], dtype=np.int32)
+
         iou = compute_iou(quad, quad)
         self.assertAlmostEqual(iou, 1.0)
         
         iou = compute_iou(convex_hull_gt, convex_hull_gt)
         self.assertAlmostEqual(iou, 1.0)
         
-        # no overlap
+
+    def test_compute_iou_no_overlap(self):
         quad = np.array([
             [[0, 0]],
             [[1, 0]],

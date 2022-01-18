@@ -67,9 +67,10 @@ contour_gt = np.array([
     [[436, 279]]
 ], dtype=np.int32)
 
+
 class TestCommon(unittest.TestCase):
     
-    def test_sort_cw(self):
+    def test_sort_cw_all_zeros(self):
         pts = np.array([
             [[0., 0.]],
             [[0., 0.]],
@@ -77,7 +78,9 @@ class TestCommon(unittest.TestCase):
             [[0., 0.]]
         ])
         self.assertTrue(np.allclose(sort_cw(pts), pts))
-        
+    
+    
+    def test_sort_cw_initial_order_random(self):
         pts = np.array([
             [[1., 0.]],
             [[1., 1.]],
@@ -91,7 +94,9 @@ class TestCommon(unittest.TestCase):
             [0., 1.]
         ])
         self.assertTrue(np.allclose(sort_cw(pts), pts_sorted))
-        
+    
+
+    def test_sort_cw_initial_order_ccw(self):
         pts = np.array([
             [[0., 1.]],
             [[1., 1.]],
@@ -105,7 +110,9 @@ class TestCommon(unittest.TestCase):
             [0., 1.]
         ])
         self.assertTrue(np.allclose(sort_cw(pts), pts_sorted))
-        
+    
+
+    def test_sort_cw_real_data(self):
         pts = np.array([
             [[550.94701019,  63.73629146]],
             [[588.31014706,  58.91243193]],
@@ -119,7 +126,9 @@ class TestCommon(unittest.TestCase):
             [203.31004274, 989.78343506]
         ])
         self.assertTrue(np.allclose(sort_cw(pts), pts_sorted))
-        
+    
+
+    def test_sort_cw_all_same(self):
         pts = np.array([
             [[100.,  100.]],
             [[100.,  100.]],
@@ -134,6 +143,7 @@ class TestCommon(unittest.TestCase):
         ])
         self.assertTrue(np.allclose(sort_cw(pts), pts_sorted))
         
+
     def test_contour_and_convex_hull(self):
         mask_file = "tests/unit/data/mask_000000.png"
         mask = cv2.imread(mask_file, cv2.IMREAD_ANYDEPTH)
@@ -144,6 +154,7 @@ class TestCommon(unittest.TestCase):
         self.assertTrue(np.all(convex_hull == convex_hull_gt))
         self.assertTrue(np.all(contour == contour_gt))
     
+
     def test_compute_mask_center(self):
         center = compute_mask_center(convex_hull_gt, contour_gt, method=1)
         self.assertTrue(np.allclose(center, (460.95042812077514, 302.4197085774373)))
