@@ -2,7 +2,7 @@ name: Run automated tests
 
 on:
   push:
-    branches: [ master ]
+    branches: [ fix_action2 ]  # TODO master
   
 jobs:
   run-tests:
@@ -22,7 +22,12 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install deepdiff==5.7.0 hypothesis[numpy]==6.31.6 flake8==4.0.1 coverage==6.2
+          pip install deepdiff==5.7.0 hypothesis[numpy]==6.31.6 flake8==4.0.1 coverage==6.2 gdown==4.2.0
+          
+      - run: mkdir -p /pvextractor/extractor/segmentation/Mask_RCNN/logs/pv_modules20210521T1611/
+        
+      - name: Download Mask R-CNN weights from Google Drive
+        run: gdown https://drive.google.com/uc?id=1DzZNU9NBmHg_SFoazbHnz3q-y0jN1BIS -O /pvextractor/extractor/segmentation/Mask_RCNN/logs/pv_modules20210521T1611/mask_rcnn_pv_modules_0120.h5
           
       #- name: Lint with flake8
       #  run: |
@@ -33,7 +38,9 @@ jobs:
         
       - name: Test with unittest
         run: |
-          python -m unittest tests/**/test_*.py
+          python -m unittest tests/integration/test_segmentation.py
+        #run: |
+        #  python -m unittest tests/**/test_*.py
           
       #- name: Test coverage analysis
       #  run: |
