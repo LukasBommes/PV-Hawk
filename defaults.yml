@@ -4,9 +4,7 @@ split_tiffs:
   extract_gps: True
   extract_gps_altitude: False
   sync_rgb: False
-
-rotate_frames:
-  rotation: 90_deg_cw
+  rotate_frames: null # null, "90_deg_cw", "180_deg_cw", "270_deg_cw"
 
 segment_pv_modules:
   output_video_fps: 8.0  # [Hz]

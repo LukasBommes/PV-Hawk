@@ -14,7 +14,7 @@ import subprocess
 
 from extractor.common import get_group_name, merge_dicts, remove_none, \
     replace_empty_fields
-from extractor.preprocessing import split_tiffs, rotate
+from extractor.preprocessing import split_tiffs
 from extractor import tracking, quadrilaterals, cropping
 from extractor.mapping import prepare_opensfm, triangulate_modules, \
     refine_triangulation
@@ -62,14 +62,6 @@ def main(work_dir):
             input_ir = os.path.join(work_dir, group_name, "videos", "*.TIFF")  # caution: case sensitive on Linux
             input_rgb = os.path.join(work_dir, group_name, "videos", "*.mov")
             split_tiffs.run(input_ir, output_dir, input_rgb, **settings["split_tiffs"])
-
-            # # rotate frames if rows are oriented vertically in the video
-            # logger.info("Rotating video frames")
-            # if videogroup["row_orientation"] == "vertical":
-            #     frames_root = os.path.join(work_dir, group_name, "splitted")
-            #     rotate.run(frames_root, **settings["rotate_frames"])
-            # else:
-            #     logger.info("Nothing to rotate. Skipping.")
 
         # segment PV modules
         if "segment_pv_modules" in tasks:

@@ -87,8 +87,21 @@ def get_ir_frame_number(rgb_idx, n_ir, n_rgb):
     return ir_idx
 
 
+def rotate(frame, rotation):
+    if rotation == "90_deg_cw":
+        frame = cv2.rotate(frame, cv2.ROTATE_90_CLOCKWISE)
+    elif rotation == "180_deg_cw":
+        frame = cv2.rotate(frame, cv2.ROTATE_180)
+    elif rotation == "270_deg_cw":
+        frame = cv2.rotate(frame, cv2.ROTATE_90_COUNTERCLOCKWISE)
+    else:
+        raise ValueError("Invalid value for rotation")
+    return frame
+
+
 def run(input, output_dir, input_rgb=None, extract_timestamps=True,
-    extract_gps=True, extract_gps_altitude=False, sync_rgb=True):
+    extract_gps=True, extract_gps_altitude=False, sync_rgb=True,
+    rotate_frames=None):
 
     delete_output(output_dir)
     for dirname in ["radiometric", "gps"]:
@@ -119,6 +132,8 @@ def run(input, output_dir, input_rgb=None, extract_timestamps=True,
                 radiometric_file = os.path.join(
                     output_dir, "radiometric", "frame_{:06d}.tiff".format(
                     frame_idx))
+                if rotate_frames:
+                    image_radiometric = rotate(image_radiometric, rotate_frames)
                 cv2.imwrite(radiometric_file, image_radiometric)
 
                 if extract_timestamps:
@@ -165,6 +180,8 @@ def run(input, output_dir, input_rgb=None, extract_timestamps=True,
                     if last_frame_idx is None or frame_idx != last_frame_idx:
                         out_path = os.path.join(output_dir,
                             "rgb", "frame_{:06d}.jpg".format(frame_idx))
+                        if rotate_frames:
+                            frame = rotate(frame, rotate_frames)
                         cv2.imwrite(
                             out_path, frame, [cv2.IMWRITE_JPEG_QUALITY, 100])
                     last_frame_idx = frame_idx
