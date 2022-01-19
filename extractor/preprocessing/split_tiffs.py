@@ -12,7 +12,6 @@ from tqdm import tqdm
 import tifffile
 
 from extractor.common import delete_output
-from extractor.gps import gps_to_ltp, gps_from_ltp, interpolate_gps
 
 
 logger = logging.getLogger(__name__)
@@ -99,7 +98,8 @@ def rotate(frame, rotation):
     return frame
 
 
-def run(input, output_dir, input_rgb=None, extract_timestamps=True,
+def run(video_dir, output_dir, ir_file_extension=None, rgb_file_extension=None,
+extract_timestamps=True,
     extract_gps=True, extract_gps_altitude=False, sync_rgb=True,
     rotate_frames=None):
 
@@ -107,14 +107,14 @@ def run(input, output_dir, input_rgb=None, extract_timestamps=True,
     for dirname in ["radiometric", "gps"]:
         os.makedirs(os.path.join(output_dir, dirname), exist_ok=True)
 
-    tiff_files = sorted(glob.glob(input))
+    tiff_files = sorted(glob.glob(os.path.join(video_dir, "*.{}".format(ir_file_extension))))
     n_ir = get_num_ir_frames(tiff_files)
     logger.info("Found {} TIFF videos with {} frames for splitting".format(
         len(tiff_files), n_ir))
 
-    if sync_rgb and (input_rgb is not None):
+    if sync_rgb:
         os.makedirs(os.path.join(output_dir, "rgb"), exist_ok=True)
-        rgb_files = sorted(glob.glob(input_rgb))
+        rgb_files = sorted(glob.glob(os.path.join(video_dir, "*.{}".format(rgb_file_extension))))
         n_rgb = get_num_rgb_frames(rgb_files)
         assert get_ir_frame_number(n_rgb, n_ir, n_rgb) == n_ir
         logger.info("Found {} RGB videos with {} frames for splitting".format(
@@ -167,7 +167,7 @@ def run(input, output_dir, input_rgb=None, extract_timestamps=True,
                 frame_idx += 1
 
     # synchronize RGB videos
-    if sync_rgb and (input_rgb is not None):
+    if sync_rgb:
         rgb_frame_idx = 0
         last_frame_idx = None
         for i, rgb_file in enumerate(rgb_files):
@@ -197,17 +197,7 @@ def run(input, output_dir, input_rgb=None, extract_timestamps=True,
                 writer.writerow([timestamp])
 
     # store extracted GPS positions to disk
-    if extract_gps and len(gps) > 0:        
-
-        # interpolate GPS trajectory
-        gps = np.array(gps)
-        if gps.shape[-1] == 2:
-            gps = np.insert(
-                gps, 2, np.zeros(len(gps)), axis=1)
-        gps, origin = gps_to_ltp(gps)
-        gps = interpolate_gps(gps)
-        gps = gps_from_ltp(gps, origin)
-        gps = gps.tolist()
+    if extract_gps and len(gps) > 0:
 
         # save GPS trajectory to JSON
         json.dump(gps, open(os.path.join(

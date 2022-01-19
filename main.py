@@ -14,7 +14,7 @@ import subprocess
 
 from extractor.common import get_group_name, merge_dicts, remove_none, \
     replace_empty_fields
-from extractor.preprocessing import split_tiffs
+from extractor.preprocessing import split_tiffs, interpolation
 from extractor import tracking, quadrilaterals, cropping
 from extractor.mapping import prepare_opensfm, triangulate_modules, \
     refine_triangulation
@@ -58,10 +58,14 @@ def main(work_dir):
         # split video sequences into frames
         if "split_sequences" in tasks:
             logger.info("Splitting raw video files into individual frames")
+            video_dir = os.path.join(work_dir, group_name, "videos")
             output_dir = os.path.join(work_dir, group_name, "splitted")
-            input_ir = os.path.join(work_dir, group_name, "videos", "*.TIFF")  # caution: case sensitive on Linux
-            input_rgb = os.path.join(work_dir, group_name, "videos", "*.mov")
-            split_tiffs.run(input_ir, output_dir, input_rgb, **settings["split_tiffs"])
+            split_tiffs.run(video_dir, output_dir, **settings["split_tiffs"])
+
+        if "interpolate_gps" in tasks:
+            logger.info("Interpolating GPS trajectory")
+            frames_root = os.path.join(work_dir, group_name, "splitted")
+            interpolation.run(frames_root, **settings["interpolate_gps"])
 
         # segment PV modules
         if "segment_pv_modules" in tasks:
