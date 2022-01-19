@@ -76,6 +76,17 @@ Important: Do not create new test data, otherwise you may generate test data wit
 
 Test data in `tests/integration/data` was created by running the pipeline within Docker container in `/pvextractor` directory with the command
 ```
-python main.py tests/config_data.yml
+python main.py tests/integration/data
 ```
-After completion, the updated test data is available in `tests/integration/data`. 
+After completion, the updated test data is available in `tests/integration/data`. Note, that data was created on the CPU (GPUs were not provided in the Docker container). Using CPU vs GPU can result in a different order of the returned segmentation masks.
+
+The shortened TIFF stack was produced with tifftools 1.2.9 by thefollowing commands
+```
+tifftools split 2_01.TIFF
+```
+Manual deletion of frames 0..839 and 890...end (so that there are 50 frames remaining)
+Then merge with 
+```
+tifftools merge $(ls) merged.TIFF
+```
+
