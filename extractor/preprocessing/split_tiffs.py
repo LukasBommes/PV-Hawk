@@ -10,7 +10,6 @@ import cv2
 import numpy as np
 from tqdm import tqdm
 import tifffile
-import simplekml
 
 from extractor.common import delete_output
 from extractor.gps import gps_to_ltp, gps_from_ltp, interpolate_gps
@@ -196,8 +195,3 @@ def run(input, output_dir, input_rgb=None, extract_timestamps=True,
         # save GPS trajectory to JSON
         json.dump(gps, open(os.path.join(
             output_dir, "gps", "gps.json"), "w"))
-
-        # save GPS trajectory to KML file
-        kml_file = simplekml.Kml()
-        kml_file.newlinestring(name="trajectory", coords=gps)
-        kml_file.save(os.path.join(output_dir, "gps", "gps.kml"))
