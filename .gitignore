@@ -13,7 +13,7 @@ htmlcov
 .hypothesis
 .mutmut-cache
 
-data
+/data
 
 extractor/segmentation/Mask_RCNN/logs
 extractor/segmentation/Mask_RCNN/mask_rcnn_coco.h5
@@ -27,5 +27,3 @@ calibration/camera_30hz/images_calibration
 calibration/camera_30hz/images_undistorted
 
 docs/build
-
-tests/integration/data_old
