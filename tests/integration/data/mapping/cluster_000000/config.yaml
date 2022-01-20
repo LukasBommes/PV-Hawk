@@ -1,5 +1,0 @@
-align_method: orientation_prior
-align_orientation_prior: vertical
-matching_gps_distance: 15
-processes: 16
-use_altitude_tag: false
