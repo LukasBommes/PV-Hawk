@@ -114,13 +114,12 @@ Weather conditions are another important aspect to consider. For optimal results
 .. note::
   We limit the description above to row-based PV plants as we have not yet extensively tested PV Drone Inspect on non-row-based PV plants (see also :doc:`limitations`). While the rules above also apply to non-row-based PV plants, you may have to consider additional aspects. For example, scanning a large array of PV modules may require multiple overlapping "sweeps".
 
+.. _dataset-creation-from-videos:
+
 Dataset Creation from Videos
 ----------------------------
 
 After recording, you need to convert the thermal IR videos of your PV plants into a format compatible with by PV Drone Inspect. The directory tree below shows the various files required by PV Drone Inspect. The directory must be named `splitted` and must be located in the `work_dir` specified in the config file.
-
-.. note::
-  If you use a DJI Zenmuse XT2 or compatible camera, you can configure the camera to output IR videos as multipage TIFF stacks. We provide the script `scripts/split_tiffs.py` to automatically generate the required dataset files from those TIFF stacks. You can also use the script as an example for processing your own IR videos recorded with a different camera.
 
 .. code-block:: text
 
@@ -129,18 +128,12 @@ After recording, you need to convert the thermal IR videos of your PV plants int
     |    |-- timestamps.csv
     |    |-- gps
     |    |     |-- gps.json
-    |    |-- preview
-    |    |     |-- frame_000000.jpg
-    |    |     |-- frame_000001.jpg
-    |    |     |-- ...
     |    |-- radiometric
     |    |     |-- frame_000000.tiff
     |    |     |-- frame_000001.tiff
     |    |     |-- ...
 
 As indicated, you have to provide each IR video frame as a single-channel TIFF image of unsigned 16-bit integer values in the `radiometric` subdirectory. The spatial resolution should correspond to the native resolution of your camera, i.e. do not perform any resizing. Furthermore, do not perform any rescaling of the values but simply provide the raw values output by your camera. PV Drone Inspect will internally normalize the value range. Ensure that your camera outputs linearized temperature values, i.e. the raw image values must be mappable to temperatures by means of a linear transformation (multiplication by a gain factor and subtraction of an offset). While this is the default for IR cameras outputting TIFF images, it does not apply to some proprietory formats, such as the SEQ or radiometric JPEG format. Furthermore, make sure to name the images following the scheme `frame_xxxxxx.tiff` where `xxxxxx` is the frame index (incremented from zero) as 6-digit integer with leading zeros.
-
-In addition, you must provide a `preview` directory containing a single-channel JPG image of unsigned 8-bit integer values corresponding to each radiometric TIFF image. The file names of the preview images should match the TIFF images.
 
 Furthermore, you must provide the GPS position of the drone at each video frame in a JSON file named `gps.json` in the `gps` subdirectory. The file must contain a list of lists, where each inner list is a triplet of [longitude, latitude, altitude] in WGS84 coordinates as shown below.
 
@@ -153,7 +146,7 @@ Furthermore, you must provide the GPS position of the drone at each video frame 
     [11.179669479166668, 48.61309805555565, 0.0]
   ]
    
-The GPS altitude may be zero if an accurate estimate is not available (see :ref:`drone_requirements`). For each video frame there must be one position. If your GPS measurement rate is lower than the video frame rate, you can replicate the same position value multiple times. PV Drone Inspect will internally perform piecewise linear interpolation to obtain a more accurate position estimate for each frame.
+The GPS altitude may be zero if an accurate estimate is not available (see :ref:`drone_requirements`). For each video frame there must be one position. If your GPS measurement rate is lower than the video frame rate, you can replicate the same position for multiple frames. You should then use the pipeline task `interpolate_gps` to perform a piecewise linear interpolation and obtain a more accurate position estimate for each frame.
 
 Finally, you should provide a `timestamps.csv` file, which contains the timestamp of each video frame in the exact same format shown below. The file is not immediately needed in PV Drone Inspect. However, the PV Drone Inspect Viewer uses it to estimate the flight duration and other quantitites.
 
@@ -163,3 +156,6 @@ Finally, you should provide a `timestamps.csv` file, which contains the timestam
   2021-09-09T10:28:47.530000
   ...
   2021-09-09T11:57:48.950000
+  
+.. note::
+  If you use a DJI Zenmuse XT2 or compatible camera, you can configure the camera to output IR videos as multipage TIFF stacks. Place the TIFF stacks in a `videos` subfolder in your `work_dir` and run the pipeline task `split_sequences`. This will automatically generate the `splitted` directory with all dataset files.

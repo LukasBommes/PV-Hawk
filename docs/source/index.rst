@@ -66,6 +66,7 @@ PV Drone Inspect should be installed on a sufficiently powerful workstation with
    :maxdepth: 2
    :caption: Advanced
    
+   configure_multiple_sectors
    finetune_segmentation
    config_file_reference
    output_directory
