@@ -14,7 +14,7 @@ import subprocess
 
 from extractor.common import get_group_name, merge_dicts, remove_none, \
     replace_empty_fields
-from extractor.preprocessing import split_tiffs, rotate
+from extractor.preprocessing import split_tiffs, interpolation
 from extractor import tracking, quadrilaterals, cropping
 from extractor.mapping import prepare_opensfm, triangulate_modules, \
     refine_triangulation
@@ -24,9 +24,10 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-def main(config_file):
+def main(work_dir):
+
     # load config file
-    config = yaml.safe_load(open(config_file, "r"))
+    config = yaml.safe_load(open(os.path.join(work_dir, "config.yml"), "r"))
     tasks = config["tasks"]
     logger.info("The following tasks will be run: {}".format(tasks))
 
@@ -42,18 +43,14 @@ def main(config_file):
             settings = {}
             
         replace_empty_fields(default_settings)
-        settings = merge_dicts(default_settings, remove_none(settings))
-
-        # save the config file of the video group in the work dir
-        os.makedirs(os.path.join(config["work_dir"], group_name), exist_ok=True)
-        yaml.dump(videogroup, open(
-            os.path.join(config["work_dir"], group_name, "config.yaml"), "w"))
+        settings = merge_dicts(default_settings, remove_none(settings))        
 
         # write dataset version info into workdir
+        os.makedirs(os.path.join(work_dir, group_name), exist_ok=True)
         version_info = {
             "dataset_version": "v2"
         }
-        json.dump(version_info, open(os.path.join(config["work_dir"], group_name, "version.json"), "w"))
+        json.dump(version_info, open(os.path.join(work_dir, group_name, "version.json"), "w"))
 
         if tasks is None:
             continue
@@ -61,44 +58,40 @@ def main(config_file):
         # split video sequences into frames
         if "split_sequences" in tasks:
             logger.info("Splitting raw video files into individual frames")
-            output_dir = os.path.join(config["work_dir"], group_name, "splitted")
-            input_ir = os.path.join(config["video_dir"], group_name, "*.TIFF")  # caution: case sensitive on Linux
-            input_rgb = os.path.join(config["video_dir"], group_name, "*.mov")
-            split_tiffs.run(input_ir, output_dir, input_rgb, **settings["split_tiffs"])
+            video_dir = os.path.join(work_dir, group_name, "videos")
+            output_dir = os.path.join(work_dir, group_name, "splitted")
+            split_tiffs.run(video_dir, output_dir, **settings["split_tiffs"])
 
-            # rotate frames if rows are oriented vertically in the video
-            logger.info("Rotating video frames")
-            if videogroup["row_orientation"] == "vertical":
-                frames_root = os.path.join(config["work_dir"], group_name, "splitted")
-                rotate.run(frames_root, **settings["rotate_frames"])
-            else:
-                logger.info("Nothing to rotate. Skipping.")
+        if "interpolate_gps" in tasks:
+            logger.info("Interpolating GPS trajectory")
+            frames_root = os.path.join(work_dir, group_name, "splitted")
+            interpolation.run(frames_root, **settings["interpolate_gps"])
 
         # segment PV modules
         if "segment_pv_modules" in tasks:
             from extractor.segmentation import inference            
             logger.info("Segmenting PV modules")
-            frames_root = os.path.join(config["work_dir"], group_name, "splitted")
-            output_dir = os.path.join(config["work_dir"], group_name, "segmented")
+            frames_root = os.path.join(work_dir, group_name, "splitted")
+            output_dir = os.path.join(work_dir, group_name, "segmented")
             inference.run(frames_root, output_dir,
                 **settings["segment_pv_modules"])
 
         # track PV modules in subsequent frames
         if "track_pv_modules" in tasks:
             logger.info("Tracking PV modules in subsequent frames")
-            frames_root = os.path.join(config["work_dir"], group_name, "splitted")
-            inference_root = os.path.join(config["work_dir"], group_name, "segmented")
-            output_dir = os.path.join(config["work_dir"], group_name, "tracking")
+            frames_root = os.path.join(work_dir, group_name, "splitted")
+            inference_root = os.path.join(work_dir, group_name, "segmented")
+            output_dir = os.path.join(work_dir, group_name, "tracking")
             tracking.run(frames_root, inference_root, output_dir,
                 **settings["track_pv_modules"])
 
         # compute module corners
         if "compute_pv_module_quadrilaterals" in tasks:
             logger.info("Estimating bounding quadrilaterals for PV modules")
-            frames_root = os.path.join(config["work_dir"], group_name, "splitted")
-            inference_root = os.path.join(config["work_dir"], group_name, "segmented")
-            tracks_root = os.path.join(config["work_dir"], group_name, "tracking")
-            output_dir = os.path.join(config["work_dir"], group_name, "quadrilaterals")
+            frames_root = os.path.join(work_dir, group_name, "splitted")
+            inference_root = os.path.join(work_dir, group_name, "segmented")
+            tracks_root = os.path.join(work_dir, group_name, "tracking")
+            output_dir = os.path.join(work_dir, group_name, "quadrilaterals")
             quadrilaterals.run(frames_root, inference_root, tracks_root,
                 output_dir, **settings["compute_pv_module_quadrilaterals"])
 
@@ -106,9 +99,9 @@ def main(config_file):
         if "prepare_opensfm" in tasks:
             for cluster in videogroup["clusters"]:
                 logger.info("Preparing data for OpenSfM reconstruction")
-                frames_root = os.path.join(config["work_dir"], group_name, "splitted")
+                frames_root = os.path.join(work_dir, group_name, "splitted")
                 calibration_root = os.path.join(videogroup["cam_params_dir"], "ir")
-                output_dir = os.path.join(config["work_dir"], group_name, "mapping")
+                output_dir = os.path.join(work_dir, group_name, "mapping")
                 opensfm_settings = settings["opensfm"]
                 prepare_opensfm.run(cluster, frames_root, calibration_root, 
                     output_dir, opensfm_settings, **settings["prepare_opensfm"])
@@ -125,7 +118,7 @@ def main(config_file):
             opensfm_bin = "/pvextractor/extractor/mapping/OpenSfM/bin/opensfm"
             for cluster in videogroup["clusters"]:
                 mapping_root = os.path.join(
-                    config["work_dir"], group_name, "mapping", 
+                    work_dir, group_name, "mapping", 
                     "cluster_{:06d}".format(cluster["cluster_idx"]))
 
                 # determine which OpenSfM commands to run
@@ -142,30 +135,30 @@ def main(config_file):
                         sys.stdout.write(line.decode("utf-8"))
 
         if "triangulate_pv_modules" in tasks:
-            mapping_root = os.path.join(config["work_dir"], group_name, "mapping")
-            tracks_root = os.path.join(config["work_dir"], group_name, "tracking")
-            quads_root = os.path.join(config["work_dir"], group_name, "quadrilaterals")
+            mapping_root = os.path.join(work_dir, group_name, "mapping")
+            tracks_root = os.path.join(work_dir, group_name, "tracking")
+            quads_root = os.path.join(work_dir, group_name, "quadrilaterals")
             triangulate_modules.run(mapping_root, tracks_root, quads_root, 
                 **settings["triangulate_pv_modules"])
 
         if "refine_triangulation" in tasks:
-            mapping_root = os.path.join(config["work_dir"], group_name, "mapping")
+            mapping_root = os.path.join(work_dir, group_name, "mapping")
             refine_triangulation.run(mapping_root, **settings["refine_triangulation"])
 
         if "crop_pv_modules" in tasks:
             logger.info("Cropping PV module patches")
-            frames_root = os.path.join(config["work_dir"], group_name, "splitted")       
-            quads_root = os.path.join(config["work_dir"], group_name, "quadrilaterals")
-            mapping_root = os.path.join(config["work_dir"], group_name, "mapping")
-            output_dir = os.path.join(config["work_dir"], group_name, "patches")
+            frames_root = os.path.join(work_dir, group_name, "splitted")       
+            quads_root = os.path.join(work_dir, group_name, "quadrilaterals")
+            mapping_root = os.path.join(work_dir, group_name, "mapping")
+            output_dir = os.path.join(work_dir, group_name, "patches")
             cropping.run(frames_root, quads_root, mapping_root, output_dir, 
                 **settings["crop_pv_modules"])
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('config', type=str,
-        help="Path of to the config YAML file.")
+    parser.add_argument('workdir', type=str,
+        help="Path of to the working directory.")
     args = parser.parse_args()
 
-    main(args.config)
+    main(args.workdir)

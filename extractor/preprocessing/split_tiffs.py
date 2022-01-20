@@ -10,10 +10,8 @@ import cv2
 import numpy as np
 from tqdm import tqdm
 import tifffile
-import simplekml
 
 from extractor.common import delete_output
-from extractor.gps import gps_to_ltp, gps_from_ltp, interpolate_gps
 
 
 logger = logging.getLogger(__name__)
@@ -88,21 +86,35 @@ def get_ir_frame_number(rgb_idx, n_ir, n_rgb):
     return ir_idx
 
 
-def run(input, output_dir, input_rgb=None, extract_timestamps=True,
-    extract_gps=True, extract_gps_altitude=False, sync_rgb=True):
+def rotate(frame, rotation):
+    if rotation == "90_deg_cw":
+        frame = cv2.rotate(frame, cv2.ROTATE_90_CLOCKWISE)
+    elif rotation == "180_deg_cw":
+        frame = cv2.rotate(frame, cv2.ROTATE_180)
+    elif rotation == "270_deg_cw":
+        frame = cv2.rotate(frame, cv2.ROTATE_90_COUNTERCLOCKWISE)
+    else:
+        raise ValueError("Invalid value for rotation")
+    return frame
+
+
+def run(video_dir, output_dir, ir_file_extension=None, rgb_file_extension=None,
+extract_timestamps=True,
+    extract_gps=True, extract_gps_altitude=False, sync_rgb=True,
+    rotate_frames=None):
 
     delete_output(output_dir)
     for dirname in ["radiometric", "gps"]:
         os.makedirs(os.path.join(output_dir, dirname), exist_ok=True)
 
-    tiff_files = sorted(glob.glob(input))
+    tiff_files = sorted(glob.glob(os.path.join(video_dir, "*.{}".format(ir_file_extension))))
     n_ir = get_num_ir_frames(tiff_files)
     logger.info("Found {} TIFF videos with {} frames for splitting".format(
         len(tiff_files), n_ir))
 
-    if sync_rgb and (input_rgb is not None):
+    if sync_rgb:
         os.makedirs(os.path.join(output_dir, "rgb"), exist_ok=True)
-        rgb_files = sorted(glob.glob(input_rgb))
+        rgb_files = sorted(glob.glob(os.path.join(video_dir, "*.{}".format(rgb_file_extension))))
         n_rgb = get_num_rgb_frames(rgb_files)
         assert get_ir_frame_number(n_rgb, n_ir, n_rgb) == n_ir
         logger.info("Found {} RGB videos with {} frames for splitting".format(
@@ -120,6 +132,8 @@ def run(input, output_dir, input_rgb=None, extract_timestamps=True,
                 radiometric_file = os.path.join(
                     output_dir, "radiometric", "frame_{:06d}.tiff".format(
                     frame_idx))
+                if rotate_frames:
+                    image_radiometric = rotate(image_radiometric, rotate_frames)
                 cv2.imwrite(radiometric_file, image_radiometric)
 
                 if extract_timestamps:
@@ -153,7 +167,7 @@ def run(input, output_dir, input_rgb=None, extract_timestamps=True,
                 frame_idx += 1
 
     # synchronize RGB videos
-    if sync_rgb and (input_rgb is not None):
+    if sync_rgb:
         rgb_frame_idx = 0
         last_frame_idx = None
         for i, rgb_file in enumerate(rgb_files):
@@ -166,6 +180,8 @@ def run(input, output_dir, input_rgb=None, extract_timestamps=True,
                     if last_frame_idx is None or frame_idx != last_frame_idx:
                         out_path = os.path.join(output_dir,
                             "rgb", "frame_{:06d}.jpg".format(frame_idx))
+                        if rotate_frames:
+                            frame = rotate(frame, rotate_frames)
                         cv2.imwrite(
                             out_path, frame, [cv2.IMWRITE_JPEG_QUALITY, 100])
                     last_frame_idx = frame_idx
@@ -181,23 +197,8 @@ def run(input, output_dir, input_rgb=None, extract_timestamps=True,
                 writer.writerow([timestamp])
 
     # store extracted GPS positions to disk
-    if extract_gps and len(gps) > 0:        
-
-        # interpolate GPS trajectory
-        gps = np.array(gps)
-        if gps.shape[-1] == 2:
-            gps = np.insert(
-                gps, 2, np.zeros(len(gps)), axis=1)
-        gps, origin = gps_to_ltp(gps)
-        gps = interpolate_gps(gps)
-        gps = gps_from_ltp(gps, origin)
-        gps = gps.tolist()
+    if extract_gps and len(gps) > 0:
 
         # save GPS trajectory to JSON
         json.dump(gps, open(os.path.join(
             output_dir, "gps", "gps.json"), "w"))
-
-        # save GPS trajectory to KML file
-        kml_file = simplekml.Kml()
-        kml_file.newlinestring(name="trajectory", coords=gps)
-        kml_file.save(os.path.join(output_dir, "gps", "gps.kml"))

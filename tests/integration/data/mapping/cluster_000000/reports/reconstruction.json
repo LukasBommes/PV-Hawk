@@ -1,148 +1,148 @@
 {
-    "num_candidate_image_pairs": 24,
+    "num_candidate_image_pairs": 22,
     "reconstructions": [
         {
             "bootstrap": {
                 "image_pair": [
-                    "frame_000003.jpg",
-                    "frame_000015.jpg"
+                    "frame_000002.jpg",
+                    "frame_000014.jpg"
                 ],
-                "common_tracks": 889,
+                "common_tracks": 898,
                 "two_view_reconstruction": {
-                    "5_point_inliers": 842,
-                    "plane_based_inliers": 847,
-                    "method": "plane_based"
+                    "5_point_inliers": 859,
+                    "plane_based_inliers": 846,
+                    "method": "5_point"
                 },
-                "triangulated_points": 846,
+                "triangulated_points": 832,
                 "decision": "Success",
-                "memory_usage": 203878400
+                "memory_usage": 205733888
             },
             "grow": {
                 "steps": [
                     {
                         "images": [
-                            "frame_000012.jpg"
+                            "frame_000005.jpg"
                         ],
                         "resection": {
-                            "num_common_points": 712,
-                            "num_inliers": 695,
+                            "num_common_points": 665,
+                            "num_inliers": 642,
                             "shots": [
-                                "frame_000012.jpg"
+                                "frame_000005.jpg"
                             ]
                         },
-                        "memory_usage": 205733888,
-                        "triangulated_points": 1052,
+                        "memory_usage": 207466496,
+                        "triangulated_points": 979,
                         "bundle": {
-                            "brief_report": "Ceres Solver Report: Iterations: 42, Initial cost: 7.074127e+01, Final cost: 5.882488e+01, Termination: CONVERGENCE",
+                            "brief_report": "Ceres Solver Report: Iterations: 23, Initial cost: 8.820822e+01, Final cost: 7.514967e+01, Termination: CONVERGENCE",
                             "wall_times": {
-                                "setup": 0.001648,
-                                "run": 0.231693,
-                                "teardown": 0.00158
+                                "setup": 0.001534,
+                                "run": 0.135184,
+                                "teardown": 0.001539
                             }
                         },
                         "retriangulation": {
-                            "num_points_before": 1899,
-                            "num_points_after": 1867,
-                            "wall_time": 0.1584303481504321
+                            "num_points_before": 1809,
+                            "num_points_after": 1770,
+                            "wall_time": 0.15711412811651826
                         },
                         "bundle_after_retriangulation": {
-                            "brief_report": "Ceres Solver Report: Iterations: 38, Initial cost: 5.762862e+01, Final cost: 5.517199e+01, Termination: CONVERGENCE",
+                            "brief_report": "Ceres Solver Report: Iterations: 10, Initial cost: 6.297458e+01, Final cost: 5.876100e+01, Termination: CONVERGENCE",
                             "wall_times": {
-                                "setup": 0.001665,
-                                "run": 0.225227,
-                                "teardown": 0.001487
+                                "setup": 0.001374,
+                                "run": 0.061694,
+                                "teardown": 0.001357
                             }
                         }
                     },
                     {
                         "images": [
-                            "frame_000009.jpg"
+                            "frame_000008.jpg"
                         ],
                         "resection": {
-                            "num_common_points": 1264,
-                            "num_inliers": 1225,
+                            "num_common_points": 1156,
+                            "num_inliers": 1113,
                             "shots": [
-                                "frame_000009.jpg"
+                                "frame_000008.jpg"
                             ]
                         },
-                        "memory_usage": 210690048,
-                        "triangulated_points": 683,
+                        "memory_usage": 212111360,
+                        "triangulated_points": 696,
                         "bundle": {
-                            "brief_report": "Ceres Solver Report: Iterations: 36, Initial cost: 1.303016e+02, Final cost: 1.016434e+02, Termination: CONVERGENCE",
+                            "brief_report": "Ceres Solver Report: Iterations: 15, Initial cost: 1.228814e+02, Final cost: 9.824066e+01, Termination: CONVERGENCE",
                             "wall_times": {
-                                "setup": 0.002652,
-                                "run": 0.306177,
-                                "teardown": 0.002183
+                                "setup": 0.00238,
+                                "run": 0.13762,
+                                "teardown": 0.002043
                             }
                         },
                         "retriangulation": {
-                            "num_points_before": 2549,
-                            "num_points_after": 2520,
-                            "wall_time": 0.2117258938960731
+                            "num_points_before": 2461,
+                            "num_points_after": 2455,
+                            "wall_time": 0.2047273109201342
                         },
                         "bundle_after_retriangulation": {
-                            "brief_report": "Ceres Solver Report: Iterations: 14, Initial cost: 1.006631e+02, Final cost: 9.740403e+01, Termination: CONVERGENCE",
+                            "brief_report": "Ceres Solver Report: Iterations: 10, Initial cost: 1.194177e+02, Final cost: 1.084490e+02, Termination: CONVERGENCE",
                             "wall_times": {
-                                "setup": 0.002743,
-                                "run": 0.13342,
-                                "teardown": 0.002299
+                                "setup": 0.002199,
+                                "run": 0.094285,
+                                "teardown": 0.002355
                             }
                         }
                     },
                     {
                         "images": [
-                            "frame_000006.jpg"
+                            "frame_000011.jpg"
                         ],
                         "resection": {
-                            "num_common_points": 1362,
-                            "num_inliers": 1301,
+                            "num_common_points": 1345,
+                            "num_inliers": 1273,
                             "shots": [
-                                "frame_000006.jpg"
+                                "frame_000011.jpg"
                             ]
                         },
-                        "memory_usage": 214626304,
-                        "triangulated_points": 561,
+                        "memory_usage": 215912448,
+                        "triangulated_points": 631,
                         "bundle": {
-                            "brief_report": "Ceres Solver Report: Iterations: 56, Initial cost: 1.663943e+02, Final cost: 1.371897e+02, Termination: CONVERGENCE",
+                            "brief_report": "Ceres Solver Report: Iterations: 48, Initial cost: 1.960652e+02, Final cost: 1.630273e+02, Termination: CONVERGENCE",
                             "wall_times": {
-                                "setup": 0.003462,
-                                "run": 0.609184,
-                                "teardown": 0.002971
+                                "setup": 0.003332,
+                                "run": 0.529897,
+                                "teardown": 0.00281
                             }
                         },
                         "retriangulation": {
-                            "num_points_before": 3079,
-                            "num_points_after": 3053,
-                            "wall_time": 0.24281832994893193
+                            "num_points_before": 3085,
+                            "num_points_after": 3003,
+                            "wall_time": 0.252915611024946
                         },
                         "bundle_after_retriangulation": {
-                            "brief_report": "Ceres Solver Report: Iterations: 13, Initial cost: 1.493725e+02, Final cost: 1.461893e+02, Termination: CONVERGENCE",
+                            "brief_report": "Ceres Solver Report: Iterations: 10, Initial cost: 1.482348e+02, Final cost: 1.422853e+02, Termination: CONVERGENCE",
                             "wall_times": {
-                                "setup": 0.002988,
-                                "run": 0.160142,
-                                "teardown": 0.003043
+                                "setup": 0.002935,
+                                "run": 0.135879,
+                                "teardown": 0.002859
                             }
                         }
                     },
                     {
                         "images": [
-                            "frame_000018.jpg"
+                            "frame_000001.jpg"
                         ],
                         "resection": {
-                            "num_common_points": 1291,
-                            "num_inliers": 1217,
+                            "num_common_points": 1350,
+                            "num_inliers": 1295,
                             "shots": [
-                                "frame_000018.jpg"
+                                "frame_000001.jpg"
                             ]
                         },
-                        "memory_usage": 218574848,
-                        "triangulated_points": 534,
+                        "memory_usage": 220213248,
+                        "triangulated_points": 589,
                         "local_bundle": {
-                            "brief_report": "Ceres Solver Report: Iterations: 11, Initial cost: 2.021724e+02, Final cost: 1.653310e+02, Termination: NO_CONVERGENCE",
+                            "brief_report": "Ceres Solver Report: Iterations: 11, Initial cost: 2.786268e+02, Final cost: 2.181171e+02, Termination: NO_CONVERGENCE",
                             "wall_times": {
-                                "setup": 0.007836,
-                                "run": 0.088252,
-                                "teardown": 0.003672
+                                "setup": 0.009242,
+                                "run": 0.098124,
+                                "teardown": 0.003822
                             },
                             "num_interior_images": 6,
                             "num_boundary_images": 0,
@@ -151,60 +151,120 @@
                     },
                     {
                         "images": [
-                            "frame_000021.jpg"
+                            "frame_000000.jpg"
                         ],
                         "resection": {
-                            "num_common_points": 1291,
-                            "num_inliers": 1197,
+                            "num_common_points": 1479,
+                            "num_inliers": 1390,
                             "shots": [
-                                "frame_000021.jpg"
+                                "frame_000000.jpg"
                             ]
                         },
-                        "memory_usage": 220213248,
-                        "triangulated_points": 565,
+                        "memory_usage": 221933568,
+                        "triangulated_points": 490,
                         "bundle": {
-                            "brief_report": "Ceres Solver Report: Iterations: 24, Initial cost: 2.896524e+02, Final cost: 2.351730e+02, Termination: CONVERGENCE",
+                            "brief_report": "Ceres Solver Report: Iterations: 60, Initial cost: 3.954649e+02, Final cost: 3.465170e+02, Termination: CONVERGENCE",
                             "wall_times": {
-                                "setup": 0.005128,
-                                "run": 0.39942,
-                                "teardown": 0.004929
+                                "setup": 0.005377,
+                                "run": 0.991567,
+                                "teardown": 0.004542
                             }
                         },
                         "retriangulation": {
-                            "num_points_before": 4146,
-                            "num_points_after": 4073,
-                            "wall_time": 0.3559907430317253
+                            "num_points_before": 4080,
+                            "num_points_after": 4025,
+                            "wall_time": 0.33196307090111077
                         },
                         "bundle_after_retriangulation": {
-                            "brief_report": "Ceres Solver Report: Iterations: 13, Initial cost: 2.540122e+02, Final cost: 2.484390e+02, Termination: CONVERGENCE",
+                            "brief_report": "Ceres Solver Report: Iterations: 17, Initial cost: 3.885585e+02, Final cost: 3.733244e+02, Termination: CONVERGENCE",
                             "wall_times": {
-                                "setup": 0.004674,
-                                "run": 0.233395,
-                                "teardown": 0.004469
+                                "setup": 0.004934,
+                                "run": 0.311828,
+                                "teardown": 0.005158
                             }
                         }
                     },
                     {
                         "images": [
-                            "frame_000024.jpg"
+                            "frame_000017.jpg"
                         ],
                         "resection": {
-                            "num_common_points": 1364,
-                            "num_inliers": 1283,
+                            "num_common_points": 1281,
+                            "num_inliers": 1190,
                             "shots": [
-                                "frame_000024.jpg"
+                                "frame_000017.jpg"
                             ]
                         },
-                        "memory_usage": 225341440,
-                        "triangulated_points": 484,
+                        "memory_usage": 227135488,
+                        "triangulated_points": 482,
                         "local_bundle": {
-                            "brief_report": "Ceres Solver Report: Iterations: 11, Initial cost: 3.129361e+02, Final cost: 2.701884e+02, Termination: NO_CONVERGENCE",
+                            "brief_report": "Ceres Solver Report: Iterations: 11, Initial cost: 4.378389e+02, Final cost: 3.846383e+02, Termination: NO_CONVERGENCE",
                             "wall_times": {
-                                "setup": 0.010186,
-                                "run": 0.120016,
-                                "teardown": 0.005346
+                                "setup": 0.01088,
+                                "run": 0.127242,
+                                "teardown": 0.005361
                             },
                             "num_interior_images": 8,
+                            "num_boundary_images": 0,
+                            "num_other_images": 0
+                        }
+                    },
+                    {
+                        "images": [
+                            "frame_000020.jpg"
+                        ],
+                        "resection": {
+                            "num_common_points": 1250,
+                            "num_inliers": 1110,
+                            "shots": [
+                                "frame_000020.jpg"
+                            ]
+                        },
+                        "memory_usage": 227917824,
+                        "triangulated_points": 562,
+                        "bundle": {
+                            "brief_report": "Ceres Solver Report: Iterations: 15, Initial cost: 4.890799e+02, Final cost: 4.455975e+02, Termination: CONVERGENCE",
+                            "wall_times": {
+                                "setup": 0.006963,
+                                "run": 0.363977,
+                                "teardown": 0.006089
+                            }
+                        },
+                        "retriangulation": {
+                            "num_points_before": 5062,
+                            "num_points_after": 4970,
+                            "wall_time": 0.4290143901016563
+                        },
+                        "bundle_after_retriangulation": {
+                            "brief_report": "Ceres Solver Report: Iterations: 8, Initial cost: 4.723679e+02, Final cost: 4.639817e+02, Termination: CONVERGENCE",
+                            "wall_times": {
+                                "setup": 0.006196,
+                                "run": 0.212149,
+                                "teardown": 0.006148
+                            }
+                        }
+                    },
+                    {
+                        "images": [
+                            "frame_000023.jpg"
+                        ],
+                        "resection": {
+                            "num_common_points": 1329,
+                            "num_inliers": 1230,
+                            "shots": [
+                                "frame_000023.jpg"
+                            ]
+                        },
+                        "memory_usage": 234954752,
+                        "triangulated_points": 503,
+                        "local_bundle": {
+                            "brief_report": "Ceres Solver Report: Iterations: 11, Initial cost: 5.280175e+02, Final cost: 4.826410e+02, Termination: NO_CONVERGENCE",
+                            "wall_times": {
+                                "setup": 0.017492,
+                                "run": 0.152148,
+                                "teardown": 0.00721
+                            },
+                            "num_interior_images": 10,
                             "num_boundary_images": 0,
                             "num_other_images": 0
                         }
@@ -214,34 +274,24 @@
                             "frame_000026.jpg"
                         ],
                         "resection": {
-                            "num_common_points": 1413,
-                            "num_inliers": 1320,
+                            "num_common_points": 1339,
+                            "num_inliers": 1239,
                             "shots": [
                                 "frame_000026.jpg"
                             ]
                         },
-                        "memory_usage": 226242560,
-                        "triangulated_points": 567,
-                        "bundle": {
-                            "brief_report": "Ceres Solver Report: Iterations: 12, Initial cost: 3.589055e+02, Final cost: 3.200795e+02, Termination: CONVERGENCE",
+                        "memory_usage": 235245568,
+                        "triangulated_points": 446,
+                        "local_bundle": {
+                            "brief_report": "Ceres Solver Report: Iterations: 11, Initial cost: 5.723995e+02, Final cost: 5.331890e+02, Termination: NO_CONVERGENCE",
                             "wall_times": {
-                                "setup": 0.006945,
-                                "run": 0.313803,
-                                "teardown": 0.006325
-                            }
-                        },
-                        "retriangulation": {
-                            "num_points_before": 5121,
-                            "num_points_after": 5049,
-                            "wall_time": 0.45826459978707135
-                        },
-                        "bundle_after_retriangulation": {
-                            "brief_report": "Ceres Solver Report: Iterations: 7, Initial cost: 3.562119e+02, Final cost: 3.489511e+02, Termination: CONVERGENCE",
-                            "wall_times": {
-                                "setup": 0.007202,
-                                "run": 0.198779,
-                                "teardown": 0.00621
-                            }
+                                "setup": 0.015226,
+                                "run": 0.166605,
+                                "teardown": 0.007931
+                            },
+                            "num_interior_images": 11,
+                            "num_boundary_images": 0,
+                            "num_other_images": 0
                         }
                     },
                     {
@@ -249,24 +299,34 @@
                             "frame_000028.jpg"
                         ],
                         "resection": {
-                            "num_common_points": 1471,
-                            "num_inliers": 1379,
+                            "num_common_points": 1366,
+                            "num_inliers": 1246,
                             "shots": [
                                 "frame_000028.jpg"
                             ]
                         },
-                        "memory_usage": 233857024,
-                        "triangulated_points": 515,
-                        "local_bundle": {
-                            "brief_report": "Ceres Solver Report: Iterations: 11, Initial cost: 4.106461e+02, Final cost: 3.716667e+02, Termination: NO_CONVERGENCE",
+                        "memory_usage": 237764608,
+                        "triangulated_points": 603,
+                        "bundle": {
+                            "brief_report": "Ceres Solver Report: Iterations: 19, Initial cost: 6.464813e+02, Final cost: 5.944086e+02, Termination: CONVERGENCE",
                             "wall_times": {
-                                "setup": 0.015992,
-                                "run": 0.154171,
-                                "teardown": 0.007532
-                            },
-                            "num_interior_images": 10,
-                            "num_boundary_images": 0,
-                            "num_other_images": 0
+                                "setup": 0.01012,
+                                "run": 0.59511,
+                                "teardown": 0.009246
+                            }
+                        },
+                        "retriangulation": {
+                            "num_points_before": 6516,
+                            "num_points_after": 6406,
+                            "wall_time": 0.5711602871306241
+                        },
+                        "bundle_after_retriangulation": {
+                            "brief_report": "Ceres Solver Report: Iterations: 9, Initial cost: 6.612491e+02, Final cost: 6.507958e+02, Termination: CONVERGENCE",
+                            "wall_times": {
+                                "setup": 0.008933,
+                                "run": 0.327435,
+                                "teardown": 0.008848
+                            }
                         }
                     },
                     {
@@ -274,34 +334,24 @@
                             "frame_000030.jpg"
                         ],
                         "resection": {
-                            "num_common_points": 1499,
-                            "num_inliers": 1379,
+                            "num_common_points": 1447,
+                            "num_inliers": 1353,
                             "shots": [
                                 "frame_000030.jpg"
                             ]
                         },
-                        "memory_usage": 233934848,
-                        "triangulated_points": 564,
-                        "bundle": {
-                            "brief_report": "Ceres Solver Report: Iterations: 19, Initial cost: 4.645388e+02, Final cost: 4.247414e+02, Termination: CONVERGENCE",
+                        "memory_usage": 244776960,
+                        "triangulated_points": 570,
+                        "local_bundle": {
+                            "brief_report": "Ceres Solver Report: Iterations: 11, Initial cost: 6.985832e+02, Final cost: 6.548524e+02, Termination: NO_CONVERGENCE",
                             "wall_times": {
-                                "setup": 0.009132,
-                                "run": 0.571025,
-                                "teardown": 0.008063
-                            }
-                        },
-                        "retriangulation": {
-                            "num_points_before": 6125,
-                            "num_points_after": 6042,
-                            "wall_time": 0.5378293429967016
-                        },
-                        "bundle_after_retriangulation": {
-                            "brief_report": "Ceres Solver Report: Iterations: 7, Initial cost: 4.749926e+02, Final cost: 4.660820e+02, Termination: CONVERGENCE",
-                            "wall_times": {
-                                "setup": 0.00832,
-                                "run": 0.248002,
-                                "teardown": 0.008097
-                            }
+                                "setup": 0.018055,
+                                "run": 0.200117,
+                                "teardown": 0.010055
+                            },
+                            "num_interior_images": 13,
+                            "num_boundary_images": 0,
+                            "num_other_images": 0
                         }
                     },
                     {
@@ -309,22 +359,22 @@
                             "frame_000032.jpg"
                         ],
                         "resection": {
-                            "num_common_points": 1452,
-                            "num_inliers": 1371,
+                            "num_common_points": 1433,
+                            "num_inliers": 1342,
                             "shots": [
                                 "frame_000032.jpg"
                             ]
                         },
-                        "memory_usage": 240705536,
-                        "triangulated_points": 553,
+                        "memory_usage": 244776960,
+                        "triangulated_points": 568,
                         "local_bundle": {
-                            "brief_report": "Ceres Solver Report: Iterations: 11, Initial cost: 5.183939e+02, Final cost: 4.797810e+02, Termination: NO_CONVERGENCE",
+                            "brief_report": "Ceres Solver Report: Iterations: 11, Initial cost: 7.508037e+02, Final cost: 7.151524e+02, Termination: NO_CONVERGENCE",
                             "wall_times": {
-                                "setup": 0.01713,
-                                "run": 0.193661,
-                                "teardown": 0.009847
+                                "setup": 0.021974,
+                                "run": 0.215221,
+                                "teardown": 0.011289
                             },
-                            "num_interior_images": 12,
+                            "num_interior_images": 14,
                             "num_boundary_images": 0,
                             "num_other_images": 0
                         }
@@ -334,24 +384,34 @@
                             "frame_000034.jpg"
                         ],
                         "resection": {
-                            "num_common_points": 1439,
-                            "num_inliers": 1344,
+                            "num_common_points": 1415,
+                            "num_inliers": 1297,
                             "shots": [
                                 "frame_000034.jpg"
                             ]
                         },
-                        "memory_usage": 240832512,
-                        "triangulated_points": 591,
-                        "local_bundle": {
-                            "brief_report": "Ceres Solver Report: Iterations: 11, Initial cost: 5.712615e+02, Final cost: 5.330794e+02, Termination: NO_CONVERGENCE",
+                        "memory_usage": 247537664,
+                        "triangulated_points": 612,
+                        "bundle": {
+                            "brief_report": "Ceres Solver Report: Iterations: 19, Initial cost: 8.613922e+02, Final cost: 7.925169e+02, Termination: CONVERGENCE",
                             "wall_times": {
-                                "setup": 0.019203,
-                                "run": 0.220641,
-                                "teardown": 0.013914
-                            },
-                            "num_interior_images": 13,
-                            "num_boundary_images": 0,
-                            "num_other_images": 0
+                                "setup": 0.013004,
+                                "run": 0.784767,
+                                "teardown": 0.012003
+                            }
+                        },
+                        "retriangulation": {
+                            "num_points_before": 8146,
+                            "num_points_after": 8022,
+                            "wall_time": 0.733542449073866
+                        },
+                        "bundle_after_retriangulation": {
+                            "brief_report": "Ceres Solver Report: Iterations: 13, Initial cost: 8.812058e+02, Final cost: 8.644256e+02, Termination: CONVERGENCE",
+                            "wall_times": {
+                                "setup": 0.012082,
+                                "run": 0.553787,
+                                "teardown": 0.011865
+                            }
                         }
                     },
                     {
@@ -359,34 +419,24 @@
                             "frame_000036.jpg"
                         ],
                         "resection": {
-                            "num_common_points": 1458,
-                            "num_inliers": 1355,
+                            "num_common_points": 1428,
+                            "num_inliers": 1351,
                             "shots": [
                                 "frame_000036.jpg"
                             ]
                         },
-                        "memory_usage": 243785728,
-                        "triangulated_points": 731,
-                        "bundle": {
-                            "brief_report": "Ceres Solver Report: Iterations: 18, Initial cost: 6.457966e+02, Final cost: 5.952514e+02, Termination: CONVERGENCE",
+                        "memory_usage": 256663552,
+                        "triangulated_points": 728,
+                        "local_bundle": {
+                            "brief_report": "Ceres Solver Report: Iterations: 11, Initial cost: 8.977455e+02, Final cost: 8.502603e+02, Termination: NO_CONVERGENCE",
                             "wall_times": {
-                                "setup": 0.013876,
-                                "run": 0.739993,
-                                "teardown": 0.011844
-                            }
-                        },
-                        "retriangulation": {
-                            "num_points_before": 7913,
-                            "num_points_after": 7810,
-                            "wall_time": 0.6895094020292163
-                        },
-                        "bundle_after_retriangulation": {
-                            "brief_report": "Ceres Solver Report: Iterations: 7, Initial cost: 6.608270e+02, Final cost: 6.482139e+02, Termination: CONVERGENCE",
-                            "wall_times": {
-                                "setup": 0.011219,
-                                "run": 0.331865,
-                                "teardown": 0.01135
-                            }
+                                "setup": 0.024022,
+                                "run": 0.260172,
+                                "teardown": 0.01297
+                            },
+                            "num_interior_images": 16,
+                            "num_boundary_images": 0,
+                            "num_other_images": 0
                         }
                     },
                     {
@@ -394,22 +444,22 @@
                             "frame_000038.jpg"
                         ],
                         "resection": {
-                            "num_common_points": 1568,
-                            "num_inliers": 1505,
+                            "num_common_points": 1560,
+                            "num_inliers": 1473,
                             "shots": [
                                 "frame_000038.jpg"
                             ]
                         },
-                        "memory_usage": 252620800,
-                        "triangulated_points": 713,
+                        "memory_usage": 256958464,
+                        "triangulated_points": 747,
                         "local_bundle": {
-                            "brief_report": "Ceres Solver Report: Iterations: 11, Initial cost: 7.091082e+02, Final cost: 6.589241e+02, Termination: NO_CONVERGENCE",
+                            "brief_report": "Ceres Solver Report: Iterations: 11, Initial cost: 9.400747e+02, Final cost: 9.010467e+02, Termination: NO_CONVERGENCE",
                             "wall_times": {
-                                "setup": 0.026857,
-                                "run": 0.249646,
-                                "teardown": 0.012478
+                                "setup": 0.02777,
+                                "run": 0.285493,
+                                "teardown": 0.014442
                             },
-                            "num_interior_images": 15,
+                            "num_interior_images": 17,
                             "num_boundary_images": 0,
                             "num_other_images": 0
                         }
@@ -419,24 +469,34 @@
                             "frame_000041.jpg"
                         ],
                         "resection": {
-                            "num_common_points": 1590,
-                            "num_inliers": 1497,
+                            "num_common_points": 1572,
+                            "num_inliers": 1477,
                             "shots": [
                                 "frame_000041.jpg"
                             ]
                         },
-                        "memory_usage": 253308928,
-                        "triangulated_points": 656,
-                        "local_bundle": {
-                            "brief_report": "Ceres Solver Report: Iterations: 11, Initial cost: 7.580775e+02, Final cost: 7.084399e+02, Termination: NO_CONVERGENCE",
+                        "memory_usage": 260546560,
+                        "triangulated_points": 649,
+                        "bundle": {
+                            "brief_report": "Ceres Solver Report: Iterations: 11, Initial cost: 1.038235e+03, Final cost: 9.794557e+02, Termination: CONVERGENCE",
                             "wall_times": {
-                                "setup": 0.025331,
-                                "run": 0.277179,
-                                "teardown": 0.014268
-                            },
-                            "num_interior_images": 16,
-                            "num_boundary_images": 0,
-                            "num_other_images": 0
+                                "setup": 0.01661,
+                                "run": 0.621545,
+                                "teardown": 0.015569
+                            }
+                        },
+                        "retriangulation": {
+                            "num_points_before": 10136,
+                            "num_points_after": 10039,
+                            "wall_time": 0.9037486570887268
+                        },
+                        "bundle_after_retriangulation": {
+                            "brief_report": "Ceres Solver Report: Iterations: 9, Initial cost: 1.072500e+03, Final cost: 1.053904e+03, Termination: CONVERGENCE",
+                            "wall_times": {
+                                "setup": 0.016358,
+                                "run": 0.543986,
+                                "teardown": 0.01563
+                            }
                         }
                     },
                     {
@@ -444,57 +504,22 @@
                             "frame_000044.jpg"
                         ],
                         "resection": {
-                            "num_common_points": 1628,
-                            "num_inliers": 1537,
+                            "num_common_points": 1599,
+                            "num_inliers": 1531,
                             "shots": [
                                 "frame_000044.jpg"
                             ]
                         },
-                        "memory_usage": 257105920,
-                        "triangulated_points": 849,
-                        "bundle": {
-                            "brief_report": "Ceres Solver Report: Iterations: 19, Initial cost: 8.399161e+02, Final cost: 7.781585e+02, Termination: CONVERGENCE",
-                            "wall_times": {
-                                "setup": 0.016051,
-                                "run": 0.987509,
-                                "teardown": 0.015031
-                            }
-                        },
-                        "retriangulation": {
-                            "num_points_before": 10024,
-                            "num_points_after": 9950,
-                            "wall_time": 0.8727098240051419
-                        },
-                        "bundle_after_retriangulation": {
-                            "brief_report": "Ceres Solver Report: Iterations: 12, Initial cost: 8.685038e+02, Final cost: 8.527462e+02, Termination: CONVERGENCE",
-                            "wall_times": {
-                                "setup": 0.015518,
-                                "run": 0.668617,
-                                "teardown": 0.014971
-                            }
-                        }
-                    },
-                    {
-                        "images": [
-                            "frame_000000.jpg"
-                        ],
-                        "resection": {
-                            "num_common_points": 1182,
-                            "num_inliers": 1103,
-                            "shots": [
-                                "frame_000000.jpg"
-                            ]
-                        },
-                        "memory_usage": 268926976,
-                        "triangulated_points": 414,
+                        "memory_usage": 271986688,
+                        "triangulated_points": 824,
                         "local_bundle": {
-                            "brief_report": "Ceres Solver Report: Iterations: 11, Initial cost: 8.970970e+02, Final cost: 8.359855e+02, Termination: NO_CONVERGENCE",
+                            "brief_report": "Ceres Solver Report: Iterations: 11, Initial cost: 1.088207e+03, Final cost: 1.029123e+03, Termination: NO_CONVERGENCE",
                             "wall_times": {
-                                "setup": 0.027143,
-                                "run": 0.33434,
-                                "teardown": 0.015875
+                                "setup": 0.029685,
+                                "run": 0.333496,
+                                "teardown": 0.017007
                             },
-                            "num_interior_images": 18,
+                            "num_interior_images": 19,
                             "num_boundary_images": 0,
                             "num_other_images": 0
                         }
@@ -504,8 +529,8 @@
         }
     ],
     "wall_times": {
-        "compute_image_pairs": 0.4402072059456259,
-        "compute_reconstructions": 16.379181155003607
+        "compute_image_pairs": 0.4643039780203253,
+        "compute_reconstructions": 16.770301226060838
     },
     "not_reconstructed_images": []
 }

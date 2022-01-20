@@ -27,3 +27,5 @@ calibration/camera_30hz/images_calibration
 calibration/camera_30hz/images_undistorted
 
 docs/build
+
+tests/integration/data_old
