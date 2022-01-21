@@ -9,6 +9,10 @@ pytransform3d==1.9.1
 Shapely==1.7.1
 jupyterlab
 
+# for testing
+deepdiff==5.7.0
+hypothesis[numpy]==6.31.6
+
 # additional for Mask R-CNN
 scikit-image==0.16.2
 cython==0.29.21
