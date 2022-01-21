@@ -8,31 +8,30 @@ Note, that the directory tree below only shows important files and subdirectorie
 .. code-block:: text
 
   /workdir
+    |-- config.yml
+    |
+    |
     |-- splitted
     |    |-- timestamps.csv
     |    |-- gps
     |    |     |-- gps.json
-    |    |     |-- gps.kml
-    |    |-- preview
-    |    |     |-- frame_000000.jpg
-    |    |     |-- frame_000001.jpg
-    |    |     |-- ...
+    |    |     |-- gps_orig.json
     |    |-- radiometric
     |    |     |-- frame_000000.tiff
     |    |     |-- frame_000001.tiff
     |    |     |-- ...
+    |
     |-- segmented
     |    |-- preview.avi
     |    |-- ...
+    |
     |-- tracking
-    |    |-- tracks_preview.avi
+    |    |-- preview.avi
     |    |-- tracks.csv
-    |-- patches
-    |    |-- meta.pkl
-    |    |-- preview
-    |    |     |-- ...
-    |    |-- radiometric
-    |    |     |-- ...
+    |
+    |-- quadrilaterals
+    |    |-- quadrilaterals.pkl
+    |
     |-- mapping
     |    |-- cluster_000000
     |    |     |-- reconstruction.json
@@ -43,9 +42,8 @@ Note, that the directory tree below only shows important files and subdirectorie
     |    |-- ...
     |    |-- module_geolocations_refined.geojson
     |    |-- ...
-    |-- patches_final
-    |    |-- preview
-    |    |     |-- ...
+    |
+    |-- patches
     |    |-- radiometric
     |    |     |-- 840d60c7-e634-45be-9043-48110873c8e4
     |    |     |     |-- frame_010401_mask_000010.tiff
@@ -56,9 +54,11 @@ Note, that the directory tree below only shows important files and subdirectorie
     |    |     |     |-- ...
     |    |     |-- ...
     
-.. rubric:: splitted (split_sequences) 
+.. rubric:: splitted (split_sequences, interpolate_gps) 
 
-Contains the individual IR video frames as 16-bit TIFF images and additional 8-bit JPEG preview images. The `gps.json` files contains the longitude, latitude, and altitude (in this order) of each video frame. The `timestamps.csv` contains timestamps of each video frame.
+Contains the individual IR video frames as 16-bit TIFF images and their corresponding GPS longitude, latitude, and altitude (in this order) in the `gps.json` file. The `timestamps.csv` contains timestamps of each video frame.
+
+If you ran the `interpolate_gps` step, the content of the original `gps.json` has been moved into `gps_orig.json` and the `gps.json` contains the interpolated GPS trajectory.
 
 .. rubric:: segmented (segment_pv_modules)
 
@@ -68,15 +68,15 @@ Contains results of the Mask R-CNN instance segmentation model applied to each v
 
 Contains the results of PV module tracking over subsequent video frames. The `tracks.csv` contains the frame name, mask name, tracking ID, and module center point in the image (x, y in pixels). Each PV module has a unique tracking ID that stays constant over subsequent video frame, in which the module is visible. To validate correctness of the module tracking you can look at the preview video in `tracks_preview.avi`.
 
-.. rubric:: patches (crop_and_rectify_modules)
+.. rubric:: quadrilaterals (compute_pv_module_quadrilaterals)
 
-Contains the cropped and rectified image patches of each PV module. The `preview` directory contains 8-bit JPEG preview images and the `radiometric` directory the respective 16-bit TIFF images. For each PV module there is a directory named after the module's tracking ID, which contains the individual image patches showing the same module in subsequent video frames. The `meta.pkl` is a Python pickle file, containing additional information about each image patch, such as the image coordinates of the module's center point, the bounding quadrilateral that was fit to the module's segmentation mask, and the homography used to rectify the module image.
+Contains the `quadrilaterals.pkl` Python pickle file. This file contains for every segmented module in every frame the image coordinates i) of the module center point, and ii) of the bounding quadrilateral that was fit to the module's segmentation mask.
 
 .. rubric:: mapping (prepare_opensfm, ..., refine_triangulation)
 
 Contains the inputs and outputs of the tasks relating to the georeferencing of PV modules, which is performed using `OpenSfM <https://github.com/mapillary/OpenSfM>`_. For each cluster configured in the config file there is a subdirectory, which contains the OpenSfM dataset for that cluster and which has the structure described `here <https://opensfm.org/docs/dataset.html>`_. Most notably, each of these subdirectories contains the `reconstruction.json` file with the reconstructed camera poses and 3D map points produced by OpenSfM.
 The main result stored in the mapping directory is a GeoJSON file `module_geolocations_refined.geojson`. This file follows the `GeoJSON specification <https://datatracker.ietf.org/doc/html/rfc7946>`_ and contains a feature collection of polygons and points for each PV module. The polygon resembles the longitude, latitude and altitude of the four corner points of the PV module in `WGS 84 coordinates <https://epsg.io/4326>`_. The point is the geocoordinate of the module's center point. Each polygon and each point have a `track_id` property, which is the tracking ID of the respective PV module.
 
-.. rubric:: patches_final (reorganize_patches)
+.. rubric:: patches (crop_pv_modules)
 
-This directory has the same overall structure as the `patches` directory, but considers the merging of tracking IDs. Merged tracking IDs occur when the same PV module has two different tracking IDs, which can happen occasionally due to a tracking error. These duplicates are identified during the georeferencing procedure. If for example the trackings IDs `abc123` and `def456` belong to the same module, there will be only one directory in the `patches_final` directory named after the first tracking ID (`abc123`), which contains all module images of both subfolders `abc123` and `def456` from the `patches` directory.
+Contains the cropped and rectified image patches of each PV module as 16-bit TIFF images. For each PV module there is a directory named after the module's tracking ID, which contains the individual image patches showing the same module in subsequent video frames.

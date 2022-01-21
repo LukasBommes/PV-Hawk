@@ -1,68 +1,53 @@
+.. _installation:
+
 Installation
 ============
 
 Follow the steps below to setup PV Drone Inspect on your machine.
 
-Step 1: Install prerequisites
------------------------------
+Step 1: Fullfill prerequisites
+------------------------------
 
-To run PV Drone Inspect you need a machine running Ubuntu 18.04 LTS / 20.04 LTS and a Nvidia CUDA-compatible GPU with the latest Nvidia drivers installed. Furthermore, you need to install `Docker CE <https://docs.docker.com/engine/install/ubuntu/>`_ and the `Nvidia container toolkit <https://github.com/NVIDIA/nvidia-docker>`_.
+PV Drone Inspect requires a machine running a 64-bit version of Ubuntu 21.10, 21.04, 20.04 LTS or 18.04 LTS with `Docker CE <https://docs.docker.com/engine/install/ubuntu/>`_ installed.
 
-Step 2: Clone source code
+To make use of GPU acceleration (highly recommended) you need a Nvidia CUDA-compatible GPU with the latest Nvidia drivers and you must install the `Nvidia container toolkit <https://github.com/NVIDIA/nvidia-docker>`_.
+
+Step 2: Download source code
+----------------------------
+
+Open a new terminal and navigate to the location where you want to install PV Drone Inspect, e.g. `/software`. Run the command below to clone the Git repository to your machine
+
+.. code-block:: console
+
+  git clone -b "v1.0.0" https://github.com/LukasBommes/PV-Drone-Inspect
+
+
+Step 3: Download Mask R-CNN weights
+-----------------------------------
+
+Pv Drone Inspect uses a pretrained `Mask R-CNN <https://github.com/matterport/Mask_RCNN>`_ for PV module detection. Download the pretrained Mask R-CNN model weights file from `here <https://drive.google.com/file/d/1DzZNU9NBmHg_SFoazbHnz3q-y0jN1BIS/view?usp=sharing>`_, and place it under `extractor/segmentation/Mask_RCNN`.
+
+
+Step 4: Pull Docker image
 -------------------------
 
-Clone the Git repository to your machine
+We provide a prebuilt Docker image containing all runtime dependencies of PV Drone Inspect, such as Python, CUDA and Tensorflow. All you have to do is pull the Docker image with
 
 .. code-block:: console
 
-  git clone https://github.com/LukasBommes/PV-Drone-Inspect
-
-
-Step 3: Download Mask R-CNN model files
----------------------------------------
-
-The tool uses a pretrained `Mask R-CNN <https://github.com/matterport/Mask_RCNN>`_ for PV module detection. Download the pretrained Mask R-CNN model weights from `here <https://drive.google.com/file/d/1F0GiR8QpKZEHV-4wtfbPeE5dvIiOeIG3/view>`_, extract the zip archive and place the folder "pv_modules20210521T1611" under `extractor/segmentation/Mask_RCNN/logs`. The resulting directory structure should look like follows:
-
-.. code-block:: text
-
-  |-- extractor/segmentation/Mask_RCNN/logs
-  |    |-- pv_modules20210521T1611
-  |    |     |-- events.out.tfevents.1621613480.27049cbf8e56
-  |    |     |-- events.out.tfevents.1621782508.27049cbf8e56
-  |    |     |-- mask_rcnn_pv_modules_0060.h5
-  |    |     |-- mask_rcnn_pv_modules_0120.h5
-
-Step 4: Build Docker image
---------------------------
-
-We use Docker to provide a consistent environment for the execution of PV Drone Inspect. When building the provided Docker image all required dependencies, e.g., Python, CUDA, Tensorflow, and OpenSfM, are installed and configured automatically. There are two ways to use the Docker image: A) building the image from the provided Dockerfile, or B) load a prebuilt image.
-
-
-Variant A: Build Docker image from source
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-To build the Docker image from the provided Dockerfile run the following command from the root directory of PV Drone Inspect
-
-.. code-block:: console
-
-  sudo docker build . --tag=pvextractor-geo
-
-Variant B: Load prebuild Docker image
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Alternatively, you can download a prebuilt Docker image from `here <https://drive.google.com/file/d/1ksjtbYPbpkMeZbChfqtSVkXBKHAq9Nbo/view>`_. Place the tar archive in the project's root directory an load the Docker image by executing
-
-.. code-block:: console
-
-  sudo docker load < pvextractor-geo.tar
-
-Note, that the image was built on a machine with Ubuntu 20.04 LTS. Transferability to other operating systems is not guaranteed. If you run into issue with the prebuild image, please build the image from source as specified above.
+	sudo docker pull lubo1994/pv-drone-inspect:latest
+	
+If you run into problems with the prebuilt image, you can instead :doc:`built_docker_image` locally.
 
 
 Step 5: Test the installation
 -----------------------------
 
-Test whether PV Drone Inspect was correctly installed by running the Docker container with the following command from the project's root directory
+PV Drone Inspect comes with some test cases, which you can run to test whether the installation was successful. To this end, start a terminal in the source code root directory and run the following two commands
+
+.. code-block:: console
+
+  xhost +
 
 .. code-block:: console
 
@@ -72,17 +57,15 @@ Test whether PV Drone Inspect was correctly installed by running the Docker cont
     --gpus=all \
     -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
     -v "$(pwd)":/pvextractor \
-    pvextractor-geo \
+    lubo1994/pv-drone-inspect:latest \
     bash
     
-This should start an interactive terminal session in the Docker container you just built.
+This should start an interactive shell in the Docker container. Run the tests in that shell with
 
-If you encounter a "permission denied" error make the entrypoint script executable by running
- 
 .. code-block:: console
- 
-  chmod +x docker-entrypoint.sh
-   
-from the project's root directory.
+
+  python -m unittest tests/**/test_*.py
+  
+If everything was installed correctly you should see an `OK` message after a few minutes. If you see any failures, confirm that you followed the steps above correctly. You can also open an issue in the GitHub repository.
 
 

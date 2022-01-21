@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Contributing &mdash; PV Drone Inspect  documentation</title>
+  <title>Build the Docker Image &mdash; PV Drone Inspect  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -19,8 +19,8 @@
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="About" href="about.html" />
-    <link rel="prev" title="Current Limitations" href="limitations.html" /> 
+    <link rel="next" title="How PV Drone Inspect Works" href="method.html" />
+    <link rel="prev" title="Output Directory Structure" href="output_directory.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -45,24 +45,18 @@
 <li class="toctree-l1"><a class="reference internal" href="using_own_data.html">Using Your Own Data</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Advanced</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="configure_multiple_sectors.html">Configuring Multiple Sectors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="finetune_segmentation.html">Finetuning the Mask R-CNN Model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="config_file_reference.html">Config File Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="output_directory.html">Output Directory Structure</a></li>
-<li class="toctree-l1"><a class="reference internal" href="built_docker_image.html">Build the Docker Image</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Build the Docker Image</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">About</span></p>
-<ul class="current">
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="method.html">How PV Drone Inspect Works</a></li>
 <li class="toctree-l1"><a class="reference internal" href="limitations.html">Current Limitations</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Contributing</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#pv-module-segmentation">PV module segmentation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#use-of-visual-videos-in-addition-to-ir-videos">Use of visual videos in addition to IR videos</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#extension-to-el-pl-imaging">Extension to EL/PL imaging</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#scaling-to-very-large-plants">Scaling to very large plants</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
 </ul>
 
@@ -80,9 +74,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Contributing</li>
+      <li>Build the Docker Image</li>
       <li class="wy-breadcrumbs-aside">
-              <a href="https://github.com/LukasBommes/PV-Drone-Inspect/blob/master/docs/source/contributing.rst" class="fa fa-github"> Edit on GitHub</a>
+              <a href="https://github.com/LukasBommes/PV-Drone-Inspect/blob/master/docs/source/built_docker_image.rst" class="fa fa-github"> Edit on GitHub</a>
       </li>
   </ul>
   <hr/>
@@ -90,34 +84,21 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="contributing">
-<h1>Contributing<a class="headerlink" href="#contributing" title="Permalink to this headline"></a></h1>
-<p>PV Drone Inspect is non-profit and open source. As such we rely on your contribution to make this project even more awesome. Below I will describe some open research avenues you may want to look into. If you want to work on any of these or have own ideas on how to improve the project, feel free to open an issue on GitHub for further discussion.</p>
-<section id="pv-module-segmentation">
-<h2>PV module segmentation<a class="headerlink" href="#pv-module-segmentation" title="Permalink to this headline"></a></h2>
-<p>As mention in the <a class="reference internal" href="limitations.html"><span class="doc">Current Limitations</span></a>, PV module segmentation is currently robust for PV plants with row-based layout, but has issues with rooftop plants.</p>
-</section>
-<section id="use-of-visual-videos-in-addition-to-ir-videos">
-<h2>Use of visual videos in addition to IR videos<a class="headerlink" href="#use-of-visual-videos-in-addition-to-ir-videos" title="Permalink to this headline"></a></h2>
-<p>Stability of the mapping step may be greatly enhanced by using visual videos instead of thermal IR videos. This is because visual videos provide a larger resolution, color information and a much lower dynamic range than IR videos. Furthermore, most computer vision algorithms used in PV Drone Inspect were initially developed for the visual rather than thermal domain.
-Successful inclusion of visual imagery requires accurate temporal synchronization and spatial registration with the IR video stream. This is in itself a sizeable but interesting engineering challenge.</p>
-</section>
-<section id="extension-to-el-pl-imaging">
-<h2>Extension to EL/PL imaging<a class="headerlink" href="#extension-to-el-pl-imaging" title="Permalink to this headline"></a></h2>
-<p>Apart from thermal IR imaging there exist other imaging techniques, such as electroluminescence (EL) or photoluminescence (PL) imaging, for the inspection of PV plants. An interesting line of research is the extension of PV Drone Inspect to these imaging techniques.</p>
-</section>
-<section id="scaling-to-very-large-plants">
-<h2>Scaling to very large plants<a class="headerlink" href="#scaling-to-very-large-plants" title="Permalink to this headline"></a></h2>
-<p>In order to make PV Drone Inspect useful for the processing of very large PV plants (larger than 100 MWp), some engineering challenges must be addressed. For instance, the processing pipeline must be scaled both vertically (use of multiple processor cores) and horizontally (use of multiple compute nodes). Furthermore, more advanced data sharding may be needed to deal with larger datasets.</p>
-</section>
+  <section id="build-the-docker-image">
+<h1>Build the Docker Image<a class="headerlink" href="#build-the-docker-image" title="Permalink to this headline"></a></h1>
+<p>You can build the Docker image locally based on the specification provided in the <cite>Dockerfile</cite>. To this end, run the following command from the root directory of the PV Drone Inspect source code</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo docker build . --tag=pv-drone-inspect-custom-build</span>
+</pre></div>
+</div>
+<p>Now, you can use this image by stating <cite>pv-drone-inspect-custom-build</cite> instead of <cite>lubo1994/pv-drone-inspect:latest</cite> when running the Docker container.</p>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="limitations.html" class="btn btn-neutral float-left" title="Current Limitations" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="about.html" class="btn btn-neutral float-right" title="About" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="output_directory.html" class="btn btn-neutral float-left" title="Output Directory Structure" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="method.html" class="btn btn-neutral float-right" title="How PV Drone Inspect Works" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

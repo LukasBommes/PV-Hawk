@@ -45,9 +45,11 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Advanced</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="configure_multiple_sectors.html">Configuring Multiple Sectors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="finetune_segmentation.html">Finetuning the Mask R-CNN Model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="config_file_reference.html">Config File Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="output_directory.html">Output Directory Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="built_docker_image.html">Build the Docker Image</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">About</span></p>
 <ul>
@@ -83,10 +85,16 @@
              
   <section id="pv-drone-inspect">
 <h1>PV Drone Inspect<a class="headerlink" href="#pv-drone-inspect" title="Permalink to this headline"></a></h1>
+<p>Note: We are currently working on the initial release of the code and the documentation. Please consider the current state as preliminary.</p>
+<p><strong>Documentation</strong>: <a class="reference external" href="https://lukasbommes.github.io/PV-Drone-Inspect/">https://lukasbommes.github.io/PV-Drone-Inspect/</a></p>
+<p><strong>Code</strong>: <a class="reference external" href="https://lukasbommes.github.io/PV-Drone-Inspect/">https://lukasbommes.github.io/PV-Drone-Inspect/</a></p>
 <p>PV Drone Inspect is a computer vision pipeline for the <strong>automated inspection</strong> of large-scale <strong>photovoltaic (PV) plants</strong> by means of <strong>thermal infrared (IR) videos</strong> acquired by a drone.</p>
 <p>After recording an IR video of a PV plant, individual video frames and the corresponding coarse GPS position (latitude, longitude, and optionally altitude) of the drone are fed into PV Drone Inspect. PV Drone Inspect crops each PV module from each video frame and stores the resulting IR image patches. Geocoordinates of the PV module corners are obtained faciliating visualization of analysis results on a map. You can use the <a class="reference external" href="https://github.com/LukasBommes/PV-Drone-Inspect-Viewer">PV Drone Inspect Viewer</a> to browse the resulting map of your PV plant and to perform analyses, such as PV module defect prediction, based on the extracted IR images.</p>
-<img alt="_images/high_level_overview.png" src="_images/high_level_overview.png" />
-<p>The method is described in more detail in <a class="reference internal" href="method.html"><span class="doc">How PV Drone Inspect Works</span></a> and in our journal papers:</p>
+<embed>
+  <object data="_images/high_level_overview.png" type="image/png" style="width: 100%;">
+    <img src="docs/source/images/high_level_overview.png">
+  </object>
+</embed><p>The method is described in more detail in <a class="reference external" href="https://lukasbommes.github.io/PV-Drone-Inspect/method.html">How PV Drone Inspect Works</a> and in our journal papers:</p>
 <p>[1] L. Bommes, T. Pickel, C. Buerhop-Lutz, J. Hauch, C. Brabec, I. Peters, ”Computer vision tool for detection, mapping, and fault classification of photovoltaics modules in aerial IR videos,” Progress in Photovoltaics: Research and Applications, 2021. [<a class="reference external" href="https://onlinelibrary.wiley.com/doi/10.1002/pip.3448">Wiley PIP</a>, <a class="reference external" href="https://arxiv.org/abs/2106.07314">ArXiv</a>]</p>
 <p>[2] L. Bommes, T. Pickel, C. Buerhop-Lutz, J. Hauch, C. Brabec, I. Peters, ”Georeferencing of photovoltaic modules from aerial infrared videos using structure-from-motion,” Progress in Photovoltaics: Research and Applications, 2022 (submitted, acceptance pending).</p>
 <p>[3] L. Bommes, M. Hoffmann, C. Buerhop-Lutz, T. Pickel, J. Hauch, C. Brabec, A. Maier, I. Peters, ”Anomaly detection in IR images of PV modules using supervised contrastive learning,” Progress in Photovoltaics: Research and Applications, 2022 (accepted for publication). [<a class="reference external" href="https://arxiv.org/abs/2112.02922">ArXiv</a>]</p>
@@ -97,7 +105,7 @@
 </section>
 <section id="project-status">
 <h2>Project status<a class="headerlink" href="#project-status" title="Permalink to this headline"></a></h2>
-<p>PV Drone Inspect is a research project built during my PhD. In its current state PV Drone Inspect should be seen more as a proof-of-concept instead of a production-grade system. Please do not expect the pipeline to work smoothly and produce best results on the first attempt. Especially the OpenSfM-based reconstruction stage can be instable and may require multiple trials with different settings until you get a good result. When using your own IR videos it is important that you carefully follow the instructions in <a class="reference internal" href="using_own_data.html#using-own-data"><span class="std std-ref">Using Your Own Data</span></a>. Furthermore, breaking changes to the configuration file specification and structure of the input and output files are possible.</p>
+<p>PV Drone Inspect is a research project built during my PhD. In its current state PV Drone Inspect should be seen more as a proof-of-concept instead of a production-grade system. Please do not expect the pipeline to work smoothly and produce best results on the first attempt. Especially the OpenSfM-based reconstruction stage can be instable and may require multiple trials with different settings until you get a good result. When using your own IR videos it is important that you carefully follow the instructions in <a class="reference external" href="https://lukasbommes.github.io/PV-Drone-Inspect/using_own_data.html#using-own-data">Using Your Own Data</a>. Furthermore, breaking changes to the configuration file specification and structure of the input and output files are possible.</p>
 </section>
 <section id="examplary-results">
 <h2>Examplary results<a class="headerlink" href="#examplary-results" title="Permalink to this headline"></a></h2>
@@ -112,35 +120,36 @@
 </section>
 <section id="how-to-use-pv-drone-inspect">
 <h2>How to use PV Drone Inspect?<a class="headerlink" href="#how-to-use-pv-drone-inspect" title="Permalink to this headline"></a></h2>
-<p>Please follow the <a class="reference internal" href="installation.html"><span class="doc">Installation</span></a> instructions to setup PV Drone Inspect on your machine. Afterwards, follow the <a class="reference internal" href="tutorial.html"><span class="doc">Tutorial</span></a> to get started with an exemplary IR video dataset recorded by us. After you learned how to use PV Drone Inspect, you can proceed to <a class="reference internal" href="using_own_data.html#using-own-data"><span class="std std-ref">Using Your Own Data</span></a> to learn how to record suitable IR videos of your own PV plant with your own IR camera and drone.</p>
+<p>Please follow the <a class="reference external" href="https://lukasbommes.github.io/PV-Drone-Inspect/installation.html">Installation</a> instructions to setup PV Drone Inspect on your machine. Afterwards, follow the <a class="reference external" href="https://lukasbommes.github.io/PV-Drone-Inspect/tutorial.html">Tutorial</a> to get started with an exemplary IR video dataset recorded by us. After you learned how to use PV Drone Inspect, you can proceed to <a class="reference external" href="https://lukasbommes.github.io/PV-Drone-Inspect/using_own_data.html#using-own-data">Using Your Own Data</a> to learn how to record suitable IR videos of your own PV plant with your own IR camera and drone.</p>
 </section>
 <section id="what-do-you-need-to-run-pv-drone-inspect">
 <h2>What do you need to run PV Drone Inspect?<a class="headerlink" href="#what-do-you-need-to-run-pv-drone-inspect" title="Permalink to this headline"></a></h2>
-<p>PV Drone Inspect should be installed on a sufficiently powerful workstation with Ubuntu 18.04 or newer and CUDA-compatible GPU. We developed and tested PV Drone Inspect on a machine with Ubuntu 20.04 LTS, Intel Core i9-9900K, 64GB of DDR4 RAM, an SSD and a GeForce RTX 2080 Ti. Furthermore, you need a drone and a thermal IR camera. Details on this are provided in <a class="reference internal" href="using_own_data.html#hardware-setup"><span class="std std-ref">Hardware Setup</span></a>.</p>
+<p>PV Drone Inspect should be installed on a sufficiently powerful workstation with Ubuntu 18.04 or newer and CUDA-compatible GPU. We developed and tested PV Drone Inspect on a machine with Ubuntu 20.04 LTS, Intel Core i9-9900K, 64GB of DDR4 RAM, an SSD and a GeForce RTX 2080 Ti. Furthermore, you need a drone and a thermal IR camera. Details on this are provided in <a class="reference external" href="https://lukasbommes.github.io/PV-Drone-Inspect/using_own_data.html#hardware-setup">Hardware setup</a>.</p>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Quickstart</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="installation.html#step-1-install-prerequisites">Step 1: Install prerequisites</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installation.html#step-2-clone-source-code">Step 2: Clone source code</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installation.html#step-3-download-mask-r-cnn-model-files">Step 3: Download Mask R-CNN model files</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installation.html#step-4-build-docker-image">Step 4: Build Docker image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#step-1-fullfill-prerequisites">Step 1: Fullfill prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#step-2-download-source-code">Step 2: Download source code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#step-3-download-mask-r-cnn-weights">Step 3: Download Mask R-CNN weights</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#step-4-pull-docker-image">Step 4: Pull Docker image</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installation.html#step-5-test-the-installation">Step 5: Test the installation</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#step-1-get-the-example-dataset">Step 1: Get the example dataset</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#step-2-run-the-docker-image">Step 2: Run the Docker image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#step-1-prepare-the-working-directory">Step 1: Prepare the working directory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#step-2-download-the-example-dataset">Step 2: Download the example dataset</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial.html#step-3-create-a-config-file">Step 3: Create a config file</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#step-4-run-the-pipeline">Step 4: Run the pipeline</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#step-5-visualize-results">Step 5: Visualize results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#step-4-run-the-docker-container">Step 4: Run the Docker container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#step-5-run-the-pipeline">Step 5: Run the pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#step-6-visualize-results">Step 6: Visualize results</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="using_own_data.html">Using Your Own Data</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="using_own_data.html#hardware-setup">Hardware Setup</a></li>
-<li class="toctree-l2"><a class="reference internal" href="using_own_data.html#camera-calibration">Camera Calibration</a></li>
-<li class="toctree-l2"><a class="reference internal" href="using_own_data.html#video-recording">Video Recording</a></li>
-<li class="toctree-l2"><a class="reference internal" href="using_own_data.html#dataset-creation-from-videos">Dataset Creation from Videos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="using_own_data.html#hardware-setup">Hardware setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="using_own_data.html#camera-calibration">Camera calibration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="using_own_data.html#video-recording">Video recording</a></li>
+<li class="toctree-l2"><a class="reference internal" href="using_own_data.html#dataset-creation-from-videos">Dataset creation from videos</a></li>
 </ul>
 </li>
 </ul>
@@ -148,9 +157,14 @@
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Advanced</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="configure_multiple_sectors.html">Configuring Multiple Sectors</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="configure_multiple_sectors.html#difference-between-sectors-and-clusters">Difference between sectors and clusters</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="finetune_segmentation.html">Finetuning the Mask R-CNN Model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="config_file_reference.html">Config File Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="output_directory.html">Output Directory Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="built_docker_image.html">Build the Docker Image</a></li>
 </ul>
 </div>
 <div class="toctree-wrapper compound">
@@ -165,12 +179,15 @@
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="contributing.html#pv-module-segmentation">PV module segmentation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="contributing.html#use-of-visual-videos-in-addition-to-ir-videos">Use of visual videos in addition to IR videos</a></li>
-<li class="toctree-l2"><a class="reference internal" href="contributing.html#extension-to-el-pl-imaging">Extension to EL/PL Imaging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#extension-to-el-pl-imaging">Extension to EL/PL imaging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#scaling-to-very-large-plants">Scaling to very large plants</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="about.html">About</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="about.html#acknowledgments">Acknowledgments</a></li>
 <li class="toctree-l2"><a class="reference internal" href="about.html#license">License</a></li>
 <li class="toctree-l2"><a class="reference internal" href="about.html#citation">Citation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about.html#sponsors">Sponsors</a></li>
 </ul>
 </li>
 </ul>
