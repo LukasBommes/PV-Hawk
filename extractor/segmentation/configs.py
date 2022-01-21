@@ -67,4 +67,4 @@ class InferenceConfig(PVConfig):
     #WEIGHTS_FILE = "/pvextractor/extractor/segmentation/Mask_RCNN/logs/pv_modules20201005T1431/mask_rcnn_pv_modules_0118.h5"  # previous best model
     #WEIGHTS_FILE = "/pvextractor/extractor/segmentation/Mask_RCNN/logs/pv_modules20201026T1542/mask_rcnn_pv_modules_0115.h5"
     #WEIGHTS_FILE = "/pvextractor/extractor/segmentation/Mask_RCNN/logs/pv_modules20201105T1343/mask_rcnn_pv_modules_0118.h5"  # Model used for most plants in the paper (does not work well on plant A)
-    WEIGHTS_FILE = "/pvextractor/extractor/segmentation/Mask_RCNN/logs/pv_modules20210521T1611/mask_rcnn_pv_modules_0120.h5"
+    WEIGHTS_FILE = "/pvextractor/extractor/segmentation/Mask_RCNN/mask_rcnn_pv_modules_0120.h5"
