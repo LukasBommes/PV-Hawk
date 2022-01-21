@@ -1,14 +1,12 @@
 PV Drone Inspect
 ================
 
-.. note::
-  We are currently working on the initial release of the code and the documentation. Please consider the current state as preliminary.
+Note: We are currently working on the initial release of the code and the documentation. Please consider the current state as preliminary.
 
 | **Documentation**: https://lukasbommes.github.io/PV-Drone-Inspect/
 | **Code**: https://lukasbommes.github.io/PV-Drone-Inspect/
 
-
-PV Drone Inspect is a computer vision pipeline for the **automated inspection** of large-scale **photovoltaic (PV) plants** by means of **thermal infrared (IR) videos** acquired by a drone.
+| PV Drone Inspect is a computer vision pipeline for the **automated inspection** of large-scale **photovoltaic (PV) plants** by means of **thermal infrared (IR) videos** acquired by a drone.
 
 After recording an IR video of a PV plant, individual video frames and the corresponding coarse GPS position (latitude, longitude, and optionally altitude) of the drone are fed into PV Drone Inspect. PV Drone Inspect crops each PV module from each video frame and stores the resulting IR image patches. Geocoordinates of the PV module corners are obtained faciliating visualization of analysis results on a map. You can use the `PV Drone Inspect Viewer <https://github.com/LukasBommes/PV-Drone-Inspect-Viewer>`_ to browse the resulting map of your PV plant and to perform analyses, such as PV module defect prediction, based on the extracted IR images.
 
