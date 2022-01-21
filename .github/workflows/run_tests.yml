@@ -2,7 +2,7 @@ name: Run automated tests
 
 on:
   push:
-    branches: [ fix_action2 ]  # TODO master
+    branches: [ master ]
   
 jobs:
   run-tests:
