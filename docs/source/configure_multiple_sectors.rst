@@ -3,7 +3,7 @@ Configuring Multiple Sectors
 
 For large PV plants it is helpful to split the plant into smaller sectors and process sectors individually. To do so the structure of the working directory and the config file have to be altered slightly.
 
-Lets consider an extended version of the dataset used in the :doc:`tutorial`. Download the second part of the dataset `from here <https://drive.google.com/file/d/1w6PE1ygdfqpchaNE0xAc9mThPA_6q4Im/view?usp=sharing>`_. This second part is just another scan of the same section of the PV plant (with rows scanned individually rather than in pairs). However, in practice, each dataset part will correspond to different sectors of your PV plant. For the purpose of the explanation below this does not matter.
+Lets consider an extended version of the dataset used in the :doc:`tutorial`. Download the second part of the dataset `from here <https://drive.google.com/file/d/1w6PE1ygdfqpchaNE0xAc9mThPA_6q4Im/view?usp=sharing>`_. This second part is just another scan of the same section of the PV plant (with rows scanned individually rather than in pairs). However, in practice, each dataset part will correspond to different sectors of your PV plant. But for the explanation below this difference does not matter.
 
 To process both datasets in a single pipeline run, first create a new working directory with the following structure
 
@@ -17,7 +17,7 @@ To process both datasets in a single pipeline run, first create a new working di
     |    |-- splitted
     |    |    |-- ...
     
-As opposed to the single-dataset case in the tutorial, the directory levels `double_rows` and `single_rows` are introduced. The `double_rows` directory contains the dataset from the tutorial and the `single_rows` directory the newly downloaded dataset.
+As opposed to the single-sector dataset in the tutorial, the directory levels `double_rows` and `single_rows` are introduced. The `double_rows` directory contains the dataset from the tutorial and the `single_rows` directory the newly downloaded dataset.
 
 Next, create a `config.yml` file with the text below    
     
@@ -72,4 +72,12 @@ Next, create a `config.yml` file with the text below
 	 
 The file now contains two items under `groups`, each configuring one of the two datasets. Note, that each item now has an additional `name` attribute which corresponds to the directory names of the sectors, i.e. `double_rows` and `single_rows`. 
 
-Apart from that, there are no differences to the simple case described in the :doc:`tutorial`. Siimply follow the remaining steps of the tutorial to process the extended dataset.
+Apart from that, there are no differences to the simple case described in the :doc:`tutorial`. Simply follow the remaining steps of the tutorial to process the extended dataset.
+
+
+Difference between sectors and clusters
+---------------------------------------
+
+You could also use clusters to split a larger dataset into smaller ones. The difference to sector-based splitting is that all clusters share the same algorithm settings, whereas each sector can have its own unique settings. 
+
+Furthermore, a dataset with multiple clusters will be processed in a single working directory, whereas each sector has its own subdirectory. Each subdirectory is treated like an independent working directory when viewing the data with the PV Drone Inspect Viewer.

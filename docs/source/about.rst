@@ -3,6 +3,11 @@ About
 
 This software is written by Lukas Bommes, M.Sc. - `Helmholtz Institute Erlangen-Nürnberg for Renewable Energy (HI ERN) <https://www.hi-ern.de/hi-ern/EN/home.html>`_
 
+Acknowledgments
+---------------
+
+
+
 License
 -------
 
@@ -38,5 +43,9 @@ Paper 3: "" [Wiley PIP, ArXiv]
 .. code-block:: text
 
 	[second paper has not been published yet]
+
+	
+Sponsors
+--------
 
 

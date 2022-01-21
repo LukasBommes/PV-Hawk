@@ -3,12 +3,6 @@ Tutorial
 
 This tutorial will get you started with PV Drone Inspect on an exemplary IR video dataset. It shows the general workflow of processing a PV plant. Please :ref:`install <installation>` PV Drone Inspect on your machine before continuing. After finishing this tutorial, head over to :ref:`using_own_data` to learn how to create your own dataset.
 
-- download and place example dataset (already splitted images, link to data acquisition for further information on acquiring own dataset)
-- run docker image with correct path mapping
-- create config file and briefly explain the different settings (link to config file reference and explain how to use view_gps.py script to select clusters, explain important settings)
-- run video processing pipeline (first four steps, then latter), explain how to validate intermediate outputs
-- visualize final results
-- open result in pv drone inspect viewer
 
 Step 1: Prepare the working directory
 -------------------------------------
@@ -100,18 +94,18 @@ For an in-depth explanation of the other fields in the config file see the :doc:
 
 .. _run-the-docker-image:
 
-Step 4: Run the Docker image
-----------------------------
+Step 4: Run the Docker container
+--------------------------------
 
-You have to run PV Drone Inspect in an interactive terminal session inside the Docker image that you built in the previous steps. Before doing so, make sure access control of your machine's X server is disabled by running
+Before we can begin processing our dataset with PV Drone Inspect, we have to start the Docker container containing all runtime dependencies. Prior to that you have to disable access control of your machine's X server by running the following command in the terminal
 
 .. code-block:: console
 
   xhost +
+  
+This ensures that scripts running inside the container (e.g. the `view_gps.py` script mentioned above) can correctly execute their graphical user interfaces.
 
-This enables graphical output from the Docker container to be forwarded to your machine. Note, that you have to repeat this step every time you rebooted your machine.
-
-To run the interactive terminal session inside the Docker container run the following command from the project's root directory
+Now, open a new terminal window. Navigate to the root directory of the PV Drone Inspect source code and start the Docker container with the command
 
 .. code-block:: console
 
@@ -123,47 +117,49 @@ To run the interactive terminal session inside the Docker container run the foll
     -v "$(pwd)":/pvextractor \
     -v /storage:/storage \
     -p "8888:8888" \
-    pvextractor-geo \
+    lubo1994/pv-drone-inspect:latest \
     bash
-    
-You can omit the `-p "8888:8888"` option if you do not plan to use jupyter lab inside the container. Jupyter lab is needed, for instance, for camera claibration or to fine-tune the Mask R-CNN model contained in this tool.
 
-If you encounter a "permission denied" error make the entrypoint script executable by running the following in the project's root directory
+This starts a bash shell inside the Container. From this shell you will run all forthcoming commands relating to PV Drone Inspect.
 
-.. code-block:: console
+If you encounter an error message stating "Bind for 0.0.0.0:8888 failed: port is already allocated", simply change the port number from 8888 to another port or omit the port forwarding option (`-p "8888:8888"`) alltogether. Port forwarding is only needed to run jupter lab inside the container. For instance, to train the Mask R-CNN model or perform camera calibration.
 
-  chmod +x docker-entrypoint.sh
+The `--gpus=all` option enables access of the GPU for Mask R-CNN inference. If you do not have a deep learning-capable GPU you can omit this option and PV Drone Inspect will automatically fall back to using the CPU. 
+
+The options `--ipc=host`, `--env="DISPLAY"`, `-v /tmp/.X11-unix:/tmp/.X11-unix:rw` are required for graphical output of scripts running within the container. Just leave them untouched.
+
+The `-v "$(pwd)":/pvextractor` and `-v /storage:/storage` options map directories of your machine inside the Docker container. Mapping the `/storage` directory is needed to access our dataset from within the Docker container. If you placed your dataset at another location (e.g. at `/home/mydata`), please change the mapping accordingly (e.g. to `-v /home/mydata:/home/mydata`).
+
+.. note::
+  It is important to launch the Docker container from the location of the PV Drone Inspect source code. If you launch it from another location, the source code will not be available inside the container you will not be able to run PV Drone Inspect.
 
 
 Step 5: Run the pipeline
 ------------------------
 
-Once the config file is created, you can process the data by executing the following command inside the interactive session in the Docker container
+Now, you can process the dataset with PV Drone Inspect. To this end, call the main Python script inside the Docker shell and provide the full path to the working directory as argument
 
 .. code-block:: console
 
-  python main.py testing/configs/config_plant_A.yml
-  
-To control which tasks are executed you can (un)comment tasks under `tasks` in the config file. Note, that you cannot skip any of the tasks, i.e. you will have to run each tasks at least once in the order specified in the config file.
+  python main.py /storage/pv-drone-inspect-tutorial/workdir
 
-We recommend to first uncomment the steps "split_sequences", "segment_pv_modules", "track_pv_modules", "crop_and_rectify_modules" and commenting all subsequent steps. These are preprocessing steps. You should ensure the correctness of the output of these steps before continuing with the remaining processing steps. To continue, comment out the first four steps and uncomment the remaining steps. Rerun :code:`python main.py testing/configs/config_plant_A.yml`.
+This will run all pipeline steps specified in the config file. Note that processing the example dataset takes about two hours even on our relatively capable machine. If your machine is less performant you may have to wait even longer.
 
-Step 5: Visualize results
+If you process your own data, it makes sense to run the pipeline in two stages. First, you run only the "interpolate_gps", "segment_pv_modules", "track_pv_modules", "compute_pv_module_quadrilaterals" and "prepare_opensfm" steps and confirm the intermediate outputs are correct. Check, for instance, the `preview.avi` videos in the `segmentation` and `tracking` directories. If the results are satisfactory, proceed with the remaining pipeline steps. Comment out the steps you already ran, or otherwise their results are overwritten.
+
+
+Step 6: Visualize results
 -------------------------
 
-We provide a script `extractor/mapping/plot_reconstruction.py` for plotting the reconstructed camera poses, PV modules and map points. You can use this script to validate whether your PV plant was reconstructed and georeferenced correctly.
-
-To this end, run the script from within the interactive Docker session and provide the `work_dir` of the plant
+Once the pipeline is finished you can inspect the results with the `scripts/plot_reconstruction.py` script, which plots reconstructed camera poses, PV modules and map points. Run it as follows inside the Docker shell
 
 .. code-block:: console
 
-  python plot_reconstruction.py "/storage-2/pvextractor-georeferencing/Plant_A/workdir"
-  
-You can view the help for additional optional arguments
+  cd scripts
+  python plot_reconstruction.py --hide-map-points /storage/pv-drone-inspect-tutorial/workdir
 
-.. code-block:: console
+You should see an output similar to this one
 
-  python plot_reconstruction.py -h
-  
-  
-[mention how to use PV Drone Inspect Viewer for actual inspection of the data]
+.. image:: images/plot_reconstruction_script.png
+
+If your results look correct you can open the dataset with the `PV Drone Inspect Viewer <https://github.com/LukasBommes/PV-Drone-Inspect-Viewer>`_ to browse your results and perform further analyses, such as defect detection.

@@ -70,6 +70,7 @@ PV Drone Inspect should be installed on a sufficiently powerful workstation with
    finetune_segmentation
    config_file_reference
    output_directory
+   built_docker_image
  
 .. toctree::
    :maxdepth: 2
