@@ -14,7 +14,7 @@ After recording an IR video of a PV plant, individual video frames and the corre
 .. raw:: html
 
     <embed>
-      <object data="_images/high_level_overview.png" type="image/png" style="width: 100%;">
+      <object data="high_level_overview.png" type="image/png" style="width: 100%;">
         <img src="docs/source/images/high_level_overview.png">
       </object>
     </embed>
