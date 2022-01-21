@@ -1,18 +1,11 @@
 PV Drone Inspect
 ================
 
-:ref:`using_own_data`
-
-`Using Your Own Data <using_own_data.html#using-own-data>`_
-
-`Using Your Own Data 2 <https://lukasbommes.github.io/PV-Drone-Inspect/using_own_data.html#using-own-data>`_
-
 .. note::
   We are currently working on the initial release of the code and the documentation. Please consider the current state as preliminary.
 
-**Documentation**: https://lukasbommes.github.io/PV-Drone-Inspect/
-
-**Code**: https://lukasbommes.github.io/PV-Drone-Inspect/
+| **Documentation**: https://lukasbommes.github.io/PV-Drone-Inspect/
+| **Code**: https://lukasbommes.github.io/PV-Drone-Inspect/
 
 
 PV Drone Inspect is a computer vision pipeline for the **automated inspection** of large-scale **photovoltaic (PV) plants** by means of **thermal infrared (IR) videos** acquired by a drone.
@@ -27,7 +20,7 @@ After recording an IR video of a PV plant, individual video frames and the corre
       </object>
     </embed>
 
-The method is described in more detail in :doc:`method` and in our journal papers:
+The method is described in more detail in `How PV Drone Inspect Works <https://lukasbommes.github.io/PV-Drone-Inspect/method.html>`_ and in our journal papers:
 
 [1] L. Bommes, T. Pickel, C. Buerhop-Lutz, J. Hauch, C. Brabec, I. Peters, ”Computer vision tool for detection, mapping, and fault classification of photovoltaics modules in aerial IR videos,” Progress in Photovoltaics: Research and Applications, 2021. [`Wiley PIP <https://onlinelibrary.wiley.com/doi/10.1002/pip.3448>`_, `ArXiv <https://arxiv.org/abs/2106.07314>`_]
 
@@ -45,7 +38,7 @@ PV plants contain typically around 10 percent anomalous PV modules, which are po
 Project status
 --------------
 
-PV Drone Inspect is a research project built during my PhD. In its current state PV Drone Inspect should be seen more as a proof-of-concept instead of a production-grade system. Please do not expect the pipeline to work smoothly and produce best results on the first attempt. Especially the OpenSfM-based reconstruction stage can be instable and may require multiple trials with different settings until you get a good result. When using your own IR videos it is important that you carefully follow the instructions in :ref:`using_own_data`. Furthermore, breaking changes to the configuration file specification and structure of the input and output files are possible.
+PV Drone Inspect is a research project built during my PhD. In its current state PV Drone Inspect should be seen more as a proof-of-concept instead of a production-grade system. Please do not expect the pipeline to work smoothly and produce best results on the first attempt. Especially the OpenSfM-based reconstruction stage can be instable and may require multiple trials with different settings until you get a good result. When using your own IR videos it is important that you carefully follow the instructions in `Using Your Own Data <https://lukasbommes.github.io/PV-Drone-Inspect/using_own_data.html#using-own-data>`_. Furthermore, breaking changes to the configuration file specification and structure of the input and output files are possible.
 
 Examplary results
 -----------------
@@ -62,9 +55,9 @@ Who are the target audiences?
 How to use PV Drone Inspect?
 ----------------------------
 
-Please follow the :doc:`installation` instructions to setup PV Drone Inspect on your machine. Afterwards, follow the :doc:`tutorial` to get started with an exemplary IR video dataset recorded by us. After you learned how to use PV Drone Inspect, you can proceed to :ref:`using_own_data` to learn how to record suitable IR videos of your own PV plant with your own IR camera and drone.
+Please follow the `Installation <https://lukasbommes.github.io/PV-Drone-Inspect/installation.html>`_ instructions to setup PV Drone Inspect on your machine. Afterwards, follow the `Tutorial <https://lukasbommes.github.io/PV-Drone-Inspect/tutorial.html>`_ to get started with an exemplary IR video dataset recorded by us. After you learned how to use PV Drone Inspect, you can proceed to `Using Your Own Data <https://lukasbommes.github.io/PV-Drone-Inspect/using_own_data.html#using-own-data>`_ to learn how to record suitable IR videos of your own PV plant with your own IR camera and drone.
 
 What do you need to run PV Drone Inspect?
 -----------------------------------------
 
-PV Drone Inspect should be installed on a sufficiently powerful workstation with Ubuntu 18.04 or newer and CUDA-compatible GPU. We developed and tested PV Drone Inspect on a machine with Ubuntu 20.04 LTS, Intel Core i9-9900K, 64GB of DDR4 RAM, an SSD and a GeForce RTX 2080 Ti. Furthermore, you need a drone and a thermal IR camera. Details on this are provided in :ref:`hardware_setup`.
+PV Drone Inspect should be installed on a sufficiently powerful workstation with Ubuntu 18.04 or newer and CUDA-compatible GPU. We developed and tested PV Drone Inspect on a machine with Ubuntu 20.04 LTS, Intel Core i9-9900K, 64GB of DDR4 RAM, an SSD and a GeForce RTX 2080 Ti. Furthermore, you need a drone and a thermal IR camera. Details on this are provided in `Hardware setup <https://lukasbommes.github.io/PV-Drone-Inspect/using_own_data.html#hardware-setup>`_.
