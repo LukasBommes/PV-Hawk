@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-20.04
     
     container:
-      image: lubo1994/pv-drone-inspect:latest
+      image: lubo1994/pv-hawk:latest
       credentials:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
@@ -24,10 +24,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install flake8==4.0.1 coverage==6.2 gdown==4.2.0
           
-      - run: mkdir -p /pvextractor/extractor/segmentation/Mask_RCNN/logs/pv_modules20210521T1611/
+      - run: mkdir -p /pvextractor/extractor/segmentation/Mask_RCNN/
         
       - name: Download Mask R-CNN weights from Google Drive
-        run: gdown https://drive.google.com/uc?id=1DzZNU9NBmHg_SFoazbHnz3q-y0jN1BIS -O /pvextractor/extractor/segmentation/Mask_RCNN/logs/pv_modules20210521T1611/mask_rcnn_pv_modules_0120.h5
+        run: gdown https://drive.google.com/uc?id=1DzZNU9NBmHg_SFoazbHnz3q-y0jN1BIS -O /pvextractor/extractor/segmentation/Mask_RCNN/mask_rcnn_pv_modules_0120.h5
           
       #- name: Lint with flake8
       #  run: |

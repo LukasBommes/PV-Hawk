@@ -1,20 +1,20 @@
 Tutorial
 ========
 
-This tutorial will get you started with PV Drone Inspect on an exemplary IR video dataset. It shows the general workflow of processing a PV plant. Please :ref:`install <installation>` PV Drone Inspect on your machine before continuing. After finishing this tutorial, head over to :ref:`using_own_data` to learn how to create your own dataset.
+This tutorial will get you started with PV Hawk on an exemplary IR video dataset. It shows the general workflow of processing a PV plant. Please :ref:`install <installation>` PV Hawk on your machine before continuing. After finishing this tutorial, head over to :ref:`using_own_data` to learn how to create your own dataset.
 
 
 Step 1: Prepare the working directory
 -------------------------------------
 
-PV Drone Inspect reads and writes your input data, results and intermediate data from and to the *working directory*, which is simply a directory on your hard drive.
+PV Hawk reads and writes your input data, results and intermediate data from and to the *working directory*, which is simply a directory on your hard drive.
 
 Before anything else, you have to create such a working directory. Choose a suitable location on your machine and create an empty directory. In our example, we have mounted a hard drive at `/storage` and create a directory here with the following command
 
 .. code-block:: console
 
     cd /storage
-    mkdir -p pv-drone-inspect-tutorial/workdir
+    mkdir -p pv-hawk-tutorial/workdir
     
 You can also choose any other location than `/storage`.
 
@@ -22,13 +22,13 @@ You can also choose any other location than `/storage`.
 Step 2: Download the example dataset
 ------------------------------------
 
-Download and extract the `example dataset <https://drive.google.com/file/d/1NlRpSqFIzaTuEGkFHur6nbu1bE9aPew0/view?usp=sharing>`_, which covers the first twelve rows of a large-scale PV plant. The download contains a folder named `splitted`, which follows the required format of an input dataset for PV Drone Inspect (see :ref:`dataset-creation-from-videos`).
+Download and extract the `example dataset <https://drive.google.com/file/d/1NlRpSqFIzaTuEGkFHur6nbu1bE9aPew0/view?usp=sharing>`_, which covers the first twelve rows of a large-scale PV plant. The download contains a folder named `splitted`, which follows the required format of an input dataset for PV Hawk (see :ref:`dataset-creation-from-videos`).
 
 Place the extracted `splitted` directory and its contents into the working directory. The resulting directory structure should look as follows
 
 .. code-block:: text
 
-  /storage/pv-drone-inspect-tutorial/workdir
+  /storage/pv-hawk-tutorial/workdir
     |-- splitted
     |    |-- ...
     
@@ -97,7 +97,7 @@ For an in-depth explanation of the other fields in the config file see the :doc:
 Step 4: Run the Docker container
 --------------------------------
 
-Before we can begin processing our dataset with PV Drone Inspect, we have to start the Docker container containing all runtime dependencies. Prior to that you have to disable access control of your machine's X server by running the following command in the terminal
+Before we can begin processing our dataset with PV Hawk, we have to start the Docker container containing all runtime dependencies. Prior to that you have to disable access control of your machine's X server by running the following command in the terminal
 
 .. code-block:: console
 
@@ -105,7 +105,7 @@ Before we can begin processing our dataset with PV Drone Inspect, we have to sta
   
 This ensures that scripts running inside the container (e.g. the `view_gps.py` script mentioned above) can correctly execute their graphical user interfaces.
 
-Now, open a new terminal window. Navigate to the root directory of the PV Drone Inspect source code and start the Docker container with the command
+Now, open a new terminal window. Navigate to the root directory of the PV Hawk source code and start the Docker container with the command
 
 .. code-block:: console
 
@@ -117,31 +117,31 @@ Now, open a new terminal window. Navigate to the root directory of the PV Drone 
     -v "$(pwd)":/pvextractor \
     -v /storage:/storage \
     -p "8888:8888" \
-    lubo1994/pv-drone-inspect:latest \
+    lubo1994/pv-hawk:latest \
     bash
 
-This starts a bash shell inside the Container. From this shell you will run all forthcoming commands relating to PV Drone Inspect.
+This starts a bash shell inside the Container. From this shell you will run all forthcoming commands relating to PV Hawk.
 
 If you encounter an error message stating "Bind for 0.0.0.0:8888 failed: port is already allocated", simply change the port number from 8888 to another port or omit the port forwarding option (`-p "8888:8888"`) alltogether. Port forwarding is only needed to run jupter lab inside the container. For instance, to train the Mask R-CNN model or perform camera calibration.
 
-The `--gpus=all` option enables access of the GPU for Mask R-CNN inference. If you do not have a deep learning-capable GPU you can omit this option and PV Drone Inspect will automatically fall back to using the CPU. 
+The `--gpus=all` option enables access of the GPU for Mask R-CNN inference. If you do not have a deep learning-capable GPU you can omit this option and PV Hawk will automatically fall back to using the CPU. 
 
 The options `--ipc=host`, `--env="DISPLAY"`, `-v /tmp/.X11-unix:/tmp/.X11-unix:rw` are required for graphical output of scripts running within the container. Just leave them untouched.
 
 The `-v "$(pwd)":/pvextractor` and `-v /storage:/storage` options map directories of your machine inside the Docker container. Mapping the `/storage` directory is needed to access our dataset from within the Docker container. If you placed your dataset at another location (e.g. at `/home/mydata`), please change the mapping accordingly (e.g. to `-v /home/mydata:/home/mydata`).
 
 .. note::
-  It is important to launch the Docker container from the location of the PV Drone Inspect source code. If you launch it from another location, the source code will not be available inside the container you will not be able to run PV Drone Inspect.
+  It is important to launch the Docker container from the location of the PV Hawk source code. If you launch it from another location, the source code will not be available inside the container you will not be able to run PV Hawk.
 
 
 Step 5: Run the pipeline
 ------------------------
 
-Now, you can process the dataset with PV Drone Inspect. To this end, call the main Python script inside the Docker shell and provide the full path to the working directory as argument
+Now, you can process the dataset with PV Hawk. To this end, call the main Python script inside the Docker shell and provide the full path to the working directory as argument
 
 .. code-block:: console
 
-  python main.py /storage/pv-drone-inspect-tutorial/workdir
+  python main.py /storage/pv-hawk-tutorial/workdir
 
 This will run all pipeline steps specified in the config file. Note that processing the example dataset takes about two hours even on our relatively capable machine. If your machine is less performant you may have to wait even longer.
 
@@ -156,10 +156,10 @@ Once the pipeline is finished you can inspect the results with the `scripts/plot
 .. code-block:: console
 
   cd scripts
-  python plot_reconstruction.py --hide-map-points /storage/pv-drone-inspect-tutorial/workdir
+  python plot_reconstruction.py --hide-map-points /storage/pv-hawk-tutorial/workdir
 
 You should see an output similar to this one
 
 .. image:: images/plot_reconstruction_script.png
 
-If your results look correct you can open the dataset with the `PV Drone Inspect Viewer <https://github.com/LukasBommes/PV-Drone-Inspect-Viewer>`_ to browse your results and perform further analyses, such as defect detection.
+If your results look correct you can open the dataset with the `PV Hawk Viewer <https://github.com/LukasBommes/PV-Hawk-Viewer>`_ to browse your results and perform further analyses, such as defect detection.

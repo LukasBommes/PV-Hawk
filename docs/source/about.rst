@@ -1,7 +1,7 @@
 About
 =====
 
-This software is written by Lukas Bommes, M.Sc. - `Helmholtz Institute Erlangen-Nürnberg for Renewable Energy (HI ERN) <https://www.hi-ern.de/hi-ern/EN/home.html>`_
+PV Hawk is written by Lukas Bommes, M.Sc. - `Helmholtz Institute Erlangen-Nürnberg for Renewable Energy (HI ERN) <https://www.hi-ern.de/hi-ern/EN/home.html>`_
 
 Acknowledgments
 ---------------
@@ -11,13 +11,13 @@ Acknowledgments
 License
 -------
 
-This project is licensed under the MIT License - see the `LICENSE <https://github.com/LukasBommes/PV-Drone-Inspect/blob/master/LICENSE>`_ file for details.
+This project is licensed under the MIT License - see the `LICENSE <https://github.com/LukasBommes/PV-Hawk/blob/master/LICENSE>`_ file for details.
 
 
 Citation
 --------
 
-This repository implements our research presented in the following two papers. If you use PV Drone Inspect in your own research please cite these works.
+This repository implements our research presented in the following two papers. If you use PV Hawk in your own research please cite these works.
 
 Paper 1: "Computer Vision Tool for Detection, Mapping and Fault Classification of PV Modules in Aerial IR Videos" [`Wiley PIP <https://onlinelibrary.wiley.com/doi/10.1002/pip.3448>`_, `ArXiv <https://arxiv.org/abs/2106.07314>`_]
 

@@ -17,7 +17,7 @@ sys.path.insert(0, os.path.abspath('../..'))
 
 # -- Project information -----------------------------------------------------
 
-project = 'PV Drone Inspect'
+project = 'PV Hawk'
 copyright = '2021, Lukas Bommes'
 author = 'Lukas Bommes'
 
@@ -52,7 +52,7 @@ html_theme = 'sphinx_rtd_theme'
 html_context = {
   'display_github': True,
   'github_user': 'LukasBommes',
-  'github_repo': 'PV-Drone-Inspect',
+  'github_repo': 'PV-Hawk',
   'github_version': 'master/docs/source/'
 }
 html_theme_options = {

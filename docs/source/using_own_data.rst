@@ -3,21 +3,21 @@
 Using Your Own Data
 ===================
 
-This section explains how to record IR videos of your own PV plant with your own camera and drone hardware in a way that is compatible with PV Drone Inspect
+This section explains how to record IR videos of your own PV plant with your own camera and drone hardware in a way that is compatible with PV Hawk.
 
 .. _hardware_setup:
 
 Hardware setup
 --------------
 
-For the development and testing of PV Drone Inspect we used a DJI Matrice 210 drone with the `DJI Zenmuse XT2 <https://www.dji.com/de/zenmuse-xt2>`_ thermal/visual camera (variant with 13 mm focal length). However, PV Drone Inspect should work with any other drone and camera as long as some basic requirements are fullfilled.
+For the development and testing of PV Hawk we used a DJI Matrice 210 drone with the `DJI Zenmuse XT2 <https://www.dji.com/de/zenmuse-xt2>`_ thermal/visual camera (variant with 13 mm focal length). However, PV Hawk should work with any other drone and camera as long as some basic requirements are fullfilled.
 
 .. _drone_requirements:
 
 Drone requirements
 ^^^^^^^^^^^^^^^^^^
 
-Our drone records its GPS longitude and latitude in WGS 84 coordinates at a rate of 1 Hz. PV Drone Inspect performs internally a piecewise linear interpolation of the GPS trajectory to match the GPS measurement rate to the higher video frame rate. A higher measurement rate than 1 Hz is still desirable. Further, we ignore the altitude measurement of our drone as it is based on the barometer alone and not accurate enough. PV Drone Inspect can handle this missing altitude. However, results will be more accurate and stable when an accurate altitude measurement is provided. Thus, we recommend using Real-time kinematic (RTK) GPS, which provdies centermeter-accurate longitude, latitude and altitude measurements.
+Our drone records its GPS longitude and latitude in WGS 84 coordinates at a rate of 1 Hz. PV Hawk performs internally a piecewise linear interpolation of the GPS trajectory to match the GPS measurement rate to the higher video frame rate. A higher measurement rate than 1 Hz is still desirable. Further, we ignore the altitude measurement of our drone as it is based on the barometer alone and not accurate enough. PV Hawk can handle this missing altitude. However, results will be more accurate and stable when an accurate altitude measurement is provided. Thus, we recommend using Real-time kinematic (RTK) GPS, which provdies centermeter-accurate longitude, latitude and altitude measurements.
 
 Camera requirements
 ^^^^^^^^^^^^^^^^^^^
@@ -29,7 +29,7 @@ While the Zenmuse XT2 provides both a thermal IR and a visual stream, we only us
 Camera calibration
 ------------------
 
-PV Drone Inspect requires calibrated parameters of a pinhole camera model for the georeferencing of PV modules. To obtain these parameters a camera calibration needs to be performed. Calibration needs to be performed only once for a camera.
+PV Hawk requires calibrated parameters of a pinhole camera model for the georeferencing of PV modules. To obtain these parameters a camera calibration needs to be performed. Calibration needs to be performed only once for a camera.
 
 Calibration requires a target similar to the one `here <https://docs.opencv.org/3.4/dc/dbb/tutorial_py_calibration.html>`_ but usable in the IR spectrum. To this end, your target needs to be made of materials with different thermal emissivity. We obtained good results using black foil squares applied to a white polymer panel. Also make sure that images are as blur-free as possible with good contrast between white and black squares.
 
@@ -52,7 +52,7 @@ Open the displayed URL in the web browser on your machine. In jupyter lab naviga
 Video recording
 ---------------
 
-While PV Drone Inspect is flexible with respect to the way IR videos are recorded, several rules must still be followed to ensure optimal results. In general, you should scan PV plant rows one or two at a time as indicated in figure :numref:`flight_modes_single_row` and :numref:`flight_modes_double_row`. Resulting video frames are shown in :numref:`example_frames`. Scanning two rows at a time increases throughput but also reduces the resolution of extracted PV module images. While the rows can be scanned in an arbitrary order, we recommend sequential scanning to simplify the subsequent manual configuration. The drone flight can be automated or carried out manually.
+While PV Hawk is flexible with respect to the way IR videos are recorded, several rules must still be followed to ensure optimal results. In general, you should scan PV plant rows one or two at a time as indicated in figure :numref:`flight_modes_single_row` and :numref:`flight_modes_double_row`. Resulting video frames are shown in :numref:`example_frames`. Scanning two rows at a time increases throughput but also reduces the resolution of extracted PV module images. While the rows can be scanned in an arbitrary order, we recommend sequential scanning to simplify the subsequent manual configuration. The drone flight can be automated or carried out manually.
 
 We recommend to orient the camera facing vertically downwards (nadir) at all times. This improves robustness of the processing pipeline as we can set a vertical orentiation prior in OpenSfM when reconstructing the camera trajectory. However, at the expense of lower robustness you can also choose a non-nadiral camera angle. This is useful, for instance, to prevent sun reflections on the PV modules.
 
@@ -71,7 +71,7 @@ We recommend to orient the camera facing vertically downwards (nadir) at all tim
 
   Exemplary IR video frames for (a) horizontal scanning of a single row (cyan box above), (b) vertical scanning of a single row (green box above), and (c) scanning of two rows at a time (magenta box above).
 
-In the following, we list all the rules you should follow when recording IR videos for PV Drone Inspect. We differentate between `hard rules` and `soft rules`. If you do not follow the hard rules PV failure is guaranteed. Not following one of the soft rules may not result in immediate failure, but can decrease robustness of the processing piepline.
+In the following, we list all the rules you should follow when recording IR videos for PV Hawk. We differentate between `hard rules` and `soft rules`. If you do not follow the hard rules PV failure is guaranteed. Not following one of the soft rules may not result in immediate failure, but can decrease robustness of the processing piepline.
 
 - Hard rules:
    - Never tilt the camera, instead keep it rigidly oriented w.r.t. the drone.
@@ -107,19 +107,19 @@ Shown below are images and videos of valid recordings.
 [video of horizontal single row]
 [video of vertical single row]
 
-As mentioned earlier, you can choose a non-nadiral camera angle to prevent sun reflections on the PV modules. However, you may not always be able to completely prevent sun reflections. For this case, we provide a sun reflection filter in the `PV Drone Inspect Viewer <https://github.com/LukasBommes/PV-Drone-Inspect-Viewer>`_.
+As mentioned earlier, you can choose a non-nadiral camera angle to prevent sun reflections on the PV modules. However, you may not always be able to completely prevent sun reflections. For this case, we provide a sun reflection filter in the `PV Hawk Viewer <https://github.com/LukasBommes/PV-Hawk-Viewer>`_.
 
 Weather conditions are another important aspect to consider. For optimal results, the sky should be cloudless and solar irradiance should be above 700 Watt/m². Lower irradiance typically results in IR images with low contrast, which is challenging for the automated processing. Furthermore, module anomalies are less visible at low irradiance.
 
 .. note::
-  We limit the description above to row-based PV plants as we have not yet extensively tested PV Drone Inspect on non-row-based PV plants (see also :doc:`limitations`). While the rules above also apply to non-row-based PV plants, you may have to consider additional aspects. For example, scanning a large array of PV modules may require multiple overlapping "sweeps".
+  We limit the description above to row-based PV plants as we have not yet extensively tested PV Hawk on non-row-based PV plants (see also :doc:`limitations`). While the rules above also apply to non-row-based PV plants, you may have to consider additional aspects. For example, scanning a large array of PV modules may require multiple overlapping "sweeps".
 
 .. _dataset-creation-from-videos:
 
 Dataset creation from videos
 ----------------------------
 
-After recording, you need to convert the thermal IR videos of your PV plants into a format compatible with by PV Drone Inspect. The directory tree below shows the various files required by PV Drone Inspect. The directory must be named `splitted` and must be located in the `work_dir` specified in the config file.
+After recording, you need to convert the thermal IR videos of your PV plants into a format compatible with by PV Hawk. The directory tree below shows the various files required by PV Hawk. The directory must be named `splitted` and must be located in the `work_dir` specified in the config file.
 
 .. code-block:: text
 
@@ -133,7 +133,7 @@ After recording, you need to convert the thermal IR videos of your PV plants int
     |    |     |-- frame_000001.tiff
     |    |     |-- ...
 
-As indicated, you have to provide each IR video frame as a single-channel TIFF image of unsigned 16-bit integer values in the `radiometric` subdirectory. The spatial resolution should correspond to the native resolution of your camera, i.e. do not perform any resizing. Furthermore, do not perform any rescaling of the values but simply provide the raw values output by your camera. PV Drone Inspect will internally normalize the value range. Ensure that your camera outputs linearized temperature values, i.e. the raw image values must be mappable to temperatures by means of a linear transformation (multiplication by a gain factor and subtraction of an offset). While this is the default for IR cameras outputting TIFF images, it does not apply to some proprietory formats, such as the SEQ or radiometric JPEG format. Furthermore, make sure to name the images following the scheme `frame_xxxxxx.tiff` where `xxxxxx` is the frame index (incremented from zero) as 6-digit integer with leading zeros.
+As indicated, you have to provide each IR video frame as a single-channel TIFF image of unsigned 16-bit integer values in the `radiometric` subdirectory. The spatial resolution should correspond to the native resolution of your camera, i.e. do not perform any resizing. Furthermore, do not perform any rescaling of the values but simply provide the raw values output by your camera. PV Hawk will internally normalize the value range. Ensure that your camera outputs linearized temperature values, i.e. the raw image values must be mappable to temperatures by means of a linear transformation (multiplication by a gain factor and subtraction of an offset). While this is the default for IR cameras outputting TIFF images, it does not apply to some proprietory formats, such as the SEQ or radiometric JPEG format. Furthermore, make sure to name the images following the scheme `frame_xxxxxx.tiff` where `xxxxxx` is the frame index (incremented from zero) as 6-digit integer with leading zeros.
 
 Furthermore, you must provide the GPS position of the drone at each video frame in a JSON file named `gps.json` in the `gps` subdirectory. The file must contain a list of lists, where each inner list is a triplet of [longitude, latitude, altitude] in WGS84 coordinates as shown below.
 
@@ -148,7 +148,7 @@ Furthermore, you must provide the GPS position of the drone at each video frame 
    
 The GPS altitude may be zero if an accurate estimate is not available (see :ref:`drone_requirements`). For each video frame there must be one position. If your GPS measurement rate is lower than the video frame rate, you can replicate the same position for multiple frames. You should then use the pipeline task `interpolate_gps` to perform a piecewise linear interpolation and obtain a more accurate position estimate for each frame.
 
-Finally, you should provide a `timestamps.csv` file, which contains the timestamp of each video frame in the exact same format shown below. The file is not immediately needed in PV Drone Inspect. However, the PV Drone Inspect Viewer uses it to estimate the flight duration and other quantitites.
+Finally, you should provide a `timestamps.csv` file, which contains the timestamp of each video frame in the exact same format shown below. The file is not immediately needed in PV Hawk. However, the PV Hawk Viewer uses it to estimate the flight duration and other quantitites.
 
 .. code-block:: text
 
