@@ -16,7 +16,7 @@ import cv2
 
 import extractor.segmentation.Mask_RCNN.mrcnn.model as modellib
 from extractor.common import Capture, delete_output
-from extractor.segmentation.configs import InferenceConfig
+from extractor.segmentation.configs import PVConfig
 
 # Bugfix taken from:
 # https://github.com/tensorflow/tensorflow/issues/24828#issuecomment-464910864
@@ -76,7 +76,8 @@ def save(frame, frame_name, result, output_dir, videowriter):
             csvriter.writerow([*roi, class_id, score])
 
 
-def run(frames_root, output_dir, output_video_fps):
+def run(frames_root, output_dir, gpu_count, images_per_gpu, 
+    detection_min_confidence, weights_file, output_video_fps):
 
     delete_output(output_dir)
 
@@ -84,13 +85,17 @@ def run(frames_root, output_dir, output_video_fps):
     for p in ["masks", "rois"]:
         os.makedirs(os.path.join(output_dir, p), exist_ok=True)
 
-    inference_config = InferenceConfig()
+    inference_config = PVConfig()
+    inference_config.GPU_COUNT = gpu_count
+    inference_config.IMAGES_PER_GPU = images_per_gpu
+    inference_config.DETECTION_MIN_CONFIDENCE = detection_min_confidence
+    inference_config.__init__()  # recompute batch size
 
     # create model and load pretrained weights
     model = modellib.MaskRCNN(mode="inference",
                       config=inference_config,
                       model_dir="")
-    weights_file = model.config.WEIGHTS_FILE
+
     logger.info("Loading weights from {}".format(weights_file))
     model.load_weights(weights_file, by_name=True)
 

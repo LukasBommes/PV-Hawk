@@ -1,15 +1,11 @@
 TODO:
 
-- continue writing tests (create unit test and integration test folder)
-- write tutorial and finish docs
-- fix automatic release and runt_test workflows
+- make segmentation settings available from config file
+
+- continue writing tests (create unit test and integration test folder, add mAP computation on small test dataset to segmentation test)
+- finish docs
+- fix run_test workflows
+- add badges
+- add logo
 
 - zip the patches of each module using Python ZipFile
-
-
-
-Docs:
-- write docs locally
-- merge docs with master branch and push
-- activate github pages
-- install sphinx-video in requirements.txt so that docs can be built with github workflow

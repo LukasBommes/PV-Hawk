@@ -58,13 +58,3 @@ class PVConfig(Config):
     #     False: Freeze BN layers. Good when using a small batch size
     #     True: (don't use). Set layer in training mode even when predicting
     TRAIN_BN = False  # Defaulting to False since batch size is often small
-
-
-class InferenceConfig(PVConfig):
-    GPU_COUNT = 1
-    IMAGES_PER_GPU = 8
-    DETECTION_MIN_CONFIDENCE = 0.9 #0.99
-    #WEIGHTS_FILE = "/pvextractor/extractor/segmentation/Mask_RCNN/logs/pv_modules20201005T1431/mask_rcnn_pv_modules_0118.h5"  # previous best model
-    #WEIGHTS_FILE = "/pvextractor/extractor/segmentation/Mask_RCNN/logs/pv_modules20201026T1542/mask_rcnn_pv_modules_0115.h5"
-    #WEIGHTS_FILE = "/pvextractor/extractor/segmentation/Mask_RCNN/logs/pv_modules20201105T1343/mask_rcnn_pv_modules_0118.h5"  # Model used for most plants in the paper (does not work well on plant A)
-    WEIGHTS_FILE = "/pvextractor/extractor/segmentation/Mask_RCNN/mask_rcnn_pv_modules_0120.h5"

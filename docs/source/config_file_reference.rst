@@ -109,7 +109,69 @@ Index of the frame at which the cluster ends. This frame is not included in the 
 
 .. rubric:: group::settings (settings object)
 
-Algorithm settings for each pipeline task that apply group-wide. If you do not provide a setting then the default specified in `defaults.yml` in the root directory is applied. If you want to overwrite a default value, provide the settings name (equiavlent to the task name), parameter name and value in the settings object. In the examplary config file above the `prepare_opensfm` task is configured to subsample video frames based on both GPS distance and visual distance. Similarly, some defaults for the `opensfm` task are overwritten. Below follows a complete overview of the available settings.
+Algorithm settings for each pipeline task that apply group-wide. If you do not provide a setting then the default specified in `defaults.yml` in the root directory is applied. If you want to overwrite a default value, provide the settings name (equiavlent to the task name), parameter name and value in the settings object. In the examplary config file above the `prepare_opensfm` task is configured to subsample video frames based on both GPS distance and visual distance. Similarly, some defaults for the `opensfm` task are overwritten. See below for a complete overview of the available settings.
+
+
+Tasks
+-----
+
+List of tasks to perform when running the PV Hawk pipeline. (Un)comment to control which steps to run.
+
+.. rubric:: split_sequences
+
+Split multipage TIFF IR videos into individual IR frames. Specific to Flir Zenmuse XT2 camera.
+
+.. rubric:: interpolate_gps
+
+Perform linear interpolation of the GPS trajectory to match the GPS measurement rate with a potentially higher video frame rate.
+
+.. rubric:: segment_pv_modules
+
+Run Mask R-CNN inference to segment PV modules in each video frame.
+
+.. rubric:: track_pv_modules
+
+Track PV modules (segmentation masks) over subsequent video frames, assigning a unique tracking ID to each module.
+
+.. rubric:: compute_pv_module_quadrilaterals
+
+Estimate a bounding quadrilateral (polygon with 4 points) for each segmentation mask. Needed for later cropping of a rectangular image patches of the PV modules.
+
+.. rubric:: prepare_opensfm
+
+Create the OpenSfM input datasets for the reconstruction of the camera trajectory. For each cluster a separate OpenSfM dataset is created on which OpenSfM is run in the subsequent step. Preparation inclused selection of a subset of video frames, which are used for reconstructionby OpenSfM.
+
+.. rubric:: opensfm_extract_metadata
+
+Run the `extract_metadata` step of the OpenSfM pipeline for each cluster.
+
+.. rubric:: opensfm_detect_features
+
+Run the `detect_features` step of the OpenSfM pipeline for each cluster.
+
+.. rubric:: opensfm_match_features
+
+Run the `match_features` step of the OpenSfM pipeline for each cluster.
+
+.. rubric:: opensfm_create_tracks
+
+Run the `extract_metadata` step of the OpenSfM pipeline for each cluster.
+
+.. rubric:: opensfm_reconstruct
+
+Run the `reconstruct` step of the OpenSfM pipeline for each cluster. This reconstructs the 6-DOF camera pose (rotation and translation) for each video frame selected in `prepare_opensfm` step.
+
+.. rubric:: triangulate_pv_modules
+
+Use the reconstructed camera poses and known corner points of each PV module to triangulate PV modules into the OpenSfM reconstruction of the PV plant.
+
+.. rubric:: refine_triangulation
+
+Smoothen the triangulated PV modules. Nearby module corners are moved closer to each other by means of an iterative graph optimization algorithm.
+
+.. rubric:: crop_pv_modules
+
+Crops the image patches of each PV module based on the estimated quadrilaterals. Patches are transformed to a rectangular region with a homography.
 
 
 Settings
@@ -133,6 +195,10 @@ No settings.
 
 .. rubric:: segment_pv_modules
 
+* **gpu_count** (integer): Number of GPUs to use.
+* **images_per_gpu** (integer): Number of frames (per GPU) to feed into Mask R-CNN simultaneously.
+* **detection_min_confidence** (float):  PV module instances with prediction confidence (0.0..1.0) below this value are ignored.
+* **weights_file** (string): Absolute path to the trained Mask R-CNN weights file.
 * **output_video_fps** (float): Frame rate of the generated preview video in 1/s.
 
 The segmentation task has some further settings in `extractor/segmentation/configs.py`, for example the inference batch size.
@@ -198,69 +264,3 @@ For further OpenSfM settings see `extractor/mapping/OpenSfM/opensfm/config.py`. 
 .. rubric:: crop_pv_modules
 
 * **rotate_mode** (string or null): Rotate cropped module images into "portrait" or "landscape" orientation. Set to `null` to ignore patches with potentially wrong orientation.
-
-
-Tasks
------
-
-List of tasks to perform when running the PV Hawk pipeline. (Un)comment to control which steps to run.
-
-.. rubric:: split_sequences
-
-Split multipage TIFF IR videos into individual IR frames. Specific to Flir Zenmuse XT2 camera.
-
-.. rubric:: interpolate_gps
-
-Perform linear interpolation of the GPS trajectory to match the GPS measurement rate with a potentially higher video frame rate.
-
-.. rubric:: segment_pv_modules
-
-Run Mask R-CNN inference to segment PV modules in each video frame.
-
-.. rubric:: track_pv_modules
-
-Track PV modules (segmentation masks) over subsequent video frames, assigning a unique tracking ID to each module.
-
-.. rubric:: compute_pv_module_quadrilaterals
-
-Estimate a bounding quadrilateral (polygon with 4 points) for each segmentation mask. Needed for later cropping of a rectangular image patches of the PV modules.
-
-.. rubric:: prepare_opensfm
-
-Create the OpenSfM input datasets for the reconstruction of the camera trajectory. For each cluster a separate OpenSfM dataset is created on which OpenSfM is run in the subsequent step. Preparation inclused selection of a subset of video frames, which are used for reconstructionby OpenSfM.
-
-.. rubric:: opensfm_extract_metadata
-
-Run the `extract_metadata` step of the OpenSfM pipeline for each cluster.
-
-.. rubric:: opensfm_detect_features
-
-Run the `detect_features` step of the OpenSfM pipeline for each cluster.
-
-.. rubric:: opensfm_match_features
-
-Run the `match_features` step of the OpenSfM pipeline for each cluster.
-
-.. rubric:: opensfm_create_tracks
-
-Run the `extract_metadata` step of the OpenSfM pipeline for each cluster.
-
-.. rubric:: opensfm_reconstruct
-
-Run the `reconstruct` step of the OpenSfM pipeline for each cluster. This reconstructs the 6-DOF camera pose (rotation and translation) for each video frame selected in `prepare_opensfm` step.
-
-.. rubric:: triangulate_pv_modules
-
-Use the reconstructed camera poses and known corner points of each PV module to triangulate PV modules into the OpenSfM reconstruction of the PV plant.
-
-.. rubric:: refine_triangulation
-
-Smoothen the triangulated PV modules. Nearby module corners are moved closer to each other by means of an iterative graph optimization algorithm.
-
-.. rubric:: crop_pv_modules
-
-Crops the image patches of each PV module based on the estimated quadrilaterals. Patches are transformed to a rectangular region with a homography.
-
-
-
-
