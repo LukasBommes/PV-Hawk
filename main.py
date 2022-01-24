@@ -60,7 +60,7 @@ def main(work_dir):
             logger.info("Splitting raw video files into individual frames")
             video_dir = os.path.join(work_dir, group_name, "videos")
             output_dir = os.path.join(work_dir, group_name, "splitted")
-            split_tiffs.run(video_dir, output_dir, **settings["split_tiffs"])
+            split_tiffs.run(video_dir, output_dir, **settings["split_sequences"])
 
         if "interpolate_gps" in tasks:
             logger.info("Interpolating GPS trajectory")
@@ -100,7 +100,7 @@ def main(work_dir):
             for cluster in videogroup["clusters"]:
                 logger.info("Preparing data for OpenSfM reconstruction")
                 frames_root = os.path.join(work_dir, group_name, "splitted")
-                calibration_root = os.path.join(videogroup["cam_params_dir"], "ir")
+                calibration_root = videogroup["cam_params_dir"]
                 output_dir = os.path.join(work_dir, group_name, "mapping")
                 opensfm_settings = settings["opensfm"]
                 prepare_opensfm.run(cluster, frames_root, calibration_root, 
