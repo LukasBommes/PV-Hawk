@@ -262,10 +262,5 @@ Smoothen the triangulated PV modules. Nearby module corners are moved closer to 
 Crops the image patches of each PV module based on the estimated quadrilaterals. Patches are transformed to a rectangular region with a homography.
 
 
-- general structure (example)
-- explain all settings
-- explain tasks
-
-
 
 
