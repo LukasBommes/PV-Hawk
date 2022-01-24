@@ -9,7 +9,7 @@ Note: We are currently working on the initial release of the code and the docume
 
 PV Hawk is a computer vision pipeline for the **automated inspection** of large-scale **photovoltaic (PV) plants** by means of **thermal infrared (IR) videos** acquired by a drone.
 
-After recording an IR video of a PV plant, individual video frames and the corresponding coarse GPS position (latitude, longitude, and optionally altitude) of the drone are fed into PV Hawk. PV Hawk crops each PV module from each video frame and stores the resulting IR image patches. Geocoordinates of the PV module corners are obtained faciliating visualization of analysis results on a map. You can use the `PV Hawk Viewer <https://github.com/LukasBommes/PV-Hawk-Viewer>`_ to browse the resulting map of your PV plant and to perform analyses, such as PV module defect prediction, based on the extracted IR images.
+After recording an IR video of a PV plant, individual video frames and the corresponding coarse GPS position (latitude, longitude, and optionally altitude) of the drone are fed into PV Hawk. PV Hawk crops each PV module from each video frame and stores the resulting IR image patches. Geocoordinates of the PV module corners are obtained and faciltate visualization of analysis results on a map. You can use the `PV Hawk Viewer <https://github.com/LukasBommes/PV-Hawk-Viewer>`_ to browse the resulting map of your PV plant, annotate extracted IR images, and perform analyses, such as defect prediction.
 
 .. raw:: html
 
@@ -27,7 +27,12 @@ The method is described in more detail in `How PV Hawk Works <https://lukasbomme
 
 [3] L. Bommes, M. Hoffmann, C. Buerhop-Lutz, T. Pickel, J. Hauch, C. Brabec, A. Maier, I. Peters, ”Anomaly detection in IR images of PV modules using supervised contrastive learning,” Progress in Photovoltaics: Research and Applications, 2022 (accepted for publication). [`ArXiv <https://arxiv.org/abs/2112.02922>`_]
 
-PV Hawk is a command line tool written in Python. It is free of charge, open-source, and MIT licensed. Source code is available on `GitHub <https://github.com/LukasBommes/PV-Hawk>`_.
+PV Hawk is a command line tool written in Python. It is free of charge, open-source, and MIT licensed.
+
+How to use PV Hawk?
+-------------------
+
+Please follow the `Installation <https://lukasbommes.github.io/PV-Hawk/installation.html>`_ instructions to setup PV Hawk on your machine. Afterwards, follow the `Tutorial <https://lukasbommes.github.io/PV-Hawk/tutorial.html>`_ to get started with an exemplary IR video dataset. After you learned how to use PV Hawk, you can proceed to `Using Your Own Data <https://lukasbommes.github.io/PV-Hawk/using_own_data.html#using-own-data>`_ to learn how to record suitable IR videos of your own PV plant with your own IR camera and drone.
 
 Why is PV Hawk needed?
 ----------------------
@@ -50,11 +55,6 @@ Who are the target audiences?
 - Researchers who want to assemble large-scale IR image datasets of PV modules, for instance, to develop machine learning algorithms for defect detection, or power prediction.
 
 - Companies or individuals who want to inspect their own PV plants or want to offer PV plant inspection as a service. 
-
-How to use PV Hawk?
--------------------
-
-Please follow the `Installation <https://lukasbommes.github.io/PV-Hawk/installation.html>`_ instructions to setup PV Hawk on your machine. Afterwards, follow the `Tutorial <https://lukasbommes.github.io/PV-Hawk/tutorial.html>`_ to get started with an exemplary IR video dataset recorded by us. After you learned how to use PV Hawk, you can proceed to `Using Your Own Data <https://lukasbommes.github.io/PV-Hawk/using_own_data.html#using-own-data>`_ to learn how to record suitable IR videos of your own PV plant with your own IR camera and drone.
 
 What do you need to run PV Hawk?
 --------------------------------

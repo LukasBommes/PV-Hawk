@@ -1,4 +1,4 @@
-"""Estimates a boudning quadrilateral for each segmented PV module.
+"""Estimates a bounding quadrilateral for each segmented PV module.
 
 This module computes a bounding quadrilateral (polygon with 4 points)
 from the segmentation mask of each PV module. The procedure works as

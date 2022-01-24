@@ -26,6 +26,8 @@ While the Zenmuse XT2 provides both a thermal IR and a visual stream, we only us
 
 [figure of our drone and camera]
 
+.. _camera_calibration:
+
 Camera calibration
 ------------------
 

@@ -45,7 +45,7 @@ Create an empty text file named `config.yml` in the working directory and paste 
  	---
 	plant_name: Example Plant
 	groups:
-	- cam_params_dir: calibration/camera_8hz/parameters
+	- cam_params_dir: calibration/camera_8hz/parameters/ir
 	  clusters:
 	  - cluster_idx: 0
 	    frame_idx_start: 0
@@ -58,7 +58,6 @@ Create an empty text file named `config.yml` in the working directory and paste 
 	      align_method: orientation_prior
 	      align_orientation_prior: vertical	
 
-	# list of tasks to perform
 	tasks:
 	  #- split_sequences
 	  - interpolate_gps
@@ -82,7 +81,6 @@ Another important field in the config is the `clusters` field. Each cluster corr
 To aid specification of the clusters we provide a script in `scripts/view_gps.py`. This script plots the GPS trajectory and corresponding video frames as shown below. You can use this to obtain the frame indices for your clusters. Note, that you must run the script inside the Docker container as explained :ref:`below <run-the-docker-image>`.
 
 .. image:: images/view_gps_script.png
-
 
 In case of this tutorial there is only a single cluster starting at the first frame (`frame_idx_start: 0`) and ending at the last frame (`frame_idx_end: 2541`) of the dataset.
 

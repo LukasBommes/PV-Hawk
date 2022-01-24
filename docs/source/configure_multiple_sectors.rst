@@ -24,10 +24,10 @@ Next, create a `config.yml` file with the text below
 .. code-block:: text
     
 	---
-	plant_name: Multiple Rows Experiment
+	plant_name: Multiple sectors
 	groups:
 	- name: double_rows
-	  cam_params_dir: calibration/camera_8hz/parameters
+	  cam_params_dir: calibration/camera_8hz/parameters/ir
 	  clusters:
 	  - cluster_idx: 0
 	    frame_idx_start: 0
@@ -40,7 +40,7 @@ Next, create a `config.yml` file with the text below
 	      align_method: orientation_prior
 	      align_orientation_prior: vertical
 	- name: single_rows
-	  cam_params_dir: calibration/camera_8hz/parameters
+	  cam_params_dir: calibration/camera_8hz/parameters/ir
 	  clusters:
 	  - cluster_idx: 0
 	    frame_idx_start: 0
@@ -53,7 +53,6 @@ Next, create a `config.yml` file with the text below
 	      align_method: orientation_prior
 	      align_orientation_prior: vertical	
 
-	# list of tasks to perform
 	tasks:
 	  #- split_sequences
 	  - interpolate_gps

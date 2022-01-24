@@ -19,8 +19,6 @@ synonymously.
 
 Projection of mask center points works in detail as follows:
 1) Extract FAST keypoints and ORB descriptors for two frames t-1 and t
-   (optionally apply SSC method to keep only a subset of evenly distributed FAST
-   feature points)
 2) Match keypoints with opencv brute force matcher
 3) Estimate a motion model (homography, affine, etc.) based on the two sets of
    points in frame t-1 and t
