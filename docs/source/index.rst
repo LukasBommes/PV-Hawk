@@ -1,4 +1,4 @@
-.. PV Drone Inspect documentation master file, created by
+.. PV Hawk documentation master file, created by
    sphinx-quickstart on Tue Dec 28 14:33:23 2021.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
@@ -31,10 +31,3 @@
    limitations
    contributing
    about
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`

@@ -15,6 +15,10 @@ class TestSegmentation(unittest.TestCase):
         self.data_dir = os.path.join("tests", "integration", "data")
         self.work_dir = TemporaryDirectory(prefix=temp_dir_prefix)
         self.settings = {
+            "gpu_count": 1,
+            "images_per_gpu": 8,
+            "detection_min_confidence": 0.9,
+            "weights_file": "/pvextractor/extractor/segmentation/Mask_RCNN/mask_rcnn_pv_modules_0120.h5",
             "output_video_fps": 8.0
         }
         self.frames_root = os.path.join(self.data_dir, "splitted")

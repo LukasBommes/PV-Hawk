@@ -17,7 +17,7 @@ sys.path.insert(0, os.path.abspath('../..'))
 
 # -- Project information -----------------------------------------------------
 
-project = 'PV Drone Inspect'
+project = 'PV Hawk'
 copyright = '2021, Lukas Bommes'
 author = 'Lukas Bommes'
 
@@ -39,7 +39,7 @@ templates_path = ['_templates']
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-html_extra_path = ["images/high_level_overview.png"]
+html_extra_path = ["images"]
 exclude_patterns = []
 
 
@@ -52,7 +52,7 @@ html_theme = 'sphinx_rtd_theme'
 html_context = {
   'display_github': True,
   'github_user': 'LukasBommes',
-  'github_repo': 'PV-Drone-Inspect',
+  'github_repo': 'PV-Hawk',
   'github_version': 'master/docs/source/'
 }
 html_theme_options = {

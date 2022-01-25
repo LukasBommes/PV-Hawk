@@ -3,39 +3,39 @@
 Installation
 ============
 
-Follow the steps below to setup PV Drone Inspect on your machine.
+Follow the steps below to setup PV Hawk on your machine.
 
 Step 1: Fullfill prerequisites
 ------------------------------
 
-PV Drone Inspect requires a machine running a 64-bit version of Ubuntu 21.10, 21.04, 20.04 LTS or 18.04 LTS with `Docker CE <https://docs.docker.com/engine/install/ubuntu/>`_ installed.
+PV Hawk requires a machine running a 64-bit version of Ubuntu 21.10, 21.04, 20.04 LTS or 18.04 LTS with `Docker CE <https://docs.docker.com/engine/install/ubuntu/>`_ installed.
 
 To make use of GPU acceleration (highly recommended) you need a Nvidia CUDA-compatible GPU with the latest Nvidia drivers and you must install the `Nvidia container toolkit <https://github.com/NVIDIA/nvidia-docker>`_.
 
 Step 2: Download source code
 ----------------------------
 
-Open a new terminal and navigate to the location where you want to install PV Drone Inspect, e.g. `/software`. Run the command below to clone the Git repository to your machine
+Open a new terminal and navigate to the location where you want to install PV Hawk, e.g. `/software`. Run the command below to clone the Git repository to your machine
 
 .. code-block:: console
 
-  git clone -b "v1.0.0" https://github.com/LukasBommes/PV-Drone-Inspect
+  git clone -b "v1.0.0" https://github.com/LukasBommes/PV-Hawk
 
 
 Step 3: Download Mask R-CNN weights
 -----------------------------------
 
-Pv Drone Inspect uses a pretrained `Mask R-CNN <https://github.com/matterport/Mask_RCNN>`_ for PV module detection. Download the pretrained Mask R-CNN model weights file from `here <https://drive.google.com/file/d/1DzZNU9NBmHg_SFoazbHnz3q-y0jN1BIS/view?usp=sharing>`_, and place it under `extractor/segmentation/Mask_RCNN`.
+PV Hawk uses a pretrained `Mask R-CNN <https://github.com/matterport/Mask_RCNN>`_ for PV module detection. Download the pretrained Mask R-CNN model weights file from `here <https://drive.google.com/file/d/1DzZNU9NBmHg_SFoazbHnz3q-y0jN1BIS/view?usp=sharing>`_, and place it under `extractor/segmentation/Mask_RCNN`.
 
 
 Step 4: Pull Docker image
 -------------------------
 
-We provide a prebuilt Docker image containing all runtime dependencies of PV Drone Inspect, such as Python, CUDA and Tensorflow. All you have to do is pull the Docker image with
+We provide a prebuilt Docker image containing all runtime dependencies of PV Hawk, such as Python, CUDA and Tensorflow. All you have to do is pull the Docker image with
 
 .. code-block:: console
 
-	sudo docker pull lubo1994/pv-drone-inspect:latest
+	sudo docker pull lubo1994/pv-hawk:latest
 	
 If you run into problems with the prebuilt image, you can instead :doc:`built_docker_image` locally.
 
@@ -43,7 +43,7 @@ If you run into problems with the prebuilt image, you can instead :doc:`built_do
 Step 5: Test the installation
 -----------------------------
 
-PV Drone Inspect comes with some test cases, which you can run to test whether the installation was successful. To this end, start a terminal in the source code root directory and run the following two commands
+PV Hawk comes with some test cases, which you can run to test whether the installation was successful. To this end, start a terminal in the source code root directory and run the following two commands
 
 .. code-block:: console
 
@@ -57,7 +57,7 @@ PV Drone Inspect comes with some test cases, which you can run to test whether t
     --gpus=all \
     -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
     -v "$(pwd)":/pvextractor \
-    lubo1994/pv-drone-inspect:latest \
+    lubo1994/pv-hawk:latest \
     bash
     
 This should start an interactive shell in the Docker container. Run the tests in that shell with
