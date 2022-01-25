@@ -1,8 +1,6 @@
 PV Hawk
 =======
 
-Note: We are currently working on the initial release of the code and the documentation. Please consider the current state as preliminary.
-
 **Documentation**: https://lukasbommes.github.io/PV-Hawk/
 
 **Code**: https://lukasbommes.github.io/PV-Hawk/
