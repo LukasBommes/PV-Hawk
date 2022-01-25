@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Installation &mdash; PV Drone Inspect  documentation</title>
+  <title>Installation &mdash; PV Hawk  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -20,7 +20,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Tutorial" href="tutorial.html" />
-    <link rel="prev" title="PV Drone Inspect" href="index.html" /> 
+    <link rel="prev" title="PV Hawk" href="index.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -28,7 +28,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> PV Drone Inspect
+            <a href="index.html" class="icon icon-home"> PV Hawk
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -61,7 +61,7 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">About</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="method.html">How PV Drone Inspect Works</a></li>
+<li class="toctree-l1"><a class="reference internal" href="method.html">How PV Hawk Works</a></li>
 <li class="toctree-l1"><a class="reference internal" href="limitations.html">Current Limitations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
@@ -73,7 +73,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">PV Drone Inspect</a>
+          <a href="index.html">PV Hawk</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -83,7 +83,7 @@
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
       <li>Installation</li>
       <li class="wy-breadcrumbs-aside">
-              <a href="https://github.com/LukasBommes/PV-Drone-Inspect/blob/master/docs/source/installation.rst" class="fa fa-github"> Edit on GitHub</a>
+              <a href="https://github.com/LukasBommes/PV-Hawk/blob/master/docs/source/installation.rst" class="fa fa-github"> Edit on GitHub</a>
       </li>
   </ul>
   <hr/>
@@ -93,34 +93,34 @@
              
   <section id="installation">
 <span id="id1"></span><h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline"></a></h1>
-<p>Follow the steps below to setup PV Drone Inspect on your machine.</p>
+<p>Follow the steps below to setup PV Hawk on your machine.</p>
 <section id="step-1-fullfill-prerequisites">
 <h2>Step 1: Fullfill prerequisites<a class="headerlink" href="#step-1-fullfill-prerequisites" title="Permalink to this headline"></a></h2>
-<p>PV Drone Inspect requires a machine running a 64-bit version of Ubuntu 21.10, 21.04, 20.04 LTS or 18.04 LTS with <a class="reference external" href="https://docs.docker.com/engine/install/ubuntu/">Docker CE</a> installed.</p>
+<p>PV Hawk requires a machine running a 64-bit version of Ubuntu 21.10, 21.04, 20.04 LTS or 18.04 LTS with <a class="reference external" href="https://docs.docker.com/engine/install/ubuntu/">Docker CE</a> installed.</p>
 <p>To make use of GPU acceleration (highly recommended) you need a Nvidia CUDA-compatible GPU with the latest Nvidia drivers and you must install the <a class="reference external" href="https://github.com/NVIDIA/nvidia-docker">Nvidia container toolkit</a>.</p>
 </section>
 <section id="step-2-download-source-code">
 <h2>Step 2: Download source code<a class="headerlink" href="#step-2-download-source-code" title="Permalink to this headline"></a></h2>
-<p>Open a new terminal and navigate to the location where you want to install PV Drone Inspect, e.g. <cite>/software</cite>. Run the command below to clone the Git repository to your machine</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">git clone -b &quot;v1.0.0&quot; https://github.com/LukasBommes/PV-Drone-Inspect</span>
+<p>Open a new terminal and navigate to the location where you want to install PV Hawk, e.g. <cite>/software</cite>. Run the command below to clone the Git repository to your machine</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">git clone -b &quot;v1.0.0&quot; https://github.com/LukasBommes/PV-Hawk</span>
 </pre></div>
 </div>
 </section>
 <section id="step-3-download-mask-r-cnn-weights">
 <h2>Step 3: Download Mask R-CNN weights<a class="headerlink" href="#step-3-download-mask-r-cnn-weights" title="Permalink to this headline"></a></h2>
-<p>Pv Drone Inspect uses a pretrained <a class="reference external" href="https://github.com/matterport/Mask_RCNN">Mask R-CNN</a> for PV module detection. Download the pretrained Mask R-CNN model weights file from <a class="reference external" href="https://drive.google.com/file/d/1DzZNU9NBmHg_SFoazbHnz3q-y0jN1BIS/view?usp=sharing">here</a>, and place it under <cite>extractor/segmentation/Mask_RCNN</cite>.</p>
+<p>PV Hawk uses a pretrained <a class="reference external" href="https://github.com/matterport/Mask_RCNN">Mask R-CNN</a> for PV module detection. Download the pretrained Mask R-CNN model weights file from <a class="reference external" href="https://drive.google.com/file/d/1DzZNU9NBmHg_SFoazbHnz3q-y0jN1BIS/view?usp=sharing">here</a>, and place it under <cite>extractor/segmentation/Mask_RCNN</cite>.</p>
 </section>
 <section id="step-4-pull-docker-image">
 <h2>Step 4: Pull Docker image<a class="headerlink" href="#step-4-pull-docker-image" title="Permalink to this headline"></a></h2>
-<p>We provide a prebuilt Docker image containing all runtime dependencies of PV Drone Inspect, such as Python, CUDA and Tensorflow. All you have to do is pull the Docker image with</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo docker pull lubo1994/pv-drone-inspect:latest</span>
+<p>We provide a prebuilt Docker image containing all runtime dependencies of PV Hawk, such as Python, CUDA and Tensorflow. All you have to do is pull the Docker image with</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo docker pull lubo1994/pv-hawk:latest</span>
 </pre></div>
 </div>
 <p>If you run into problems with the prebuilt image, you can instead <a class="reference internal" href="built_docker_image.html"><span class="doc">Build the Docker Image</span></a> locally.</p>
 </section>
 <section id="step-5-test-the-installation">
 <h2>Step 5: Test the installation<a class="headerlink" href="#step-5-test-the-installation" title="Permalink to this headline"></a></h2>
-<p>PV Drone Inspect comes with some test cases, which you can run to test whether the installation was successful. To this end, start a terminal in the source code root directory and run the following two commands</p>
+<p>PV Hawk comes with some test cases, which you can run to test whether the installation was successful. To this end, start a terminal in the source code root directory and run the following two commands</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">xhost +</span>
 </pre></div>
 </div>
@@ -130,7 +130,7 @@
 <span class="go">  --gpus=all \</span>
 <span class="go">  -v /tmp/.X11-unix:/tmp/.X11-unix:rw \</span>
 <span class="go">  -v &quot;$(pwd)&quot;:/pvextractor \</span>
-<span class="go">  lubo1994/pv-drone-inspect:latest \</span>
+<span class="go">  lubo1994/pv-hawk:latest \</span>
 <span class="go">  bash</span>
 </pre></div>
 </div>
@@ -146,7 +146,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="index.html" class="btn btn-neutral float-left" title="PV Drone Inspect" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral float-left" title="PV Hawk" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="tutorial.html" class="btn btn-neutral float-right" title="Tutorial" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

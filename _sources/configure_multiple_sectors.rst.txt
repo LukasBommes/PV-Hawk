@@ -9,7 +9,7 @@ To process both datasets in a single pipeline run, first create a new working di
 
 .. code-block:: text
 
-  /storage/pv-drone-inspect-tutorial/workdir
+  /storage/pv-hawk-tutorial/workdir
     |-- double_rows
     |    |-- splitted
     |    |    |-- ...
@@ -24,10 +24,10 @@ Next, create a `config.yml` file with the text below
 .. code-block:: text
     
 	---
-	plant_name: Multiple Rows Experiment
+	plant_name: Multiple sectors
 	groups:
 	- name: double_rows
-	  cam_params_dir: calibration/camera_8hz/parameters
+	  cam_params_dir: calibration/camera_8hz/parameters/ir
 	  clusters:
 	  - cluster_idx: 0
 	    frame_idx_start: 0
@@ -40,7 +40,7 @@ Next, create a `config.yml` file with the text below
 	      align_method: orientation_prior
 	      align_orientation_prior: vertical
 	- name: single_rows
-	  cam_params_dir: calibration/camera_8hz/parameters
+	  cam_params_dir: calibration/camera_8hz/parameters/ir
 	  clusters:
 	  - cluster_idx: 0
 	    frame_idx_start: 0
@@ -53,7 +53,6 @@ Next, create a `config.yml` file with the text below
 	      align_method: orientation_prior
 	      align_orientation_prior: vertical	
 
-	# list of tasks to perform
 	tasks:
 	  #- split_sequences
 	  - interpolate_gps
@@ -80,4 +79,4 @@ Difference between sectors and clusters
 
 You could also use clusters to split a larger dataset into smaller ones. The difference to sector-based splitting is that all clusters share the same algorithm settings, whereas each sector can have its own unique settings. 
 
-Furthermore, a dataset with multiple clusters will be processed in a single working directory, whereas each sector has its own subdirectory. Each subdirectory is treated like an independent working directory when viewing the data with the PV Drone Inspect Viewer.
+Furthermore, a dataset with multiple clusters will be processed in a single working directory, whereas each sector has its own subdirectory. Each subdirectory is treated like an independent working directory when viewing the data with the PV Hawk Viewer.

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Configuring Multiple Sectors &mdash; PV Drone Inspect  documentation</title>
+  <title>Configuring Multiple Sectors &mdash; PV Hawk  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -28,7 +28,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> PV Drone Inspect
+            <a href="index.html" class="icon icon-home"> PV Hawk
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -57,7 +57,7 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">About</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="method.html">How PV Drone Inspect Works</a></li>
+<li class="toctree-l1"><a class="reference internal" href="method.html">How PV Hawk Works</a></li>
 <li class="toctree-l1"><a class="reference internal" href="limitations.html">Current Limitations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
@@ -69,7 +69,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">PV Drone Inspect</a>
+          <a href="index.html">PV Hawk</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -79,7 +79,7 @@
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
       <li>Configuring Multiple Sectors</li>
       <li class="wy-breadcrumbs-aside">
-              <a href="https://github.com/LukasBommes/PV-Drone-Inspect/blob/master/docs/source/configure_multiple_sectors.rst" class="fa fa-github"> Edit on GitHub</a>
+              <a href="https://github.com/LukasBommes/PV-Hawk/blob/master/docs/source/configure_multiple_sectors.rst" class="fa fa-github"> Edit on GitHub</a>
       </li>
   </ul>
   <hr/>
@@ -92,7 +92,7 @@
 <p>For large PV plants it is helpful to split the plant into smaller sectors and process sectors individually. To do so the structure of the working directory and the config file have to be altered slightly.</p>
 <p>Lets consider an extended version of the dataset used in the <a class="reference internal" href="tutorial.html"><span class="doc">Tutorial</span></a>. Download the second part of the dataset <a class="reference external" href="https://drive.google.com/file/d/1w6PE1ygdfqpchaNE0xAc9mThPA_6q4Im/view?usp=sharing">from here</a>. This second part is just another scan of the same section of the PV plant (with rows scanned individually rather than in pairs). However, in practice, each dataset part will correspond to different sectors of your PV plant. But for the explanation below this difference does not matter.</p>
 <p>To process both datasets in a single pipeline run, first create a new working directory with the following structure</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>/storage/pv-drone-inspect-tutorial/workdir
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>/storage/pv-hawk-tutorial/workdir
   |-- double_rows
   |    |-- splitted
   |    |    |-- ...
@@ -104,10 +104,10 @@
 <p>As opposed to the single-sector dataset in the tutorial, the directory levels <cite>double_rows</cite> and <cite>single_rows</cite> are introduced. The <cite>double_rows</cite> directory contains the dataset from the tutorial and the <cite>single_rows</cite> directory the newly downloaded dataset.</p>
 <p>Next, create a <cite>config.yml</cite> file with the text below</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>---
-plant_name: Multiple Rows Experiment
+plant_name: Multiple sectors
 groups:
 - name: double_rows
-  cam_params_dir: calibration/camera_8hz/parameters
+  cam_params_dir: calibration/camera_8hz/parameters/ir
   clusters:
   - cluster_idx: 0
     frame_idx_start: 0
@@ -120,7 +120,7 @@ groups:
       align_method: orientation_prior
       align_orientation_prior: vertical
 - name: single_rows
-  cam_params_dir: calibration/camera_8hz/parameters
+  cam_params_dir: calibration/camera_8hz/parameters/ir
   clusters:
   - cluster_idx: 0
     frame_idx_start: 0
@@ -133,7 +133,6 @@ groups:
       align_method: orientation_prior
       align_orientation_prior: vertical
 
-# list of tasks to perform
 tasks:
   #- split_sequences
   - interpolate_gps
@@ -156,7 +155,7 @@ tasks:
 <section id="difference-between-sectors-and-clusters">
 <h2>Difference between sectors and clusters<a class="headerlink" href="#difference-between-sectors-and-clusters" title="Permalink to this headline"></a></h2>
 <p>You could also use clusters to split a larger dataset into smaller ones. The difference to sector-based splitting is that all clusters share the same algorithm settings, whereas each sector can have its own unique settings.</p>
-<p>Furthermore, a dataset with multiple clusters will be processed in a single working directory, whereas each sector has its own subdirectory. Each subdirectory is treated like an independent working directory when viewing the data with the PV Drone Inspect Viewer.</p>
+<p>Furthermore, a dataset with multiple clusters will be processed in a single working directory, whereas each sector has its own subdirectory. Each subdirectory is treated like an independent working directory when viewing the data with the PV Hawk Viewer.</p>
 </section>
 </section>
 

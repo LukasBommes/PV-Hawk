@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Config File Reference &mdash; PV Drone Inspect  documentation</title>
+  <title>Config File Reference &mdash; PV Hawk  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -28,7 +28,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> PV Drone Inspect
+            <a href="index.html" class="icon icon-home"> PV Hawk
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -48,13 +48,18 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="configure_multiple_sectors.html">Configuring Multiple Sectors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="finetune_segmentation.html">Finetuning the Mask R-CNN Model</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Config File Reference</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Config File Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#general">General</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tasks">Tasks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#settings">Settings</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="output_directory.html">Output Directory Structure</a></li>
 <li class="toctree-l1"><a class="reference internal" href="built_docker_image.html">Build the Docker Image</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">About</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="method.html">How PV Drone Inspect Works</a></li>
+<li class="toctree-l1"><a class="reference internal" href="method.html">How PV Hawk Works</a></li>
 <li class="toctree-l1"><a class="reference internal" href="limitations.html">Current Limitations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
@@ -66,7 +71,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">PV Drone Inspect</a>
+          <a href="index.html">PV Hawk</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -76,7 +81,7 @@
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
       <li>Config File Reference</li>
       <li class="wy-breadcrumbs-aside">
-              <a href="https://github.com/LukasBommes/PV-Drone-Inspect/blob/master/docs/source/config_file_reference.rst" class="fa fa-github"> Edit on GitHub</a>
+              <a href="https://github.com/LukasBommes/PV-Hawk/blob/master/docs/source/config_file_reference.rst" class="fa fa-github"> Edit on GitHub</a>
       </li>
   </ul>
   <hr/>
@@ -86,11 +91,210 @@
              
   <section id="config-file-reference">
 <h1>Config File Reference<a class="headerlink" href="#config-file-reference" title="Permalink to this headline"></a></h1>
+<p>The config file is a YAML file named <cite>config.yml</cite> located in the working directory of your dataset, which is the main interface to the PV Hawk pipeline. In the config file you determine the splitting of your dataset into clusters, you provide algorithm settings and determine which steps of the pipeline are run.</p>
+<p>Using the following example config file we will now explain the available options in detail.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>---
+plant_name: Example config
+groups:
+- name: double_rows
+  cam_params_dir: calibration/camera_8hz/parameters/ir
+  clusters:
+  - cluster_idx: 0
+    frame_idx_start: 0
+    frame_idx_end: 2640
+  - cluster_idx: 1
+    frame_idx_start: 2790
+    frame_idx_end: 4680
+  settings:
+    prepare_opensfm:
+      select_frames_mode: gps_visual
+    opensfm:
+      matching_gps_distance: 15
+      align_method: orientation_prior
+      align_orientation_prior: vertical
+- name: single_rows
+  cam_params_dir: calibration/camera_8hz/parameters/ir
+  clusters:
+  - cluster_idx: 0
+    frame_idx_start: 0
+    frame_idx_end: 5295
+  settings:
+    prepare_opensfm:
+      select_frames_mode: gps_visual
+    opensfm:
+      matching_gps_distance: 15
+      align_method: orientation_prior
+      align_orientation_prior: vertical
+
+tasks:
+  #- split_sequences
+  - interpolate_gps
+  - segment_pv_modules
+  - track_pv_modules
+  - compute_pv_module_quadrilaterals
+  - prepare_opensfm
+  - opensfm_extract_metadata
+  - opensfm_detect_features
+  - opensfm_match_features
+  - opensfm_create_tracks
+  - opensfm_reconstruct
+  - triangulate_pv_modules
+</pre></div>
+</div>
+<section id="general">
+<h2>General<a class="headerlink" href="#general" title="Permalink to this headline"></a></h2>
+<p class="rubric">plant_name (string)</p>
+<p>A note for yourself about the origin of the dataset. The field is not used internally.</p>
+<p class="rubric">groups (list of group objects)</p>
+<p>A list of dataset groups corresponding to sectors in your PV plant. See <a class="reference internal" href="configure_multiple_sectors.html"><span class="doc">Configuring Multiple Sectors</span></a> for details on using multiple groups. Each group is processed indepently of each group can have its own algorithm settings.</p>
+<p class="rubric">group::name (string)</p>
+<p>Name of each group. Must be euqivalent to the name of the group’s subdirectory in the working directory. E.g. if you have groups with names “sector_1” and “sector_2” the working dir must look as follows</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>/workdir
+  |-- sector_1
+  |    |-- splitted
+  |    |    |-- ...
+  |-- sector_2
+  |    |-- splitted
+  |    |    |-- ...
+  |-- ...
+</pre></div>
+</div>
+<p>If your dataset consists of a single group you can omit the name field and the subdirectory level in the working directory. I.e. the working directory would look like</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>/workdir
+  |-- splitted
+</pre></div>
+</div>
+<p class="rubric">group::cam_params_dir (string)</p>
+<p>Path to the directory containing calibrated camera parameters (<cite>camera_matrix.pkl</cite>, <cite>dist_coeffs.pkl</cite>, …). This should match the output location of the camera calibration script (see <a class="reference internal" href="using_own_data.html#camera-calibration"><span class="std std-ref">Camera calibration</span></a>).</p>
+<p class="rubric">group::clusters (list of cluster objects)</p>
+<p>A cluster corresponds to a subset of the video frames in the group that is to be processed indepently of other clusters. Use clusters to exclude parts of the video, e.g., when you change batteries or start/land the drone. It is recommended to split long sequences to clusters of at most 5000 video frames to enhance processing speed and robustness of the pipeline.</p>
+<p class="rubric">group::cluster::cluster_idx (integer)</p>
+<p>Identifier of the cluster. The first cluster must have index 0, the second 1, and so on.</p>
+<p class="rubric">group::cluster::frame_idx_start (integer)</p>
+<p>Index of the first frame in the cluster.</p>
+<p class="rubric">group::cluster::frame_idx_end (integer)</p>
+<p>Index of the frame at which the cluster ends. This frame is not included in the cluster anymore.</p>
+<p class="rubric">group::settings (settings object)</p>
+<p>Algorithm settings for each pipeline task that apply group-wide. If you do not provide a setting then the default specified in <cite>defaults.yml</cite> in the root directory is applied. If you want to overwrite a default value, provide the settings name (equiavlent to the task name), parameter name and value in the settings object. In the examplary config file above the <cite>prepare_opensfm</cite> task is configured to subsample video frames based on both GPS distance and visual distance. Similarly, some defaults for the <cite>opensfm</cite> task are overwritten. See below for a complete overview of the available settings.</p>
+</section>
+<section id="tasks">
+<h2>Tasks<a class="headerlink" href="#tasks" title="Permalink to this headline"></a></h2>
+<p>List of tasks to perform when running the PV Hawk pipeline. (Un)comment to control which steps to run.</p>
+<p class="rubric">split_sequences</p>
+<p>Split multipage TIFF IR videos into individual IR frames. Specific to Flir Zenmuse XT2 camera.</p>
+<p class="rubric">interpolate_gps</p>
+<p>Perform linear interpolation of the GPS trajectory to match the GPS measurement rate with a potentially higher video frame rate.</p>
+<p class="rubric">segment_pv_modules</p>
+<p>Run Mask R-CNN inference to segment PV modules in each video frame.</p>
+<p class="rubric">track_pv_modules</p>
+<p>Track PV modules (segmentation masks) over subsequent video frames, assigning a unique tracking ID to each module.</p>
+<p class="rubric">compute_pv_module_quadrilaterals</p>
+<p>Estimate a bounding quadrilateral (polygon with 4 points) for each segmentation mask. Needed for later cropping of a rectangular image patches of the PV modules.</p>
+<p class="rubric">prepare_opensfm</p>
+<p>Create the OpenSfM input datasets for the reconstruction of the camera trajectory. For each cluster a separate OpenSfM dataset is created on which OpenSfM is run in the subsequent step. Preparation inclused selection of a subset of video frames, which are used for reconstructionby OpenSfM.</p>
+<p class="rubric">opensfm_extract_metadata</p>
+<p>Run the <cite>extract_metadata</cite> step of the OpenSfM pipeline for each cluster.</p>
+<p class="rubric">opensfm_detect_features</p>
+<p>Run the <cite>detect_features</cite> step of the OpenSfM pipeline for each cluster.</p>
+<p class="rubric">opensfm_match_features</p>
+<p>Run the <cite>match_features</cite> step of the OpenSfM pipeline for each cluster.</p>
+<p class="rubric">opensfm_create_tracks</p>
+<p>Run the <cite>extract_metadata</cite> step of the OpenSfM pipeline for each cluster.</p>
+<p class="rubric">opensfm_reconstruct</p>
+<p>Run the <cite>reconstruct</cite> step of the OpenSfM pipeline for each cluster. This reconstructs the 6-DOF camera pose (rotation and translation) for each video frame selected in <cite>prepare_opensfm</cite> step.</p>
+<p class="rubric">triangulate_pv_modules</p>
+<p>Use the reconstructed camera poses and known corner points of each PV module to triangulate PV modules into the OpenSfM reconstruction of the PV plant.</p>
+<p class="rubric">refine_triangulation</p>
+<p>Smoothen the triangulated PV modules. Nearby module corners are moved closer to each other by means of an iterative graph optimization algorithm.</p>
+<p class="rubric">crop_pv_modules</p>
+<p>Crops the image patches of each PV module based on the estimated quadrilaterals. Patches are transformed to a rectangular region with a homography.</p>
+</section>
+<section id="settings">
+<h2>Settings<a class="headerlink" href="#settings" title="Permalink to this headline"></a></h2>
+<p>Note: Boolean values can be represented in the <cite>config.yml</cite> as True / False or as yes / no.</p>
+<p class="rubric">split_sequences</p>
 <ul class="simple">
-<li><p>general structure (example)</p></li>
-<li><p>explain all settings</p></li>
-<li><p>explain tasks</p></li>
+<li><p><strong>ir_file_extension</strong> (string): File extensions of input IR videos, e.g. <cite>TIFF</cite>. Case sensitive on Linux.</p></li>
+<li><p><strong>rgb_file_extension</strong> (string): File extensions of visual input videos, e.g. <cite>MOV</cite>. Case sensitive on Linux.</p></li>
+<li><p><strong>extract_timestamps</strong> (boolean): If True extract frame timestamps from input TIFF stack.</p></li>
+<li><p><strong>extract_gps</strong> (boolean): If True extract GPS trajectory of the drone from input TIFF stack.</p></li>
+<li><p><strong>extract_gps_altitude</strong> (boolean): If True extract the GPS altitude.</p></li>
+<li><p><strong>sync_rgb</strong> (boolean): If True attempt a simplistic synchronization of visual and IR video stream. If False ignore visual stream.</p></li>
+<li><p><strong>rotate_frames</strong> (string or null): Set to “90_deg_cw”, “180_deg_cw”, or “270_deg_cw” to rotate splitted video frames. If set to <cite>null</cite> frames are not rotated.</p></li>
 </ul>
+<p class="rubric">interpolate_gps</p>
+<p>No settings.</p>
+<p class="rubric">segment_pv_modules</p>
+<ul class="simple">
+<li><p><strong>gpu_count</strong> (integer): Number of GPUs to use.</p></li>
+<li><p><strong>images_per_gpu</strong> (integer): Number of frames (per GPU) to feed into Mask R-CNN simultaneously.</p></li>
+<li><p><strong>detection_min_confidence</strong> (float):  PV module instances with prediction confidence (0.0..1.0) below this value are ignored.</p></li>
+<li><p><strong>weights_file</strong> (string): Absolute path to the trained Mask R-CNN weights file.</p></li>
+<li><p><strong>output_video_fps</strong> (float): Frame rate of the generated preview video in 1/s.</p></li>
+</ul>
+<p>The segmentation task has some further settings in <cite>extractor/segmentation/configs.py</cite>, for example the inference batch size.</p>
+<p class="rubric">track_pv_modules</p>
+<ul class="simple">
+<li><p><strong>motion_model</strong> (string): How to model the motion between two subsequent frames. Either “homography”, “affine”, or “affine_partial”.</p></li>
+<li><p><strong>orb_nfeatures</strong> (integer): Number of ORB features to extract in each frame. Needed for motion estimation.</p></li>
+<li><p><strong>orb_fast_thres</strong> (integer): FAST threshold for ORB feature extraction.</p></li>
+<li><p><strong>orb_scale_factor</strong> (float): Scale factor for ORB feature extraction.</p></li>
+<li><p><strong>orb_nlevels</strong> (integer): Number of pyramid levels for ORB feature extraction.</p></li>
+<li><p><strong>match_distance_thres</strong> (float): Maximum feature distance of two feature descriptors to be matched. Needed for motion estimation.</p></li>
+<li><p><strong>max_distance</strong> (integer): Maximum Euclidean distance (in pixels) a module center point can travel in two subsequent frames to still be considered the same module.</p></li>
+<li><p><strong>output_video_fps</strong> (float): Frame rate of the generated preview video in 1/s.</p></li>
+<li><p><strong>deterministic_track_ids</strong> (boolean): If True make module UUIDs deterministic, i.e. produce same module UUIDs for multiple runs on same data. Otherwise, random UUID are used.</p></li>
+</ul>
+<p class="rubric">compute_pv_module_quadrilaterals</p>
+<ul class="simple">
+<li><p><strong>min_iou</strong> (float): Minimum IoU between segmentation mask and estimated quarilateral needed to consider quadrilateral as valid.</p></li>
+</ul>
+<p class="rubric">prepare_opensfm</p>
+<ul class="simple">
+<li><p><strong>select_frames_mode</strong> (string): Select frames for 3D reconstruction based on travelled GPS distance alone (“gps”) or GPS and visual distance (“gps_visual”).</p></li>
+<li><p><strong>frame_selection_gps_distance</strong> (float): Select a frame as keyframe if drone travelled this many meters along the GPS track</p></li>
+<li><p><strong>frame_selection_visual_distance</strong> (float): Select a frame as keyframe if the visual distance (1 - intersection over union) of the frame to the previous one is larger than this value. The value must be a fraction in range 0 to 1.</p></li>
+<li><p><strong>orb_nfeatures</strong> (integer): Number of ORB features to extract in each frame. Needed to compute visual distance.</p></li>
+<li><p><strong>orb_fast_thres</strong> (integer): FAST threshold for ORB feature extraction.</p></li>
+<li><p><strong>orb_scale_factor</strong> (float): Scale factor for ORB feature extraction.</p></li>
+<li><p><strong>orb_nlevels</strong> (integer): Number of pyramid levels for ORB feature extraction.</p></li>
+<li><p><strong>match_distance_thres</strong> (float): Maximum feature distance of two feature descriptors to be matched. Needed to compute visual distance.</p></li>
+<li><p><strong>gps_dop</strong> (float): If no measurement of the GPS dilution of precision (DOP) is available, this constant DOP is used instead.</p></li>
+<li><p><strong>output_video_fps</strong> (float): Frame rate of the generated preview video in 1/s.</p></li>
+</ul>
+<p class="rubric">opensfm</p>
+<ul class="simple">
+<li><p><strong>matching_gps_distance</strong> (integer): Maximum GPS distance between two images for matching.</p></li>
+<li><p><strong>use_altitude_tag</strong> (boolean): If True use GPS altitude measurement during reconstruction. Set to False if you do not have a reliable GPS altitude measurement.</p></li>
+<li><p><strong>align_method</strong> (string): Method for global alignment of the reconstruction. Either “orientation_prior” or “naive”. Set to “orientation_prior” to assume a constant camera orientation.</p></li>
+<li><p><strong>align_orientation_prior</strong> (string): If orientation prior is used, which orientation prior to use. Either “horizontal”, “vertical” or “no_roll”.</p></li>
+<li><p><strong>processes</strong> (integer): Number of parallel threads to use.</p></li>
+</ul>
+<p>For further OpenSfM settings see <cite>extractor/mapping/OpenSfM/opensfm/config.py</cite>. You can change any of these settings in your config file. But do not edit the OpenSfM config directly.</p>
+<p class="rubric">triangulate_pv_modules</p>
+<ul class="simple">
+<li><p><strong>min_track_len</strong> (integer): Triangulate only modules observed in at least this many keyframes.</p></li>
+<li><p><strong>merge_overlapping_modules</strong> (boolean): Set to True to merge duplicate detections of the same PV module.</p></li>
+<li><p><strong>merge_threshold</strong> (float): Merge multiple modules if the mean L2 norm of their corresponding corner points (projected into the image) is below this threshold value (in pixels).</p></li>
+<li><p><strong>max_module_depth</strong> (float): Consider only modules for merging which are at most this many meters away from reconstructed camera center. Set to -1 to disable this filter.</p></li>
+<li><p><strong>max_num_modules</strong> (integer): If number of PV modules per frame exceeds this value skip merging of overlapping modules in this frame.</p></li>
+<li><p><strong>max_combinations</strong> (integer): Maximum number of pairs to consider when triangulating 3D points of PV module corners from all observing keyframes. Set to -1 to consider all pairs.</p></li>
+<li><p><strong>reproj_thres</strong> (float): Maximum reprojection error (in pixels) for a triangulated point to be valid.</p></li>
+<li><p><strong>min_ray_angle_degrees</strong> (float): Minimum ray angle (in degrees) for a triangulated point to be valid.</p></li>
+</ul>
+<p class="rubric">refine_triangulation</p>
+<ul class="simple">
+<li><p><strong>merge_threshold_image</strong> (float): Pull module corners together which are closer in projected image space than this threshold (in pixels).</p></li>
+<li><p><strong>merge_threshold_world</strong> (float): Pull module corners together which are closer in 3D world space than this threshold (in meters).</p></li>
+<li><p><strong>max_module_depth</strong> (float): Project only modules which are at most this many meters away from reconstructed camera center. Set to -1 to disable this filter.</p></li>
+<li><p><strong>max_num_modules</strong> (integer): If number of PV modules per frame exceeds this value skip do not consider this frame for refinement.</p></li>
+<li><p><strong>optimizer_steps</strong> (integer): Number of graph optimization steps to perform.</p></li>
+</ul>
+<p class="rubric">crop_pv_modules</p>
+<ul class="simple">
+<li><p><strong>rotate_mode</strong> (string or null): Rotate cropped module images into “portrait” or “landscape” orientation. Set to <cite>null</cite> to ignore patches with potentially wrong orientation.</p></li>
+</ul>
+</section>
 </section>
 
 

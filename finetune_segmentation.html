@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Finetuning the Mask R-CNN Model &mdash; PV Drone Inspect  documentation</title>
+  <title>Finetuning the Mask R-CNN Model &mdash; PV Hawk  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -28,7 +28,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> PV Drone Inspect
+            <a href="index.html" class="icon icon-home"> PV Hawk
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -54,7 +54,7 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">About</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="method.html">How PV Drone Inspect Works</a></li>
+<li class="toctree-l1"><a class="reference internal" href="method.html">How PV Hawk Works</a></li>
 <li class="toctree-l1"><a class="reference internal" href="limitations.html">Current Limitations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
@@ -66,7 +66,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">PV Drone Inspect</a>
+          <a href="index.html">PV Hawk</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -76,7 +76,7 @@
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
       <li>Finetuning the Mask R-CNN Model</li>
       <li class="wy-breadcrumbs-aside">
-              <a href="https://github.com/LukasBommes/PV-Drone-Inspect/blob/master/docs/source/finetune_segmentation.rst" class="fa fa-github"> Edit on GitHub</a>
+              <a href="https://github.com/LukasBommes/PV-Hawk/blob/master/docs/source/finetune_segmentation.rst" class="fa fa-github"> Edit on GitHub</a>
       </li>
   </ul>
   <hr/>
@@ -86,7 +86,7 @@
              
   <section id="finetuning-the-mask-r-cnn-model">
 <h1>Finetuning the Mask R-CNN Model<a class="headerlink" href="#finetuning-the-mask-r-cnn-model" title="Permalink to this headline"></a></h1>
-<p>PV Drone Inspect uses Mask R-CNN for instance segmentation of PV modules in IR video frames. It is pretrained on a large PV module dataset. However, if you encounter issues with the accuracy of the Mask R-CNN model, you may wish to fine-tune the model on your own dataset. For this, we recommend annotating data using the <a class="reference external" href="https://github.com/LukasBommes/Grid-Annotation-Tool">Grid Annotation Tool</a>. Data labelled with this tool can be directly used for training the Mask R-CNN model.</p>
+<p>PV Hawk uses Mask R-CNN for instance segmentation of PV modules in IR video frames. It is pretrained on a large PV module dataset. However, if you encounter issues with the accuracy of the Mask R-CNN model, you may wish to fine-tune the model on your own dataset. For this, we recommend annotating data using the <a class="reference external" href="https://github.com/LukasBommes/Grid-Annotation-Tool">Grid Annotation Tool</a>. Data labelled with this tool can be directly used for training the Mask R-CNN model.</p>
 <p>To train/fine-tune Mask R-CNN run the Docker container as described <a class="reference internal" href="tutorial.html#run-the-docker-image"><span class="std std-ref">here</span></a> and start jupyter lab inside the Docker shell with</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">jupyter lab --allow-root --ip=0.0.0.0 --port=8888</span>
 </pre></div>

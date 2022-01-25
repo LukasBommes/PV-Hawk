@@ -1,14 +1,16 @@
-How PV Drone Inspect Works
-==========================
+How PV Hawk Works
+=================
 
-Inputs to PV Drone Inspect are IR video frames with the corresponding coarse GPS position (latitude, longitude, and optionally altitude) of the drone. Outputs are multiple cropped and rectified IR image patches per PV module and geocoordinates of the four corners of each PV module. PV Drone Inspect first segments all PV modules in each video frame with a Mask R-CNN instance segmentation model. Each module is then tracked over subsequent frames. The corresponding image regions are cropped, rectified, and stored to disk with a unique tracking ID. 
+PV Hawk is a computer vision pipeline, which processes thermal IR video of large-scale PV plants fulfilling two main tasks:
 
-For the localization of PV modules in the PV plant a flexible, layout-independent, and fully automated solution based on structure from motion is provided. The `OpenSfM <https://opensfm.org>`_ structure from motion library is used to reconstruct the 6-DOF camera trajectory.
+#. Extracting of IR image patches of each PV module in each video frame
+#. Obtaining WGS84 geocoordinates of the corner points of each PV module
 
+An overview of the method is shown in :numref:`overview`. First, IR videos are split into individual frames and the GPS trajectory of the drone is extracted and interpolated. PV modules are then segmented by Mask R-CNN, tracked over subsequent frames, extracted and stored to disk. To georeference PV modules, a subset of keyframes is selected based on travelled GPS distance and visual overlap. Subsequently, a georeferenced 3D reconstruction of the PV plant is obtained by incremental SfM (using `OpenSfM <https://opensfm.org>`_) alongside the 6-DOF camera pose of each keyframe. This requires calibrated camera parameters, which are obtained beforehand. The known keyframe poses are then used to triangulate observed PV modules into the 3D reconstruction, yielding the desired module geocoordinates.
 
- Since the coarse GPS trajectory of the drone is known the camera trajectory is reconstructed in geocoordinates. Based on the known camera coordinates, PV module corners are triangulated into the 3D reconstruction and refined with an iterative graph optimization, yielding absolute geocoordinates for each PV module (see fig. 3).
+.. _overview:
+.. figure:: images/overview.png
 
-.. image:: images/overview.png
+  Overview of the PV Hawk pipeline.
 
-
-- reference to output dataset strcuture and config file reference
+The :doc:`config_file_reference` contains more details on the different tasks of the pipeline and the resulting output dataset structure is described in more detail in :doc:`output_directory`.

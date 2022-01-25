@@ -1,7 +1,7 @@
 Finetuning the Mask R-CNN Model
 ===============================
 
-PV Drone Inspect uses Mask R-CNN for instance segmentation of PV modules in IR video frames. It is pretrained on a large PV module dataset. However, if you encounter issues with the accuracy of the Mask R-CNN model, you may wish to fine-tune the model on your own dataset. For this, we recommend annotating data using the `Grid Annotation Tool <https://github.com/LukasBommes/Grid-Annotation-Tool>`_. Data labelled with this tool can be directly used for training the Mask R-CNN model.
+PV Hawk uses Mask R-CNN for instance segmentation of PV modules in IR video frames. It is pretrained on a large PV module dataset. However, if you encounter issues with the accuracy of the Mask R-CNN model, you may wish to fine-tune the model on your own dataset. For this, we recommend annotating data using the `Grid Annotation Tool <https://github.com/LukasBommes/Grid-Annotation-Tool>`_. Data labelled with this tool can be directly used for training the Mask R-CNN model.
 
 To train/fine-tune Mask R-CNN run the Docker container as described :ref:`here <run-the-docker-image>` and start jupyter lab inside the Docker shell with
 

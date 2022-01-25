@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>How PV Drone Inspect Works &mdash; PV Drone Inspect  documentation</title>
+  <title>How PV Hawk Works &mdash; PV Hawk  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -28,7 +28,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> PV Drone Inspect
+            <a href="index.html" class="icon icon-home"> PV Hawk
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -54,7 +54,7 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">About</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">How PV Drone Inspect Works</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">How PV Hawk Works</a></li>
 <li class="toctree-l1"><a class="reference internal" href="limitations.html">Current Limitations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
@@ -66,7 +66,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">PV Drone Inspect</a>
+          <a href="index.html">PV Hawk</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -74,9 +74,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>How PV Drone Inspect Works</li>
+      <li>How PV Hawk Works</li>
       <li class="wy-breadcrumbs-aside">
-              <a href="https://github.com/LukasBommes/PV-Drone-Inspect/blob/master/docs/source/method.rst" class="fa fa-github"> Edit on GitHub</a>
+              <a href="https://github.com/LukasBommes/PV-Hawk/blob/master/docs/source/method.rst" class="fa fa-github"> Edit on GitHub</a>
       </li>
   </ul>
   <hr/>
@@ -84,17 +84,21 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="how-pv-drone-inspect-works">
-<h1>How PV Drone Inspect Works<a class="headerlink" href="#how-pv-drone-inspect-works" title="Permalink to this headline"></a></h1>
-<p>Inputs to PV Drone Inspect are IR video frames with the corresponding coarse GPS position (latitude, longitude, and optionally altitude) of the drone. Outputs are multiple cropped and rectified IR image patches per PV module and geocoordinates of the four corners of each PV module. PV Drone Inspect first segments all PV modules in each video frame with a Mask R-CNN instance segmentation model. Each module is then tracked over subsequent frames. The corresponding image regions are cropped, rectified, and stored to disk with a unique tracking ID.</p>
-<p>For the localization of PV modules in the PV plant a flexible, layout-independent, and fully automated solution based on structure from motion is provided. The <a class="reference external" href="https://opensfm.org">OpenSfM</a> structure from motion library is used to reconstruct the 6-DOF camera trajectory.</p>
-<blockquote>
-<div><p>Since the coarse GPS trajectory of the drone is known the camera trajectory is reconstructed in geocoordinates. Based on the known camera coordinates, PV module corners are triangulated into the 3D reconstruction and refined with an iterative graph optimization, yielding absolute geocoordinates for each PV module (see fig. 3).</p>
-</div></blockquote>
-<img alt="_images/overview.png" src="_images/overview.png" />
-<ul class="simple">
-<li><p>reference to output dataset strcuture and config file reference</p></li>
-</ul>
+  <section id="how-pv-hawk-works">
+<h1>How PV Hawk Works<a class="headerlink" href="#how-pv-hawk-works" title="Permalink to this headline"></a></h1>
+<p>PV Hawk is a computer vision pipeline, which processes thermal IR video of large-scale PV plants fulfilling two main tasks:</p>
+<ol class="arabic simple">
+<li><p>Extracting of IR image patches of each PV module in each video frame</p></li>
+<li><p>Obtaining WGS84 geocoordinates of the corner points of each PV module</p></li>
+</ol>
+<p>An overview of the method is shown in <a class="reference internal" href="#overview"><span class="std std-numref">Fig. 8</span></a>. First, IR videos are split into individual frames and the GPS trajectory of the drone is extracted and interpolated. PV modules are then segmented by Mask R-CNN, tracked over subsequent frames, extracted and stored to disk. To georeference PV modules, a subset of keyframes is selected based on travelled GPS distance and visual overlap. Subsequently, a georeferenced 3D reconstruction of the PV plant is obtained by incremental SfM (using <a class="reference external" href="https://opensfm.org">OpenSfM</a>) alongside the 6-DOF camera pose of each keyframe. This requires calibrated camera parameters, which are obtained beforehand. The known keyframe poses are then used to triangulate observed PV modules into the 3D reconstruction, yielding the desired module geocoordinates.</p>
+<figure class="align-default" id="id1">
+<span id="overview"></span><img alt="_images/overview.png" src="_images/overview.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 8 </span><span class="caption-text">Overview of the PV Hawk pipeline.</span><a class="headerlink" href="#id1" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+<p>The <a class="reference internal" href="config_file_reference.html"><span class="doc">Config File Reference</span></a> contains more details on the different tasks of the pipeline and the resulting output dataset structure is described in more detail in <a class="reference internal" href="output_directory.html"><span class="doc">Output Directory Structure</span></a>.</p>
 </section>
 
 

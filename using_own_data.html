@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Using Your Own Data &mdash; PV Drone Inspect  documentation</title>
+  <title>Using Your Own Data &mdash; PV Hawk  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -28,7 +28,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> PV Drone Inspect
+            <a href="index.html" class="icon icon-home"> PV Hawk
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -60,7 +60,7 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">About</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="method.html">How PV Drone Inspect Works</a></li>
+<li class="toctree-l1"><a class="reference internal" href="method.html">How PV Hawk Works</a></li>
 <li class="toctree-l1"><a class="reference internal" href="limitations.html">Current Limitations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
@@ -72,7 +72,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">PV Drone Inspect</a>
+          <a href="index.html">PV Hawk</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -82,7 +82,7 @@
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
       <li>Using Your Own Data</li>
       <li class="wy-breadcrumbs-aside">
-              <a href="https://github.com/LukasBommes/PV-Drone-Inspect/blob/master/docs/source/using_own_data.rst" class="fa fa-github"> Edit on GitHub</a>
+              <a href="https://github.com/LukasBommes/PV-Hawk/blob/master/docs/source/using_own_data.rst" class="fa fa-github"> Edit on GitHub</a>
       </li>
   </ul>
   <hr/>
@@ -92,57 +92,64 @@
              
   <section id="using-your-own-data">
 <span id="using-own-data"></span><h1>Using Your Own Data<a class="headerlink" href="#using-your-own-data" title="Permalink to this headline"></a></h1>
-<p>This section explains how to record IR videos of your own PV plant with your own camera and drone hardware in a way that is compatible with PV Drone Inspect</p>
+<p>This section explains how to record IR videos of your own PV plant with your own camera and drone hardware in a way that is compatible with PV Hawk.</p>
 <section id="hardware-setup">
 <span id="id1"></span><h2>Hardware setup<a class="headerlink" href="#hardware-setup" title="Permalink to this headline"></a></h2>
-<p>For the development and testing of PV Drone Inspect we used a DJI Matrice 210 drone with the <a class="reference external" href="https://www.dji.com/de/zenmuse-xt2">DJI Zenmuse XT2</a> thermal/visual camera (variant with 13 mm focal length). However, PV Drone Inspect should work with any other drone and camera as long as some basic requirements are fullfilled.</p>
+<p>For the development and testing of PV Hawk we used a DJI Matrice 210 drone with the <a class="reference external" href="https://www.dji.com/de/zenmuse-xt2">DJI Zenmuse XT2</a> thermal/visual camera (variant with 13 mm focal length). However, PV Hawk should work with any other drone and camera as long as some basic requirements are fullfilled.</p>
 <section id="drone-requirements">
 <span id="id2"></span><h3>Drone requirements<a class="headerlink" href="#drone-requirements" title="Permalink to this headline"></a></h3>
-<p>Our drone records its GPS longitude and latitude in WGS 84 coordinates at a rate of 1 Hz. PV Drone Inspect performs internally a piecewise linear interpolation of the GPS trajectory to match the GPS measurement rate to the higher video frame rate. A higher measurement rate than 1 Hz is still desirable. Further, we ignore the altitude measurement of our drone as it is based on the barometer alone and not accurate enough. PV Drone Inspect can handle this missing altitude. However, results will be more accurate and stable when an accurate altitude measurement is provided. Thus, we recommend using Real-time kinematic (RTK) GPS, which provdies centermeter-accurate longitude, latitude and altitude measurements.</p>
+<p>Our drone records its GPS longitude and latitude in <a class="reference external" href="https://en.wikipedia.org/wiki/World_Geodetic_System">WGS84 coordinates</a> at a rate of 1 Hz. PV Hawk performs internally a piecewise linear interpolation of the GPS trajectory to match the GPS measurement rate to the higher video frame rate. A higher measurement rate than 1 Hz is still desirable. Further, we ignore the altitude measurement of our drone as it is based on the barometer alone and not accurate enough. PV Hawk can handle this missing altitude. However, results will be more accurate and stable when an accurate altitude measurement is provided. Thus, we recommend using Real-time kinematic (RTK) GPS, which provdies centermeter-accurate longitude, latitude and altitude measurements.</p>
 </section>
 <section id="camera-requirements">
 <h3>Camera requirements<a class="headerlink" href="#camera-requirements" title="Permalink to this headline"></a></h3>
 <p>While the Zenmuse XT2 provides both a thermal IR and a visual stream, we only use the IR stream. Thus, a dual IR/visual camera is not required. Your thermal IR camera needs a resolution of &gt;= 640 px * 512 px and a frame rate of &gt;= 8 Hz. The temperature range has to match the expected temperatures, which should be between -20 °C and 200 °C. Note, that some cameras automatically change the gain depending on the temperatures measured. Make sure that the gain is kept constant during the entire measurement of a PV plant. The focal length should be choosen so that a sufficient number of PV modules can be captured at a time. The exemplary video frames <a class="reference internal" href="#video-recording"><span class="std std-ref">below</span></a> should give you an idea of how the optical characteristics of your camera should be choosen.</p>
-<p>[figure of our drone and camera]</p>
+<figure class="align-center" id="id6">
+<a class="reference internal image-reference" href="_images/drone_and_cam.jpg"><img alt="_images/drone_and_cam.jpg" src="_images/drone_and_cam.jpg" style="width: 500px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 1 </span><span class="caption-text">DJI Matrice 210 with Zenmuse XT2 is one possible hardware setup for PV Hawk. Other drones and cameras can be used as they meet some minimum requirements. (Image source: www.brandonoptics.com)</span><a class="headerlink" href="#id6" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
 </section>
 </section>
 <section id="camera-calibration">
-<h2>Camera calibration<a class="headerlink" href="#camera-calibration" title="Permalink to this headline"></a></h2>
-<p>PV Drone Inspect requires calibrated parameters of a pinhole camera model for the georeferencing of PV modules. To obtain these parameters a camera calibration needs to be performed. Calibration needs to be performed only once for a camera.</p>
-<p>Calibration requires a target similar to the one <a class="reference external" href="https://docs.opencv.org/3.4/dc/dbb/tutorial_py_calibration.html">here</a> but usable in the IR spectrum. To this end, your target needs to be made of materials with different thermal emissivity. We obtained good results using black foil squares applied to a white polymer panel. Also make sure that images are as blur-free as possible with good contrast between white and black squares.</p>
+<span id="id3"></span><h2>Camera calibration<a class="headerlink" href="#camera-calibration" title="Permalink to this headline"></a></h2>
+<p>PV Hawk requires calibrated parameters of a pinhole camera model for the georeferencing of PV modules. To obtain these parameters a camera calibration needs to be performed. Calibration needs to be performed only once for a camera.</p>
+<p>Calibration requires a target such as the one in <a class="reference internal" href="#calibration-target"><span class="std std-numref">Fig. 2</span></a>. While the pattern is a standard checkerboard (see <a class="reference external" href="https://docs.opencv.org/3.4/dc/dbb/tutorial_py_calibration.html">here</a>), the target must be visible in the IR spectrum. Simply printing the target onto paper does not work. Instead, the target needs to be made of materials with different thermal emissivity for the black and white squares. We obtained good results using black foil squares applied to a white polymer panel. Also make sure that images are as blur-free as possible with good contrast between white and black squares.</p>
 <p>We provide a Jupyter notebook for camera calibration in <cite>calibration/01_calibrate.iypnb</cite>. Information on the usage is provided in the notebook. To run the calibration notebook, first start an interactive Docker session as described in <a class="reference internal" href="tutorial.html#run-the-docker-image"><span class="std std-ref">Step 4: Run the Docker container</span></a>. Then start jupyter lab in in the interactive Docker session with the command</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">jupyter lab --allow-root --ip=0.0.0.0 --port=8888</span>
 </pre></div>
 </div>
-<p>Open the displayed URL in the web browser on your machine. In jupyter lab navigate to <cite>calibration</cite> and open the <cite>01_calibrate.ipynb</cite> notebook.</p>
-<p>[maybe it is sufficient to provide the rough parameters, i.e. correct focal length, perfect image center and zero distortion]
-[mention that these are only initial parameters and they are further optimized during the OpenSfM procedure]
-[mention option to perform calibration with a custom script or matlab and provide camera matrix and distortion coefficients manually as JSON file]</p>
-<p>[figure of the calibration target in visual and IR images]</p>
+<p>Note, that the port number must match the port forwarded when starting the Docker container. Open the displayed URL in the web browser on your machine. In jupyter lab navigate to <cite>calibration</cite> and open the <cite>01_calibrate.ipynb</cite> notebook. Make necessary changes, and then run the notebook.</p>
+<figure class="align-default" id="id7">
+<span id="calibration-target"></span><img alt="_images/calibration_target.png" src="_images/calibration_target.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 2 </span><span class="caption-text">Exemplary target for calibrating a thermal IR camera. (a) shows a visual image and (b) and (c) are thermal images.</span><a class="headerlink" href="#id7" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
 </section>
 <section id="video-recording">
-<span id="id3"></span><h2>Video recording<a class="headerlink" href="#video-recording" title="Permalink to this headline"></a></h2>
-<p>While PV Drone Inspect is flexible with respect to the way IR videos are recorded, several rules must still be followed to ensure optimal results. In general, you should scan PV plant rows one or two at a time as indicated in figure <a class="reference internal" href="#flight-modes-single-row"><span class="std std-numref">Fig. 1</span></a> and <a class="reference internal" href="#flight-modes-double-row"><span class="std std-numref">Fig. 2</span></a>. Resulting video frames are shown in <a class="reference internal" href="#example-frames"><span class="std std-numref">Fig. 3</span></a>. Scanning two rows at a time increases throughput but also reduces the resolution of extracted PV module images. While the rows can be scanned in an arbitrary order, we recommend sequential scanning to simplify the subsequent manual configuration. The drone flight can be automated or carried out manually.</p>
+<span id="id4"></span><h2>Video recording<a class="headerlink" href="#video-recording" title="Permalink to this headline"></a></h2>
+<p>While PV Hawk is flexible with respect to the way IR videos are recorded, several rules must still be followed to ensure optimal results. In general, you should scan PV plant rows one or two at a time as indicated in figure <a class="reference internal" href="#flight-modes-single-row"><span class="std std-numref">Fig. 3</span></a> and <a class="reference internal" href="#flight-modes-double-row"><span class="std std-numref">Fig. 4</span></a>. Resulting video frames are shown in <a class="reference internal" href="#example-frames"><span class="std std-numref">Fig. 5</span></a>. Scanning two rows at a time increases throughput but also reduces the resolution of extracted PV module images. While the rows can be scanned in an arbitrary order, we recommend sequential scanning to simplify the subsequent manual configuration. The drone flight can be automated or carried out manually.</p>
 <p>We recommend to orient the camera facing vertically downwards (nadir) at all times. This improves robustness of the processing pipeline as we can set a vertical orentiation prior in OpenSfM when reconstructing the camera trajectory. However, at the expense of lower robustness you can also choose a non-nadiral camera angle. This is useful, for instance, to prevent sun reflections on the PV modules.</p>
-<figure class="align-default" id="id5">
+<figure class="align-default" id="id8">
 <span id="flight-modes-single-row"></span><img alt="_images/flight_modes_single_row.png" src="_images/flight_modes_single_row.png" />
 <figcaption>
-<p><span class="caption-number">Fig. 1 </span><span class="caption-text">Scanning of a single PV plant row at a time. Boxes indicate the camera viewport and arrows the up-direction of the video frame. The camera is oriented so that the plant row lies either horizontal (cyan box) or vertcial (green box) in the video frame. Important is not to rotate the drone/camera at the end of the row. Instead, keep the heading constant and fly backwards as indicated by the second set of boxes.</span><a class="headerlink" href="#id5" title="Permalink to this image"></a></p>
+<p><span class="caption-number">Fig. 3 </span><span class="caption-text">Scanning of a single PV plant row at a time. Boxes indicate the camera viewport and arrows the up-direction of the video frame. The camera is oriented so that the plant row lies either horizontal (cyan box) or vertcial (green box) in the video frame. Important is not to rotate the drone/camera at the end of the row. Instead, keep the heading constant and fly backwards as indicated by the second set of boxes.</span><a class="headerlink" href="#id8" title="Permalink to this image"></a></p>
 </figcaption>
 </figure>
-<figure class="align-default" id="id6">
+<figure class="align-default" id="id9">
 <span id="flight-modes-double-row"></span><img alt="_images/flight_modes_double_row.png" src="_images/flight_modes_double_row.png" />
 <figcaption>
-<p><span class="caption-number">Fig. 2 </span><span class="caption-text">Simultaneous scanning of two PV plant rows by increasing the flight altitude. Again, the heading must be kept constant when changing rows.</span><a class="headerlink" href="#id6" title="Permalink to this image"></a></p>
+<p><span class="caption-number">Fig. 4 </span><span class="caption-text">Simultaneous scanning of two PV plant rows by increasing the flight altitude. Again, the heading must be kept constant when changing rows.</span><a class="headerlink" href="#id9" title="Permalink to this image"></a></p>
 </figcaption>
 </figure>
-<figure class="align-default" id="id7">
+<figure class="align-default" id="id10">
 <span id="example-frames"></span><img alt="_images/example_frames.png" src="_images/example_frames.png" />
 <figcaption>
-<p><span class="caption-number">Fig. 3 </span><span class="caption-text">Exemplary IR video frames for (a) horizontal scanning of a single row (cyan box above), (b) vertical scanning of a single row (green box above), and (c) scanning of two rows at a time (magenta box above).</span><a class="headerlink" href="#id7" title="Permalink to this image"></a></p>
+<p><span class="caption-number">Fig. 5 </span><span class="caption-text">Exemplary IR video frames for (a) horizontal scanning of a single row (cyan box above), (b) vertical scanning of a single row (green box above), and (c) scanning of two rows at a time (magenta box above).</span><a class="headerlink" href="#id10" title="Permalink to this image"></a></p>
 </figcaption>
 </figure>
-<p>In the following, we list all the rules you should follow when recording IR videos for PV Drone Inspect. We differentate between <cite>hard rules</cite> and <cite>soft rules</cite>. If you do not follow the hard rules PV failure is guaranteed. Not following one of the soft rules may not result in immediate failure, but can decrease robustness of the processing piepline.</p>
+<p>In the following, we list all the rules you should follow when recording IR videos for PV Hawk. We differentate between <cite>hard rules</cite> and <cite>soft rules</cite>. If you do not follow the hard rules PV failure is guaranteed. Not following one of the soft rules may not result in immediate failure, but can decrease robustness of the processing piepline.</p>
 <ul class="simple">
 <li><dl class="simple">
 <dt>Hard rules:</dt><dd><ul>
@@ -156,9 +163,9 @@
 <li><dl class="simple">
 <dt>Soft rules:</dt><dd><ul>
 <li><p>Point the camera down vertically (nadiral)</p></li>
-<li><p>Keep the viewing angle vertical enough so that no rows become visible in the background (see <a class="reference internal" href="#example-frames-bad"><span class="std std-numref">Fig. 4</span></a> a)</p></li>
-<li><p>Do not truncate the scanned row at the top/bottom of the video frame (see <a class="reference internal" href="#example-frames-bad"><span class="std std-numref">Fig. 4</span></a> b)</p></li>
-<li><p>No neighbouring rows should intrude the video frame at the top or bottom (see <a class="reference internal" href="#example-frames-bad"><span class="std std-numref">Fig. 4</span></a> c)</p></li>
+<li><p>Keep the viewing angle vertical enough so that no rows become visible in the background (see <a class="reference internal" href="#example-frames-bad"><span class="std std-numref">Fig. 6</span></a> a)</p></li>
+<li><p>Do not truncate the scanned row at the top/bottom of the video frame (see <a class="reference internal" href="#example-frames-bad"><span class="std std-numref">Fig. 6</span></a> b) except when you change to the next row</p></li>
+<li><p>No neighbouring rows should intrude the video frame at the top or bottom (see <a class="reference internal" href="#example-frames-bad"><span class="std std-numref">Fig. 6</span></a> c) except when you change to the next row</p></li>
 <li><p>Avoid abrupt movements (fly with constant velocity, slow enough to prevent motion blur)</p></li>
 <li><p>Avoid scanning the same plant row multiple times</p></li>
 <li><p>Move the camera monotonically along each row, i.e. do not move backward</p></li>
@@ -168,36 +175,44 @@
 </dl>
 </li>
 </ul>
-<figure class="align-default" id="id8">
+<figure class="align-default" id="id11">
 <span id="example-frames-bad"></span><img alt="_images/example_frames_bad.png" src="_images/example_frames_bad.png" />
 <figcaption>
-<p><span class="caption-number">Fig. 4 </span><span class="caption-text">Examples of invalid video frames: (a) Background rows visible, (b) scanned row truncated, and (c) neighbour row intruding.</span><a class="headerlink" href="#id8" title="Permalink to this image"></a></p>
+<p><span class="caption-number">Fig. 6 </span><span class="caption-text">Examples of invalid video frames: (a) Background rows visible, (b) scanned row truncated, and (c) neighbour row intruding.</span><a class="headerlink" href="#id11" title="Permalink to this image"></a></p>
 </figcaption>
 </figure>
-<p>Shown below are images and videos of valid recordings.</p>
-<figure class="align-default" id="id9">
+<p>Below are some images and videos of valid recordings.</p>
+<figure class="align-default" id="id12">
 <span id="other-example-frames"></span><img alt="_images/other_example_frames.png" src="_images/other_example_frames.png" />
 <figcaption>
-<p><span class="caption-number">Fig. 5 </span><span class="caption-text">Examples of valid IR video frames.</span><a class="headerlink" href="#id9" title="Permalink to this image"></a></p>
+<p><span class="caption-number">Fig. 7 </span><span class="caption-text">Examples of valid IR video frames.</span><a class="headerlink" href="#id12" title="Permalink to this image"></a></p>
 </figcaption>
 </figure>
 
-    <video width="640" height="512" controls >
-    <source src="_static/videos/example_recording.mp4" type="video/mp4">
+    <video width="345" height="276" controls >
+    <source src="_static/videos/single_row_horizontal.mp4" type="video/mp4">
     Video
     </video>
-    <p>[video of horizontal single row]
-[video of vertical single row]</p>
-<p>As mentioned earlier, you can choose a non-nadiral camera angle to prevent sun reflections on the PV modules. However, you may not always be able to completely prevent sun reflections. For this case, we provide a sun reflection filter in the <a class="reference external" href="https://github.com/LukasBommes/PV-Drone-Inspect-Viewer">PV Drone Inspect Viewer</a>.</p>
+    
+    <video width="345" height="276" controls >
+    <source src="_static/videos/single_row_vertical.mp4" type="video/mp4">
+    Video
+    </video>
+    
+    <video width="345" height="276" controls >
+    <source src="_static/videos/double_row_vertical.mp4" type="video/mp4">
+    Video
+    </video>
+    <p>As mentioned earlier, you can choose a non-nadiral camera angle to prevent sun reflections on the PV modules. However, you may not always be able to completely prevent sun reflections. For this case, we provide a sun reflection filter in the <a class="reference external" href="https://github.com/LukasBommes/PV-Hawk-Viewer">PV Hawk Viewer</a>.</p>
 <p>Weather conditions are another important aspect to consider. For optimal results, the sky should be cloudless and solar irradiance should be above 700 Watt/m². Lower irradiance typically results in IR images with low contrast, which is challenging for the automated processing. Furthermore, module anomalies are less visible at low irradiance.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>We limit the description above to row-based PV plants as we have not yet extensively tested PV Drone Inspect on non-row-based PV plants (see also <a class="reference internal" href="limitations.html"><span class="doc">Current Limitations</span></a>). While the rules above also apply to non-row-based PV plants, you may have to consider additional aspects. For example, scanning a large array of PV modules may require multiple overlapping “sweeps”.</p>
+<p>We limit the description above to row-based PV plants as we have not yet extensively tested PV Hawk on non-row-based PV plants (see also <a class="reference internal" href="limitations.html"><span class="doc">Current Limitations</span></a>). While the rules above also apply to non-row-based PV plants, you may have to consider additional aspects. For example, scanning a large array of PV modules may require multiple overlapping “sweeps”.</p>
 </div>
 </section>
 <section id="dataset-creation-from-videos">
-<span id="id4"></span><h2>Dataset creation from videos<a class="headerlink" href="#dataset-creation-from-videos" title="Permalink to this headline"></a></h2>
-<p>After recording, you need to convert the thermal IR videos of your PV plants into a format compatible with by PV Drone Inspect. The directory tree below shows the various files required by PV Drone Inspect. The directory must be named <cite>splitted</cite> and must be located in the <cite>work_dir</cite> specified in the config file.</p>
+<span id="id5"></span><h2>Dataset creation from videos<a class="headerlink" href="#dataset-creation-from-videos" title="Permalink to this headline"></a></h2>
+<p>After recording, you need to convert the thermal IR videos of your PV plants into a format compatible with by PV Hawk. The directory tree below shows the various files required by PV Hawk. The directory must be named <cite>splitted</cite> and must be located in the <cite>work_dir</cite> specified in the config file.</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>/workdir
   |-- splitted
   |    |-- timestamps.csv
@@ -209,7 +224,7 @@
   |    |     |-- ...
 </pre></div>
 </div>
-<p>As indicated, you have to provide each IR video frame as a single-channel TIFF image of unsigned 16-bit integer values in the <cite>radiometric</cite> subdirectory. The spatial resolution should correspond to the native resolution of your camera, i.e. do not perform any resizing. Furthermore, do not perform any rescaling of the values but simply provide the raw values output by your camera. PV Drone Inspect will internally normalize the value range. Ensure that your camera outputs linearized temperature values, i.e. the raw image values must be mappable to temperatures by means of a linear transformation (multiplication by a gain factor and subtraction of an offset). While this is the default for IR cameras outputting TIFF images, it does not apply to some proprietory formats, such as the SEQ or radiometric JPEG format. Furthermore, make sure to name the images following the scheme <cite>frame_xxxxxx.tiff</cite> where <cite>xxxxxx</cite> is the frame index (incremented from zero) as 6-digit integer with leading zeros.</p>
+<p>As indicated, you have to provide each IR video frame as a single-channel TIFF image of unsigned 16-bit integer values in the <cite>radiometric</cite> subdirectory. The spatial resolution should correspond to the native resolution of your camera, i.e. do not perform any resizing. Furthermore, do not perform any rescaling of the values but simply provide the raw values output by your camera. PV Hawk will internally normalize the value range. Ensure that your camera outputs linearized temperature values, i.e. the raw image values must be mappable to temperatures by means of a linear transformation (multiplication by a gain factor and subtraction of an offset). While this is the default for IR cameras outputting TIFF images, it does not apply to some proprietory formats, such as the SEQ or radiometric JPEG format. Furthermore, make sure to name the images following the scheme <cite>frame_xxxxxx.tiff</cite> where <cite>xxxxxx</cite> is the frame index (incremented from zero) as 6-digit integer with leading zeros.</p>
 <p>Furthermore, you must provide the GPS position of the drone at each video frame in a JSON file named <cite>gps.json</cite> in the <cite>gps</cite> subdirectory. The file must contain a list of lists, where each inner list is a triplet of [longitude, latitude, altitude] in WGS84 coordinates as shown below.</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[
   [11.180329444444446, 48.613639722222224, 0.0],
@@ -220,7 +235,7 @@
 </pre></div>
 </div>
 <p>The GPS altitude may be zero if an accurate estimate is not available (see <a class="reference internal" href="#drone-requirements"><span class="std std-ref">Drone requirements</span></a>). For each video frame there must be one position. If your GPS measurement rate is lower than the video frame rate, you can replicate the same position for multiple frames. You should then use the pipeline task <cite>interpolate_gps</cite> to perform a piecewise linear interpolation and obtain a more accurate position estimate for each frame.</p>
-<p>Finally, you should provide a <cite>timestamps.csv</cite> file, which contains the timestamp of each video frame in the exact same format shown below. The file is not immediately needed in PV Drone Inspect. However, the PV Drone Inspect Viewer uses it to estimate the flight duration and other quantitites.</p>
+<p>Finally, you should provide a <cite>timestamps.csv</cite> file, which contains the timestamp of each video frame in the exact same format shown below. The file is not immediately needed in PV Hawk. However, the PV Hawk Viewer uses it to estimate the flight duration and other quantitites.</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>2021-09-09T10:28:47.500000
 2021-09-09T10:28:47.530000
 ...

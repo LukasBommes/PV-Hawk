@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Current Limitations &mdash; PV Drone Inspect  documentation</title>
+  <title>Current Limitations &mdash; PV Hawk  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -20,7 +20,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Contributing" href="contributing.html" />
-    <link rel="prev" title="How PV Drone Inspect Works" href="method.html" /> 
+    <link rel="prev" title="How PV Hawk Works" href="method.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -28,7 +28,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> PV Drone Inspect
+            <a href="index.html" class="icon icon-home"> PV Hawk
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -54,7 +54,7 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">About</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="method.html">How PV Drone Inspect Works</a></li>
+<li class="toctree-l1"><a class="reference internal" href="method.html">How PV Hawk Works</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Current Limitations</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#plant-layouts">Plant layouts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#opensfm-reconstruction-failures">OpenSfM reconstruction failures</a></li>
@@ -70,7 +70,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">PV Drone Inspect</a>
+          <a href="index.html">PV Hawk</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -80,7 +80,7 @@
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
       <li>Current Limitations</li>
       <li class="wy-breadcrumbs-aside">
-              <a href="https://github.com/LukasBommes/PV-Drone-Inspect/blob/master/docs/source/limitations.rst" class="fa fa-github"> Edit on GitHub</a>
+              <a href="https://github.com/LukasBommes/PV-Hawk/blob/master/docs/source/limitations.rst" class="fa fa-github"> Edit on GitHub</a>
       </li>
   </ul>
   <hr/>
@@ -92,9 +92,11 @@
 <h1>Current Limitations<a class="headerlink" href="#current-limitations" title="Permalink to this headline"></a></h1>
 <section id="plant-layouts">
 <h2>Plant layouts<a class="headerlink" href="#plant-layouts" title="Permalink to this headline"></a></h2>
-<p>PV Drone Inspect was developed for large-scale ground-mounted PV plants with regular row-based layouts. In principle, plants with irregular layouts (rooftop systems) or regular non-row based layouts (floating PV, large rooftop arrays) can also be processed. However, we have not yet extensively tested PV Drone Inspect on such plants. If you still want to use PV Drone Inspect for irregular PV plants you have to consider some things.</p>
-<p>For example, when inspecting large arrays of densely packed PV modules (as common on large rooftops), you need to record the array in multiple overlapping sweeps. For accurate reconstruction of these sweeps, high GPS accuracy, for instance provided by RTK-GPS, is required. Standard GPS will not suffice.</p>
-<p>Another issue occurs with rooftop plants, where there are more obstructions than in a ground-mounted plant, e.g. windows, chimneys, piping, etc. In these cases PV module segmentation by Mask R-CNN is likely to fail as lots of false positives are generated. This is because we trained Mask R-CNN on a dataset containing only ground-mounted PV plants. Future versions of PV Drone Inspect should consider this by re-training the Mask R-CNN on a larger corpus of PV plants including rooftop plants. If you want to use PV Drone Inspect for such rooftop plants, you need to fine-tune Mask R-CNN yourself for the time being as described in <a class="reference internal" href="finetune_segmentation.html"><span class="doc">Finetuning the Mask R-CNN Model</span></a>.</p>
+<p>PV Hawk was developed for large-scale ground-mounted PV plants with regular row-based layouts. In principle, plants with irregular layouts (rooftop systems) or regular non-row based layouts (floating PV, large rooftop arrays) can also be processed. However, we have not yet extensively tested PV Hawk on such plants. If you still want to use PV Hawk for irregular PV plants you have to consider two things:</p>
+<ol class="arabic simple">
+<li><p>When inspecting large arrays of densely packed PV modules (as common on large rooftops), you need to record the array in multiple overlapping sweeps. For accurate reconstruction of these sweeps, high GPS accuracy, for instance provided by RTK-GPS, is required. Standard GPS will not suffice.</p></li>
+<li><p>On rooftop plants with obstructions, such as windows, chimneys, piping, etc. the PV module segmentation by Mask R-CNN will most likely produce many false positives. This is because we trained Mask R-CNN only on ground-mounted PV plants where any rectangular shape that is warmer than the background is a PV module. Future versions of PV Hawk should consider this by re-training the Mask R-CNN on a larger corpus of PV plants including rooftop plants. If you want to use PV Hawk for such rooftop plants, you need to fine-tune Mask R-CNN yourself for the time being as described in <a class="reference internal" href="finetune_segmentation.html"><span class="doc">Finetuning the Mask R-CNN Model</span></a>.</p></li>
+</ol>
 </section>
 <section id="opensfm-reconstruction-failures">
 <h2>OpenSfM reconstruction failures<a class="headerlink" href="#opensfm-reconstruction-failures" title="Permalink to this headline"></a></h2>
@@ -107,7 +109,7 @@ Thus, the reconstruction procedure can fail leading to corrupted 3D reconstructi
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="method.html" class="btn btn-neutral float-left" title="How PV Drone Inspect Works" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="method.html" class="btn btn-neutral float-left" title="How PV Hawk Works" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="contributing.html" class="btn btn-neutral float-right" title="Contributing" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
