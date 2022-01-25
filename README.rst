@@ -19,11 +19,13 @@ After recording an IR video of a PV plant, individual video frames and the corre
       </object>
     </embed>
 
-The method is described in more detail in `How PV Hawk Works <https://lukasbommes.github.io/PV-Hawk/method.html>`_ and in our journal papers:
+PV Hawk implements the method described briefly in `How PV Hawk Works <https://lukasbommes.github.io/PV-Hawk/method.html>`_. For more details see our journal papers:
 
-[1] L. Bommes, T. Pickel, C. Buerhop-Lutz, J. Hauch, C. Brabec, I. Peters, ”Computer vision tool for detection, mapping, and fault classification of photovoltaics modules in aerial IR videos,” Progress in Photovoltaics: Research and Applications, 2021. [`Wiley PIP <https://onlinelibrary.wiley.com/doi/10.1002/pip.3448>`_, `ArXiv <https://arxiv.org/abs/2106.07314>`_]
+[1] L. Bommes, T. Pickel, C. Buerhop-Lutz, J. Hauch, C. Brabec, I. Peters, ”Georeferencing of photovoltaic modules from aerial infrared videos using structure-from-motion,” Progress in Photovoltaics: Research and Applications, 2022 (submitted, acceptance pending).
 
-[2] L. Bommes, T. Pickel, C. Buerhop-Lutz, J. Hauch, C. Brabec, I. Peters, ”Georeferencing of photovoltaic modules from aerial infrared videos using structure-from-motion,” Progress in Photovoltaics: Research and Applications, 2022 (submitted, acceptance pending).
+[2] L. Bommes, T. Pickel, C. Buerhop-Lutz, J. Hauch, C. Brabec, I. Peters, ”Computer vision tool for detection, mapping, and fault classification of photovoltaics modules in aerial IR videos,” Progress in Photovoltaics: Research and Applications, 2021. [`Wiley PIP <https://onlinelibrary.wiley.com/doi/10.1002/pip.3448>`_, `ArXiv <https://arxiv.org/abs/2106.07314>`_]
+
+You may also find our related work on PV module defect detection interesting, which uses a dataset created with PV Hawk:
 
 [3] L. Bommes, M. Hoffmann, C. Buerhop-Lutz, T. Pickel, J. Hauch, C. Brabec, A. Maier, I. Peters, ”Anomaly detection in IR images of PV modules using supervised contrastive learning,” Progress in Photovoltaics: Research and Applications, 2022 (accepted for publication). [`ArXiv <https://arxiv.org/abs/2112.02922>`_]
 
@@ -47,7 +49,27 @@ PV Hawk is a research project built during my PhD. In its current state PV Hawk 
 Examplary results
 -----------------
 
-[Show some example maps of reconstructed PV plants]
+Shown below is a map of a PV plant with 13640 modules created by PV Hawk from an IR video with 42272 frames. The top image shows the PV module outlines. The bottom image visualizes the maximum temperature of each module, which facilitates fast detection of anomalous PV modules.
+
+Note that the scope of PV Hawk is the mapping of the plant and extraction of module images. The temperature map is obtained with the `PV Hawk Viewer <https://github.com/LukasBommes/PV-Hawk-Viewer>`_.
+
+We used standard GPS (as opposed to accurate RTK-GPS) and ignored the altitude measurement. The drone trajectory of the recording has a length of 7612 meters.
+
+.. raw:: html
+
+    <embed>
+      <object data="example_outputs/module_layout.png" type="image/png" style="width: 100%;">
+        <img src="docs/source/images/example_outputs/module_layout.png">
+      </object>
+    </embed>
+
+.. raw:: html
+
+    <embed>
+      <object data="example_outputs/mean_of_max_temps_corrected.png" type="image/png" style="width: 100%;">
+        <img src="docs/source/images/example_outputs/mean_of_max_temps_corrected.png">
+      </object>
+    </embed>
 
 Who are the target audiences?
 -----------------------------
