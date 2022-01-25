@@ -19,7 +19,7 @@ For the development and testing of PV Hawk we used a DJI Matrice 210 drone with 
 Drone requirements
 ^^^^^^^^^^^^^^^^^^
 
-Our drone records its GPS longitude and latitude in WGS 84 coordinates at a rate of 1 Hz. PV Hawk performs internally a piecewise linear interpolation of the GPS trajectory to match the GPS measurement rate to the higher video frame rate. A higher measurement rate than 1 Hz is still desirable. Further, we ignore the altitude measurement of our drone as it is based on the barometer alone and not accurate enough. PV Hawk can handle this missing altitude. However, results will be more accurate and stable when an accurate altitude measurement is provided. Thus, we recommend using Real-time kinematic (RTK) GPS, which provdies centermeter-accurate longitude, latitude and altitude measurements.
+Our drone records its GPS longitude and latitude in `WGS84 coordinates <https://en.wikipedia.org/wiki/World_Geodetic_System>`_ at a rate of 1 Hz. PV Hawk performs internally a piecewise linear interpolation of the GPS trajectory to match the GPS measurement rate to the higher video frame rate. A higher measurement rate than 1 Hz is still desirable. Further, we ignore the altitude measurement of our drone as it is based on the barometer alone and not accurate enough. PV Hawk can handle this missing altitude. However, results will be more accurate and stable when an accurate altitude measurement is provided. Thus, we recommend using Real-time kinematic (RTK) GPS, which provdies centermeter-accurate longitude, latitude and altitude measurements.
 
 
 Camera requirements
