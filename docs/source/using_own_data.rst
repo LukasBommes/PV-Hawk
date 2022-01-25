@@ -5,12 +5,14 @@ Using Your Own Data
 
 This section explains how to record IR videos of your own PV plant with your own camera and drone hardware in a way that is compatible with PV Hawk.
 
+
 .. _hardware_setup:
 
 Hardware setup
 --------------
 
 For the development and testing of PV Hawk we used a DJI Matrice 210 drone with the `DJI Zenmuse XT2 <https://www.dji.com/de/zenmuse-xt2>`_ thermal/visual camera (variant with 13 mm focal length). However, PV Hawk should work with any other drone and camera as long as some basic requirements are fullfilled.
+
 
 .. _drone_requirements:
 
@@ -19,12 +21,18 @@ Drone requirements
 
 Our drone records its GPS longitude and latitude in WGS 84 coordinates at a rate of 1 Hz. PV Hawk performs internally a piecewise linear interpolation of the GPS trajectory to match the GPS measurement rate to the higher video frame rate. A higher measurement rate than 1 Hz is still desirable. Further, we ignore the altitude measurement of our drone as it is based on the barometer alone and not accurate enough. PV Hawk can handle this missing altitude. However, results will be more accurate and stable when an accurate altitude measurement is provided. Thus, we recommend using Real-time kinematic (RTK) GPS, which provdies centermeter-accurate longitude, latitude and altitude measurements.
 
+
 Camera requirements
 ^^^^^^^^^^^^^^^^^^^
 
 While the Zenmuse XT2 provides both a thermal IR and a visual stream, we only use the IR stream. Thus, a dual IR/visual camera is not required. Your thermal IR camera needs a resolution of >= 640 px * 512 px and a frame rate of >= 8 Hz. The temperature range has to match the expected temperatures, which should be between -20 °C and 200 °C. Note, that some cameras automatically change the gain depending on the temperatures measured. Make sure that the gain is kept constant during the entire measurement of a PV plant. The focal length should be choosen so that a sufficient number of PV modules can be captured at a time. The exemplary video frames :ref:`below <video_recording>` should give you an idea of how the optical characteristics of your camera should be choosen.
 
-[figure of our drone and camera]
+.. figure:: images/drone_and_cam.jpg
+   :width: 500
+   :align: center
+
+   DJI Matrice 210 with Zenmuse XT2 is one possible hardware setup for PV Hawk. Other drones and cameras can be used as they meet some minimum requirements. (Image source: www.brandonoptics.com)
+
 
 .. _camera_calibration:
 
@@ -47,7 +55,11 @@ Open the displayed URL in the web browser on your machine. In jupyter lab naviga
 [mention that these are only initial parameters and they are further optimized during the OpenSfM procedure]
 [mention option to perform calibration with a custom script or matlab and provide camera matrix and distortion coefficients manually as JSON file]
 
-[figure of the calibration target in visual and IR images]
+.. _calibration_target:
+.. figure:: images/calibration_target.png
+
+  Exemplary target for calibrating a thermal IR camera. (a) shows a visual image and (b) and (c) are thermal images.
+
 
 .. _video_recording:
 
@@ -83,8 +95,8 @@ In the following, we list all the rules you should follow when recording IR vide
 - Soft rules:
    - Point the camera down vertically (nadiral)
    - Keep the viewing angle vertical enough so that no rows become visible in the background (see :numref:`example_frames_bad` a)   
-   - Do not truncate the scanned row at the top/bottom of the video frame (see :numref:`example_frames_bad` b)
-   - No neighbouring rows should intrude the video frame at the top or bottom (see :numref:`example_frames_bad` c)
+   - Do not truncate the scanned row at the top/bottom of the video frame (see :numref:`example_frames_bad` b) except when you change to the next row
+   - No neighbouring rows should intrude the video frame at the top or bottom (see :numref:`example_frames_bad` c) except when you change to the next row
    - Avoid abrupt movements (fly with constant velocity, slow enough to prevent motion blur)   
    - Avoid scanning the same plant row multiple times
    - Move the camera monotonically along each row, i.e. do not move backward
@@ -95,19 +107,24 @@ In the following, we list all the rules you should follow when recording IR vide
 
   Examples of invalid video frames: (a) Background rows visible, (b) scanned row truncated, and (c) neighbour row intruding.
 
-Shown below are images and videos of valid recordings.
+Below are some images and videos of valid recordings.
 
 .. _other_example_frames:
 .. figure:: images/other_example_frames.png
 
   Examples of valid IR video frames.
 
-.. video:: _static/videos/example_recording.mp4
-   :width: 640
-   :height: 512
-   
-[video of horizontal single row]
-[video of vertical single row]
+.. video:: _static/videos/single_row_horizontal.mp4
+   :width: 345
+   :height: 276
+
+.. video:: _static/videos/single_row_vertical.mp4
+   :width: 345
+   :height: 276
+
+.. video:: _static/videos/double_row_vertical.mp4
+   :width: 345
+   :height: 276
 
 As mentioned earlier, you can choose a non-nadiral camera angle to prevent sun reflections on the PV modules. However, you may not always be able to completely prevent sun reflections. For this case, we provide a sun reflection filter in the `PV Hawk Viewer <https://github.com/LukasBommes/PV-Hawk-Viewer>`_.
 
@@ -115,6 +132,7 @@ Weather conditions are another important aspect to consider. For optimal results
 
 .. note::
   We limit the description above to row-based PV plants as we have not yet extensively tested PV Hawk on non-row-based PV plants (see also :doc:`limitations`). While the rules above also apply to non-row-based PV plants, you may have to consider additional aspects. For example, scanning a large array of PV modules may require multiple overlapping "sweeps".
+
 
 .. _dataset-creation-from-videos:
 

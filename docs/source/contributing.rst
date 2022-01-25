@@ -6,7 +6,7 @@ PV Hawk is non-profit and open source. As such we rely on your contribution to m
 PV module segmentation
 ----------------------
 
-As mention in the :doc:`limitations`, PV module segmentation is currently robust for PV plants with row-based layout, but has issues with rooftop plants.
+As mention in the :doc:`limitations`, PV module segmentation is currently robust for PV plants with row-based layout, but has issues with rooftop plants. Large improvements are to be expected when training on a more diverse dataset including rooftop plants. It may also be worthwhile to use a more recent instance segmentation model than Mask R-CNN.
 
 
 Use of visual videos in addition to IR videos
