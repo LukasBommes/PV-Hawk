@@ -56,10 +56,6 @@ Note, that the port number must match the port forwarded when starting the Docke
 
   Exemplary target for calibrating a thermal IR camera. (a) shows a visual image and (b) and (c) are thermal images.
 
-[maybe it is sufficient to provide the rough parameters, i.e. correct focal length, perfect image center and zero distortion]
-[mention that these are only initial parameters and they are further optimized during the OpenSfM procedure]
-[mention option to perform calibration with a custom script or matlab and provide camera matrix and distortion coefficients manually as JSON file]
-
 
 .. _video_recording:
 

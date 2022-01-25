@@ -7,3 +7,11 @@ TODO:
 - add logo
 
 - zip the patches of each module using Python ZipFile
+
+
+Docs:
+
+camera calibration:
+[maybe it is sufficient to provide the rough parameters, i.e. correct focal length, perfect image center and zero distortion]
+[mention that these are only initial parameters and they are further optimized during the OpenSfM procedure]
+[mention option to perform calibration with a custom script or matlab and provide camera matrix and distortion coefficients manually as JSON file]
