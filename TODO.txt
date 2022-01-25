@@ -1,7 +1,5 @@
 TODO:
 
-- make segmentation settings available from config file
-
 - continue writing tests (create unit test and integration test folder, add mAP computation on small test dataset to segmentation test)
 - finish docs
 - fix run_test workflows

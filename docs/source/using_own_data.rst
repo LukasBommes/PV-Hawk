@@ -41,7 +41,7 @@ Camera calibration
 
 PV Hawk requires calibrated parameters of a pinhole camera model for the georeferencing of PV modules. To obtain these parameters a camera calibration needs to be performed. Calibration needs to be performed only once for a camera.
 
-Calibration requires a target similar to the one `here <https://docs.opencv.org/3.4/dc/dbb/tutorial_py_calibration.html>`_ but usable in the IR spectrum. To this end, your target needs to be made of materials with different thermal emissivity. We obtained good results using black foil squares applied to a white polymer panel. Also make sure that images are as blur-free as possible with good contrast between white and black squares.
+Calibration requires a target such as the one in :numref:`calibration_target`. While the pattern is a standard checkerboard (see `here <https://docs.opencv.org/3.4/dc/dbb/tutorial_py_calibration.html>`_), the target must be visible in the IR spectrum. Simply printing the target onto paper does not work. Instead, the target needs to be made of materials with different thermal emissivity for the black and white squares. We obtained good results using black foil squares applied to a white polymer panel. Also make sure that images are as blur-free as possible with good contrast between white and black squares.
 
 We provide a Jupyter notebook for camera calibration in `calibration/01_calibrate.iypnb`. Information on the usage is provided in the notebook. To run the calibration notebook, first start an interactive Docker session as described in :ref:`run-the-docker-image`. Then start jupyter lab in in the interactive Docker session with the command
 
@@ -49,16 +49,16 @@ We provide a Jupyter notebook for camera calibration in `calibration/01_calibrat
 
   jupyter lab --allow-root --ip=0.0.0.0 --port=8888
 
-Open the displayed URL in the web browser on your machine. In jupyter lab navigate to `calibration` and open the `01_calibrate.ipynb` notebook.
-
-[maybe it is sufficient to provide the rough parameters, i.e. correct focal length, perfect image center and zero distortion]
-[mention that these are only initial parameters and they are further optimized during the OpenSfM procedure]
-[mention option to perform calibration with a custom script or matlab and provide camera matrix and distortion coefficients manually as JSON file]
+Note, that the port number must match the port forwarded when starting the Docker container. Open the displayed URL in the web browser on your machine. In jupyter lab navigate to `calibration` and open the `01_calibrate.ipynb` notebook. Make necessary changes, and then run the notebook.
 
 .. _calibration_target:
 .. figure:: images/calibration_target.png
 
   Exemplary target for calibrating a thermal IR camera. (a) shows a visual image and (b) and (c) are thermal images.
+
+[maybe it is sufficient to provide the rough parameters, i.e. correct focal length, perfect image center and zero distortion]
+[mention that these are only initial parameters and they are further optimized during the OpenSfM procedure]
+[mention option to perform calibration with a custom script or matlab and provide camera matrix and distortion coefficients manually as JSON file]
 
 
 .. _video_recording:
