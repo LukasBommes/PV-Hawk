@@ -38,9 +38,7 @@ jobs:
         
       - name: Test with unittest
         run: |
-          python -m unittest tests/integration/test_segmentation.py
-        #run: |
-        #  python -m unittest tests/**/test_*.py
+          python -m unittest tests/**/test_*.py
           
       #- name: Test coverage analysis
       #  run: |
