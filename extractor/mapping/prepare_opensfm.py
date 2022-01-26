@@ -235,7 +235,7 @@ def run(cluster, frames_root, calibration_root, output_dir, opensfm_settings,
 
     frame_names = []
     for selected_frame in selected_frames:
-        frame, _, frame_name, _ = cap.get_frame(selected_frame, preprocess=True, undistort=True, equalize_hist=True)  # Note: undistort should probably be set to False
+        frame, _, frame_name, _ = cap.get_frame(selected_frame, preprocess=True, undistort=False, equalize_hist=True)  # Note: undistort should probably be set to False
         frame_names.append(frame_name)
         frame = cv2.cvtColor(frame, cv2.COLOR_GRAY2BGR)
         videowriter.write(frame)

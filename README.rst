@@ -3,7 +3,7 @@ PV Hawk
 
 **Documentation**: https://lukasbommes.github.io/PV-Hawk/
 
-**Code**: https://lukasbommes.github.io/PV-Hawk/
+**Code**: https://github.com/LukasBommes/PV-Hawk
 
 PV Hawk is a computer vision pipeline for the **automated inspection** of large-scale **photovoltaic (PV) plants** by means of **thermal infrared (IR) videos** acquired by a drone.
 
