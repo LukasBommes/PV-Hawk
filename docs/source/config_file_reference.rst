@@ -242,7 +242,7 @@ The segmentation task has some further settings in `extractor/segmentation/confi
 
 .. rubric:: opensfm
 
-* **matching_gps_distance** (integer): Maximum GPS distance between two images for matching.
+* **matching_gps_distance** (integer): Maximum GPS distance (in meters) between two images for matching.
 * **use_altitude_tag** (boolean): If True use GPS altitude measurement during reconstruction. Set to False if you do not have a reliable GPS altitude measurement.
 * **align_method** (string): Method for global alignment of the reconstruction. Either "orientation_prior" or "naive". Set to "orientation_prior" to assume a constant camera orientation.
 * **align_orientation_prior** (string): If orientation prior is used, which orientation prior to use. Either "horizontal", "vertical" or "no_roll".
