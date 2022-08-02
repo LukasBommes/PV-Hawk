@@ -174,6 +174,14 @@ Smoothen the triangulated PV modules. Nearby module corners are moved closer to 
 Crops the image patches of each PV module based on the estimated quadrilaterals. Patches are transformed to a rectangular region with a homography.
 
 
+Task Order
+----------
+
+Tasks are executed in the same order as they are enlisted in the config file. In general each task depends on the preceeding tasks. Thus, you have to run them in the same order as they are enlisted in the exemplary config file above. It can make sense to run individual tasks or only a few tasks at a time to validate intermediate results. In this case, make sure to uncomment the tasks you already ran, or otherwise they will be rerun.
+
+An exception to the sequantial order is the `crop_pv_modules` tasks. Normally, you would want to run it as the last step in the pipeline. However, if you only want to extract IR image patches and do not need geocoordinates of the modules, you can omit all tasks from `prepare_opensfm` (included) to `refine_triangulation` (included) and run the `crop_pv_modules` task as last step in the pipeline directly after the `compute_pv_module_quadrilaterals` task.
+
+
 Settings
 --------
 
@@ -234,7 +242,7 @@ The segmentation task has some further settings in `extractor/segmentation/confi
 
 .. rubric:: opensfm
 
-* **matching_gps_distance** (integer): Maximum GPS distance between two images for matching.
+* **matching_gps_distance** (integer): Maximum GPS distance (in meters) between two images for matching.
 * **use_altitude_tag** (boolean): If True use GPS altitude measurement during reconstruction. Set to False if you do not have a reliable GPS altitude measurement.
 * **align_method** (string): Method for global alignment of the reconstruction. Either "orientation_prior" or "naive". Set to "orientation_prior" to assume a constant camera orientation.
 * **align_orientation_prior** (string): If orientation prior is used, which orientation prior to use. Either "horizontal", "vertical" or "no_roll".

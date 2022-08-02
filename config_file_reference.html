@@ -51,6 +51,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Config File Reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#general">General</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#tasks">Tasks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#task-order">Task Order</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#settings">Settings</a></li>
 </ul>
 </li>
@@ -209,6 +210,11 @@ tasks:
 <p class="rubric">crop_pv_modules</p>
 <p>Crops the image patches of each PV module based on the estimated quadrilaterals. Patches are transformed to a rectangular region with a homography.</p>
 </section>
+<section id="task-order">
+<h2>Task Order<a class="headerlink" href="#task-order" title="Permalink to this headline"></a></h2>
+<p>Tasks are executed in the same order as they are enlisted in the config file. In general each task depends on the preceeding tasks. Thus, you have to run them in the same order as they are enlisted in the exemplary config file above. It can make sense to run individual tasks or only a few tasks at a time to validate intermediate results. In this case, make sure to uncomment the tasks you already ran, or otherwise they will be rerun.</p>
+<p>An exception to the sequantial order is the <cite>crop_pv_modules</cite> tasks. Normally, you would want to run it as the last step in the pipeline. However, if you only want to extract IR image patches and do not need geocoordinates of the modules, you can omit all tasks from <cite>prepare_opensfm</cite> (included) to <cite>refine_triangulation</cite> (included) and run the <cite>crop_pv_modules</cite> task as last step in the pipeline directly after the <cite>compute_pv_module_quadrilaterals</cite> task.</p>
+</section>
 <section id="settings">
 <h2>Settings<a class="headerlink" href="#settings" title="Permalink to this headline"></a></h2>
 <p>Note: Boolean values can be represented in the <cite>config.yml</cite> as True / False or as yes / no.</p>
@@ -264,7 +270,7 @@ tasks:
 </ul>
 <p class="rubric">opensfm</p>
 <ul class="simple">
-<li><p><strong>matching_gps_distance</strong> (integer): Maximum GPS distance between two images for matching.</p></li>
+<li><p><strong>matching_gps_distance</strong> (integer): Maximum GPS distance (in meters) between two images for matching.</p></li>
 <li><p><strong>use_altitude_tag</strong> (boolean): If True use GPS altitude measurement during reconstruction. Set to False if you do not have a reliable GPS altitude measurement.</p></li>
 <li><p><strong>align_method</strong> (string): Method for global alignment of the reconstruction. Either “orientation_prior” or “naive”. Set to “orientation_prior” to assume a constant camera orientation.</p></li>
 <li><p><strong>align_orientation_prior</strong> (string): If orientation prior is used, which orientation prior to use. Either “horizontal”, “vertical” or “no_roll”.</p></li>
