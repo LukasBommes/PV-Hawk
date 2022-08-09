@@ -19,7 +19,7 @@ Open a new terminal and navigate to the location where you want to install PV Ha
 
 .. code-block:: console
 
-  git clone -b "v1.0.0" https://github.com/LukasBommes/PV-Hawk
+  git clone https://github.com/LukasBommes/PV-Hawk
 
 
 Step 3: Download Mask R-CNN weights

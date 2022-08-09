@@ -78,7 +78,14 @@ Important for this tutorial is the `tasks` list, which specifies the pipeline st
 
 Another important field in the config is the `clusters` field. Each cluster corresponds to a subset of the video frames in the dataset, which is processed indepently of other clusters. This enables excluding parts of the video, e.g., when you change batteries or start/land the drone. We recommend to split long sequences to clusters of at most 5000 video frames to enhance processing speed and robustness of the pipeline. Each cluster must contain the index of its first and last frame (not inclusive) and a unique `cluster_idx`, which is an integer starting from 0 and incrementing by 1 for each cluster.
 
-To aid specification of the clusters we provide a script in `scripts/view_gps.py`. This script plots the GPS trajectory and corresponding video frames as shown below. You can use this to obtain the frame indices for your clusters. Note, that you must run the script inside the Docker container as explained :ref:`below <run-the-docker-image>`.
+To aid specification of the clusters we provide a script in `scripts/view_gps.py`, which you can run as follows
+
+.. code-block:: console
+
+  cd scripts
+  python view_gps.py /storage/pv-hawk-tutorial/workdir
+
+This script plots the GPS trajectory and corresponding video frames as shown below. You can use this to obtain the frame indices for your clusters. Note, that you must run the script inside the Docker container as explained :ref:`below <run-the-docker-image>`.
 
 .. image:: images/view_gps_script.png
 
