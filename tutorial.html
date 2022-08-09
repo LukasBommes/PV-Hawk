@@ -154,7 +154,12 @@ tasks:
 </div>
 <p>Important for this tutorial is the <cite>tasks</cite> list, which specifies the pipeline steps to run. Steps that are commented out will not be run. In this case, the <cite>split_sequences</cite> step will be omitted because the example data is already given in the form of individual images instead of video files.</p>
 <p>Another important field in the config is the <cite>clusters</cite> field. Each cluster corresponds to a subset of the video frames in the dataset, which is processed indepently of other clusters. This enables excluding parts of the video, e.g., when you change batteries or start/land the drone. We recommend to split long sequences to clusters of at most 5000 video frames to enhance processing speed and robustness of the pipeline. Each cluster must contain the index of its first and last frame (not inclusive) and a unique <cite>cluster_idx</cite>, which is an integer starting from 0 and incrementing by 1 for each cluster.</p>
-<p>To aid specification of the clusters we provide a script in <cite>scripts/view_gps.py</cite>. This script plots the GPS trajectory and corresponding video frames as shown below. You can use this to obtain the frame indices for your clusters. Note, that you must run the script inside the Docker container as explained <a class="reference internal" href="#run-the-docker-image"><span class="std std-ref">below</span></a>.</p>
+<p>To aid specification of the clusters we provide a script in <cite>scripts/view_gps.py</cite>, which you can run as follows</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd scripts</span>
+<span class="go">python view_gps.py /storage/pv-hawk-tutorial/workdir</span>
+</pre></div>
+</div>
+<p>This script plots the GPS trajectory and corresponding video frames as shown below. You can use this to obtain the frame indices for your clusters. Note, that you must run the script inside the Docker container as explained <a class="reference internal" href="#run-the-docker-image"><span class="std std-ref">below</span></a>.</p>
 <img alt="_images/view_gps_script.png" src="_images/view_gps_script.png" />
 <p>In case of this tutorial there is only a single cluster starting at the first frame (<cite>frame_idx_start: 0</cite>) and ending at the last frame (<cite>frame_idx_end: 2541</cite>) of the dataset.</p>
 <p>For an in-depth explanation of the other fields in the config file see the <a class="reference internal" href="config_file_reference.html"><span class="doc">Config File Reference</span></a>.</p>
