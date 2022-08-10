@@ -22,7 +22,7 @@ You can also choose any other location than `/storage`.
 Step 2: Download the example dataset
 ------------------------------------
 
-Download and extract the `example dataset <https://drive.google.com/file/d/1NlRpSqFIzaTuEGkFHur6nbu1bE9aPew0/view?usp=sharing>`_, which covers the first twelve rows of a large-scale PV plant. The download contains a folder named `splitted`, which follows the required format of an input dataset for PV Hawk (see :ref:`dataset-creation-from-videos`).
+Download and extract the `example dataset <https://github.com/LukasBommes/PV-Hawk/releases/download/v1.0.0/example_data_double_row.zip>`_, which covers the first twelve rows of a large-scale PV plant. The download contains a folder named `splitted`, which follows the required format of an input dataset for PV Hawk (see :ref:`dataset-creation-from-videos`).
 
 Place the extracted `splitted` directory and its contents into the working directory. The resulting directory structure should look as follows
 

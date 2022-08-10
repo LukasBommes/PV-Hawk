@@ -3,7 +3,6 @@ __pycache__
 .vscode
 
 debug.txt
-pv-hawk.tar
 
 docker_command.txt
 
@@ -12,8 +11,6 @@ htmlcov
 .cache
 .hypothesis
 .mutmut-cache
-
-/data
 
 extractor/segmentation/Mask_RCNN/logs
 extractor/segmentation/Mask_RCNN/mask_rcnn_coco.h5
