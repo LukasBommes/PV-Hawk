@@ -20,6 +20,6 @@ The training dataset should contain the following two folders:
 - `images_radiometric`: Your custom 16-bit IR video frames containing PV modules.
 - `annotations`: JSON file for each image with annotated PV modules. The annotation can be created with the `Grid Annotation Tool <https://github.com/LukasBommes/Grid-Annotation-Tool>`_.
 
-If you want to start training from MS COCO pretrained weights, you can download the corresponding weights file from `here <https://drive.google.com/file/d/1x-Q79OxMqoFaXLh6IguB1UCV4RZys49J/view?usp=sharing>`_ and move it to `extractor/segmentation/Mask_RCNN`.
+If you want to start training from MS COCO pretrained weights, you can download the corresponding weights file from `here <https://github.com/LukasBommes/PV-Hawk/releases/download/v1.0.0/mask_rcnn_coco.h5>`_ and move it to `extractor/segmentation/Mask_RCNN`.
 
 After training weights of the new model will be available in `extractor/segmentation/Mask_RCNN/ logs/pv_modules\<timestamp\>/mask_rcnn_pv_modules_\<epoch\>.h5` where `<timestamp>` is the timestamp at the beginning of training and `<epoch>` the number of epochs the model was trained. To use the newly trained model set the `WEIGHTS_FILE` parameter in `extractor/segmentation/configs.py` to the path of the `*.h5` weights file.
