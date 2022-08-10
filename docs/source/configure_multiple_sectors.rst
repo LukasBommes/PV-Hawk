@@ -3,7 +3,7 @@ Configuring Multiple Sectors
 
 For large PV plants it is helpful to split the plant into smaller sectors and process sectors individually. To do so the structure of the working directory and the config file have to be altered slightly.
 
-Lets consider an extended version of the dataset used in the :doc:`tutorial`. Download the second part of the dataset `from here <https://drive.google.com/file/d/1w6PE1ygdfqpchaNE0xAc9mThPA_6q4Im/view?usp=sharing>`_. This second part is just another scan of the same section of the PV plant (with rows scanned individually rather than in pairs). However, in practice, each dataset part will correspond to different sectors of your PV plant. But for the explanation below this difference does not matter.
+Lets consider an extended version of the dataset used in the :doc:`tutorial`. Download the second part of the dataset `from here <https://github.com/LukasBommes/PV-Hawk/releases/download/v1.0.0/example_data_single_row.zip>`_. This second part is just another scan of the same section of the PV plant (with rows scanned individually rather than in pairs). However, in practice, each dataset part will correspond to different sectors of your PV plant. But for the explanation below this difference does not matter.
 
 To process both datasets in a single pipeline run, first create a new working directory with the following structure
 
