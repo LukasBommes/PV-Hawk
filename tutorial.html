@@ -180,9 +180,10 @@ tasks:
 <span class="go">  --ipc=host \</span>
 <span class="go">  --env=&quot;DISPLAY&quot; \</span>
 <span class="go">  --gpus=all \</span>
-<span class="go">  -v /tmp/.X11-unix:/tmp/.X11-unix:rw \</span>
-<span class="go">  -v &quot;$(pwd)&quot;:/pvextractor \</span>
-<span class="go">  -v /storage:/storage \</span>
+<span class="go">  --mount type=bind,src=/tmp/.X11-unix,dst=/tmp/.X11-unix:rw \</span>
+<span class="go">  --mount type=bind,src=&quot;$(pwd)&quot;,dst=/pvextractor \</span>
+<span class="go">  --mount type=volume,dst=/pvextractor/extractor/mapping/OpenSfM \</span>
+<span class="go">  --mount type=bind,src=/storage,dst=/storage \</span>
 <span class="go">  -p &quot;8888:8888&quot; \</span>
 <span class="go">  lubo1994/pv-hawk:latest \</span>
 <span class="go">  bash</span>
@@ -191,8 +192,8 @@ tasks:
 <p>This starts a bash shell inside the Container. From this shell you will run all forthcoming commands relating to PV Hawk.</p>
 <p>If you encounter an error message stating “Bind for 0.0.0.0:8888 failed: port is already allocated”, simply change the port number from 8888 to another port or omit the port forwarding option (<cite>-p “8888:8888”</cite>) alltogether. Port forwarding is only needed to run jupter lab inside the container. For instance, to train the Mask R-CNN model or perform camera calibration.</p>
 <p>The <cite>–gpus=all</cite> option enables access of the GPU for Mask R-CNN inference. If you do not have a deep learning-capable GPU you can omit this option and PV Hawk will automatically fall back to using the CPU.</p>
-<p>The options <cite>–ipc=host</cite>, <cite>–env=”DISPLAY”</cite>, <cite>-v /tmp/.X11-unix:/tmp/.X11-unix:rw</cite> are required for graphical output of scripts running within the container. Just leave them untouched.</p>
-<p>The <cite>-v “$(pwd)”:/pvextractor</cite> and <cite>-v /storage:/storage</cite> options map directories of your machine inside the Docker container. Mapping the <cite>/storage</cite> directory is needed to access our dataset from within the Docker container. If you placed your dataset at another location (e.g. at <cite>/home/mydata</cite>), please change the mapping accordingly (e.g. to <cite>-v /home/mydata:/home/mydata</cite>).</p>
+<p>The options <cite>–ipc=host</cite>, <cite>–env=”DISPLAY”</cite>, <cite>–mount type=bind,src=/tmp/.X11-unix,dst=/tmp/.X11-unix:rw</cite> are required for graphical output of scripts running within the container. Just leave them untouched.</p>
+<p>The <cite>–mount type=bind,src=”$(pwd)”,dst=/pvextractor</cite> and <cite>–mount type=bind,src=/storage,dst=/storage</cite> options map directories of your machine inside the Docker container. Mapping the <cite>/storage</cite> directory is needed to access our dataset from within the Docker container. If you placed your dataset at another location (e.g. at <cite>/home/mydata</cite>), please change the mapping accordingly (e.g. to <cite>–mount type=bind,src=/home/mydata,dst=/home/mydata</cite>).</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>It is important to launch the Docker container from the location of the PV Hawk source code. If you launch it from another location, the source code will not be available inside the container you will not be able to run PV Hawk.</p>
