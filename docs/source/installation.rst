@@ -50,15 +50,16 @@ PV Hawk comes with some test cases, which you can run to test whether the instal
   xhost +
 
 .. code-block:: console
-
+    
   sudo docker run -it \
     --ipc=host \
     --env="DISPLAY" \
     --gpus=all \
-    -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
-    -v "$(pwd)":/pvextractor \
+    --mount type=bind,src=/tmp/.X11-unix,dst=/tmp/.X11-unix:rw \
+    --mount type=bind,src="$(pwd)",dst=/pvextractor \
+    --mount type=volume,dst=/pvextractor/extractor/mapping/OpenSfM \
     lubo1994/pv-hawk:latest \
-    bash
+    bash 
     
 This should start an interactive shell in the Docker container. Run the tests in that shell with
 
