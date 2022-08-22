@@ -2,6 +2,10 @@ FROM tensorflow/tensorflow:1.15.2-gpu-py3
 
 WORKDIR /
 
+# Fix for GPG key error (see https://github.com/NVIDIA/nvidia-docker/issues/1632)
+RUN rm /etc/apt/sources.list.d/cuda.list
+RUN rm /etc/apt/sources.list.d/nvidia-ml.list
+
 # OpenCV & matplotlib dependencies
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
