@@ -113,14 +113,15 @@ This ensures that scripts running inside the container (e.g. the `view_gps.py` s
 Now, open a new terminal window. Navigate to the root directory of the PV Hawk source code and start the Docker container with the command
 
 .. code-block:: console
-
+    
   sudo docker run -it \
     --ipc=host \
     --env="DISPLAY" \
     --gpus=all \
-    -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
-    -v "$(pwd)":/pvextractor \
-    -v /storage:/storage \
+    --mount type=bind,src=/tmp/.X11-unix,dst=/tmp/.X11-unix:rw \
+    --mount type=bind,src="$(pwd)",dst=/pvextractor \
+    --mount type=volume,dst=/pvextractor/extractor/mapping/OpenSfM \
+    --mount type=bind,src=/storage,dst=/storage \
     -p "8888:8888" \
     lubo1994/pv-hawk:latest \
     bash
@@ -131,9 +132,9 @@ If you encounter an error message stating "Bind for 0.0.0.0:8888 failed: port is
 
 The `--gpus=all` option enables access of the GPU for Mask R-CNN inference. If you do not have a deep learning-capable GPU you can omit this option and PV Hawk will automatically fall back to using the CPU. 
 
-The options `--ipc=host`, `--env="DISPLAY"`, `-v /tmp/.X11-unix:/tmp/.X11-unix:rw` are required for graphical output of scripts running within the container. Just leave them untouched.
+The options `--ipc=host`, `--env="DISPLAY"`, `--mount type=bind,src=/tmp/.X11-unix,dst=/tmp/.X11-unix:rw` are required for graphical output of scripts running within the container. Just leave them untouched.
 
-The `-v "$(pwd)":/pvextractor` and `-v /storage:/storage` options map directories of your machine inside the Docker container. Mapping the `/storage` directory is needed to access our dataset from within the Docker container. If you placed your dataset at another location (e.g. at `/home/mydata`), please change the mapping accordingly (e.g. to `-v /home/mydata:/home/mydata`).
+The `--mount type=bind,src="$(pwd)",dst=/pvextractor` and `--mount type=bind,src=/storage,dst=/storage` options map directories of your machine inside the Docker container. Mapping the `/storage` directory is needed to access our dataset from within the Docker container. If you placed your dataset at another location (e.g. at `/home/mydata`), please change the mapping accordingly (e.g. to `--mount type=bind,src=/home/mydata,dst=/home/mydata`).
 
 .. note::
   It is important to launch the Docker container from the location of the PV Hawk source code. If you launch it from another location, the source code will not be available inside the container you will not be able to run PV Hawk.

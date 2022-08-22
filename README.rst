@@ -19,13 +19,13 @@ After recording an IR video of a PV plant, individual video frames and the corre
 
 PV Hawk implements the method described briefly in `How PV Hawk Works <https://lukasbommes.github.io/PV-Hawk/method.html>`_. For more details see our journal papers:
 
-[1] L. Bommes, T. Pickel, C. Buerhop-Lutz, J. Hauch, C. Brabec, I. Peters, ”Georeferencing of photovoltaic modules from aerial infrared videos using structure-from-motion,” Progress in Photovoltaics: Research and Applications, 2022 (submitted, acceptance pending).
+[1] L. Bommes, T. Pickel, C. Buerhop-Lutz, J. Hauch, C. Brabec, and I. Peters, “Georeferencing of photovoltaic modules from aerial infrared videos using structure-from-motion,” Progress in Photovoltaics: Research and Applications, vol. 30, no. 9, pp. 1122–1135, 2022. `DOI 10.1002/pip.3564 <https://doi.org/10.1002/pip.3564>`_. [`ArXiv 2204.02733 <https://arxiv.org/abs/2204.02733>`_]
 
-[2] L. Bommes, T. Pickel, C. Buerhop-Lutz, J. Hauch, C. Brabec, I. Peters, ”Computer vision tool for detection, mapping, and fault classification of photovoltaics modules in aerial IR videos,” Progress in Photovoltaics: Research and Applications, 2021. [`Wiley PIP <https://onlinelibrary.wiley.com/doi/10.1002/pip.3448>`_, `ArXiv <https://arxiv.org/abs/2106.07314>`_]
+[2] L. Bommes, T. Pickel, C. Buerhop-Lutz, J. Hauch, C. Brabec, and I. Peters, “Computer vision tool for detection, mapping, and fault classification of photovoltaics modules in aerial IR videos,” Progress in Photovoltaics: Research and Applications, vol. 29, no. 12, pp. 1236–1251, 2021. `DOI 10.1002/pip.3448 <https://doi.org/10.1002/pip.3448>`_. `ArXiv 2106.07314 <https://arxiv.org/abs/2106.07314>`_]
 
 You may also find our related work on PV module defect detection interesting, which uses a dataset created with PV Hawk:
 
-[3] L. Bommes, M. Hoffmann, C. Buerhop-Lutz, T. Pickel, J. Hauch, C. Brabec, A. Maier, I. Peters, ”Anomaly detection in IR images of PV modules using supervised contrastive learning,” Progress in Photovoltaics: Research and Applications, 2022 (accepted for publication). [`ArXiv <https://arxiv.org/abs/2112.02922>`_]
+[3] L. Bommes, M. Hoffmann, C. Buerhop-Lutz, T. Pickel, J. Hauch, C. Brabec, A. Maier, and I. Peters, “Anomaly detection in IR images of PV modules using supervised contrastive learning,” Progress in Photovoltaics: Research and Applications, vol. 30, no. 6, pp. 597–614, 2022. `DOI 10.1002/pip.3518 <https://doi.org/10.1002/pip.3518>`_. [`ArXiv 2112.02922 <https://arxiv.org/abs/2112.02922>`_]
 
 PV Hawk is a command line tool written in Python. It is free of charge, open-source, and MIT licensed.
 

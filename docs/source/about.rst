@@ -42,38 +42,49 @@ Citation
 
 PV Hawk is based on the following journal papers. If you use PV Hawk in your own research please consider citing us.
 
-[1] L. Bommes, T. Pickel, C. Buerhop-Lutz, J. Hauch, C. Brabec, I. Peters, ”Georeferencing of photovoltaic modules from aerial infrared videos using structure-from-motion,” Progress in Photovoltaics: Research and Applications, 2022 (submitted, acceptance pending).
+[1] L. Bommes, T. Pickel, C. Buerhop-Lutz, J. Hauch, C. Brabec, and I. Peters, “Georeferencing of photovoltaic modules from aerial infrared videos using structure-from-motion,” Progress in Photovoltaics: Research and Applications, vol. 30, no. 9, pp. 1122–1135, 2022. `DOI 10.1002/pip.3564 <https://doi.org/10.1002/pip.3564>`_. [`ArXiv 2204.02733 <https://arxiv.org/abs/2204.02733>`_]
 
 .. code-block:: text
 
-	[paper not yet published]
+	@article{Bommes.2022b,
+	    author = {Bommes, Lukas and Pickel, Tobias and Buerhop-Lutz, Claudia and Hauch, Jens and Brabec, Christoph and Peters, Ian Marius},
+	    title = {Georeferencing of photovoltaic modules from aerial infrared videos using structure-from-motion},
+	    journal = {Progress in Photovoltaics: Research and Applications},
+	    year = {2022},
+	    volume = {30},
+	    number = {9},
+	    pages = {1122--1135},
+	    doi = {10.1002/pip.3564}}
 
 
-[2] L. Bommes, T. Pickel, C. Buerhop-Lutz, J. Hauch, C. Brabec, I. Peters, ”Computer vision tool for detection, mapping, and fault classification of photovoltaics modules in aerial IR videos,” Progress in Photovoltaics: Research and Applications, 2021. [`Wiley PIP <https://onlinelibrary.wiley.com/doi/10.1002/pip.3448>`_, `ArXiv <https://arxiv.org/abs/2106.07314>`_]
+[2] L. Bommes, T. Pickel, C. Buerhop-Lutz, J. Hauch, C. Brabec, and I. Peters, “Computer vision tool for detection, mapping, and fault classification of photovoltaics modules in aerial IR videos,” Progress in Photovoltaics: Research and Applications, vol. 29, no. 12, pp. 1236–1251, 2021. `DOI 10.1002/pip.3448 <https://doi.org/10.1002/pip.3448>`_. [`ArXiv 2106.07314 <https://arxiv.org/abs/2106.07314>`_]
 
 .. code-block:: text
-
+	  
 	@article{Bommes.2021,
-	  author  = {Bommes, Lukas and Pickel, Tobias and Buerhop-Lutz, Claudia and Hauch, Jens and Brabec, Christoph and Peters, Ian Marius},
-	  title   = {Computer vision tool for detection, mapping, and fault classification of photovoltaics modules in aerial {IR} videos},
-	  journal = {Progress in Photovoltaics: Research and Applications},
-	  volume  = {29},
-	  number  = {12},
-	  pages   = {1236--1251},
-	  year    = {2021}}
+	    author = {Bommes, Lukas and Pickel, Tobias and Buerhop-Lutz, Claudia and Hauch, Jens and Brabec, Christoph and Peters, Ian Marius},
+	    title = {Computer vision tool for detection, mapping, and fault classification of photovoltaics modules in aerial {IR} videos},
+	    journal = {Progress in Photovoltaics: Research and Applications},
+	    year = {2021},
+	    volume = {29},
+	    number = {12},
+	    pages = {1236--1251},
+	    doi = {10.1002/pip.3448}}
 
 	  
-[3] L. Bommes, M. Hoffmann, C. Buerhop-Lutz, T. Pickel, J. Hauch, C. Brabec, A. Maier, I. Peters, ”Anomaly detection in IR images of PV modules using supervised contrastive learning,” Progress in Photovoltaics: Research and Applications, 2022 (accepted for publication). [`ArXiv <https://arxiv.org/abs/2112.02922>`_]
+[3] L. Bommes, M. Hoffmann, C. Buerhop-Lutz, T. Pickel, J. Hauch, C. Brabec, A. Maier, and I. Peters, “Anomaly detection in IR images of PV modules using supervised contrastive learning,” Progress in Photovoltaics: Research and Applications, vol. 30, no. 6, pp. 597–614, 2022. `DOI 10.1002/pip.3518 <https://doi.org/10.1002/pip.3518>`_. [`ArXiv 2112.02922 <https://arxiv.org/abs/2112.02922>`_]
 
 .. code-block:: text
+	
+	@article{Bommes.2022,
+	    author = {Bommes, Lukas and Hoffmann, Mathis and Buerhop-Lutz, Claudia and Pickel, Tobias and Hauch, Jens and Brabec, Christoph and Maier, Andreas and Peters, Ian Marius},
+	    title = {Anomaly detection in {IR} images of {PV} modules using supervised contrastive learning},
+	    journal = {Progress in Photovoltaics: Research and Applications},
+	    year = {2022},
+	    volume = {30},
+	    number = {6},
+	    pages = {597--614},
+	    doi = {10.1002/pip.3518}}
 
-	@misc{Bommes.2021b,
-	  author={Bommes, Lukas and Hoffmann, Mathis and Buerhop-Lutz, Claudia and Pickel, Tobias and Hauch, Jens and Brabec, Christoph and Maier, Andreas and Peters, Ian Marius},
-	  title={Anomaly Detection in IR Images of PV Modules using Supervised Contrastive Learning}, 
-	  year={2021},
-	  eprint={2112.02922},
-	  archivePrefix={arXiv},
-	  primaryClass={cs.CV}
-	}
 
 
