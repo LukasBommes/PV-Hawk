@@ -19,7 +19,10 @@ jobs:
         
       - name: Install tools
         run: |
-          apt-get update -y && apt-get install -y wget
+          rm /etc/apt/sources.list.d/cuda.list
+          rm /etc/apt/sources.list.d/nvidia-ml.list
+          apt-get update -y
+          apt-get install -y wget
       
       - name: Install Python dependencies
         run: |
