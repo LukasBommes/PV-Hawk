@@ -19,7 +19,10 @@ class PVConfig(Config):
 
     # Path to MS COCO pretrained weights
     COCO_MODEL_PATH = "/pvextractor/extractor/segmentation/Mask_RCNN/mask_rcnn_coco.h5"
-
+    
+    # set to False to ignore partially visible (truncated) PV modules
+    USE_TRUNCATED_MODULES = False
+    
     # Train on 1 GPU and 8 images per GPU. We can put multiple images on each
     # GPU because the images are small. Batch size is 8 (GPUs * images/GPU).
     GPU_COUNT = 1
@@ -27,14 +30,6 @@ class PVConfig(Config):
 
     # Number of classes (including background)
     NUM_CLASSES = 1 + 1  # background + pv
-
-    # Use small images for faster training. Set the limits of the small side
-    # the large side, and that determines the image shape.
-    IMAGE_MIN_DIM = 512
-    IMAGE_MAX_DIM = 640
-
-    # Image mean (RGB)
-    MEAN_PIXEL = np.array([129.4, 129.4, 129.4])  # computed from training set
 
     # Maximum number of ground truth instances to use in one image
     # TODO: set this to the maximum value in train/test set
@@ -58,3 +53,31 @@ class PVConfig(Config):
     #     False: Freeze BN layers. Good when using a small batch size
     #     True: (don't use). Set layer in training mode even when predicting
     TRAIN_BN = False  # Defaulting to False since batch size is often small
+    
+    
+class PVConfigIR(PVConfig):
+    # whether dataset contains monochrome 16-bit IR 
+    # images ("ir") or 8-bit visual RGB images ("rgb")
+    DATASET_MODE = "ir"
+    
+    # Images are resized and padded with zeros to [max_dim, max_dim] 
+    # during training and prediction.
+    IMAGE_MIN_DIM = 512
+    IMAGE_MAX_DIM = 640
+    
+    # Image mean (RGB) computed from training set
+    MEAN_PIXEL = np.array([129.4, 129.4, 129.4])
+    
+    
+class PVConfigRGB(PVConfig):
+    # whether dataset contains monochrome 16-bit IR 
+    # images ("ir") or 8-bit visual RGB images ("rgb")
+    DATASET_MODE = "rgb"
+    
+    # Images are resized and padded with zeros to [max_dim, max_dim] 
+    # during training and prediction.
+    IMAGE_MIN_DIM = 540 #512
+    IMAGE_MAX_DIM = 960 #640
+    
+    # Image mean (RGB) computed from training set
+    MEAN_PIXEL = np.array([102.99604791, 108.6435939 , 125.23814966])
