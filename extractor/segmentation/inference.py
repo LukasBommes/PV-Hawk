@@ -15,7 +15,7 @@ import numpy as np
 import cv2
 
 import extractor.segmentation.Mask_RCNN.mrcnn.model as modellib
-from extractor.common import Capture, delete_output
+from extractor.common import Capture, delete_output, get_selected_ir_rgb
 from extractor.segmentation.configs import PVConfig
 
 # Bugfix taken from:
@@ -77,8 +77,9 @@ def save(frame, frame_name, result, output_dir, videowriter):
 
 
 def run(frames_root, output_dir, gpu_count, images_per_gpu, 
-    detection_min_confidence, weights_file, output_video_fps):
+    detection_min_confidence, weights_file_ir, weights_file_rgb, output_video_fps):
 
+    ir_or_rgb = get_selected_ir_rgb(frames_root)
     delete_output(output_dir)
 
     # create output paths
@@ -96,11 +97,17 @@ def run(frames_root, output_dir, gpu_count, images_per_gpu,
                       config=inference_config,
                       model_dir="")
 
+    if ir_or_rgb == "ir":
+        weights_file = weights_file_ir
+        frame_files = sorted(glob.glob(os.path.join(frames_root, "radiometric", "*.tiff")))
+    else:
+        weights_file = weights_file_rgb
+        frame_files = sorted(glob.glob(os.path.join(frames_root, "rgb", "*.jpg")))
+
     logger.info("Loading weights from {}".format(weights_file))
     model.load_weights(weights_file, by_name=True)
 
-    frame_files = sorted(glob.glob(os.path.join(frames_root, "radiometric", "*.tiff")))
-    cap = Capture(frame_files, mask_files=None)
+    cap = Capture(frame_files, ir_or_rgb, mask_files=None)
     step_idx = 0
 
     batch_size = model.config.BATCH_SIZE
@@ -118,7 +125,12 @@ def run(frames_root, output_dir, gpu_count, images_per_gpu,
         frame, _, frame_name, _ = cap.get_next_frame(preprocess=True)
         if frame is None:
             break
-        frame = np.stack((frame, frame, frame), axis=2)  # make 3-channel image
+
+        if ir_or_rgb == "ir":
+            frame = np.stack((frame, frame, frame), axis=2)  # make 3-channel image
+        else:
+            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) # BGR -> RGB
+
         frames_batch.append(frame)
         frame_names_batch.append(frame_name)
 
@@ -132,6 +144,8 @@ def run(frames_root, output_dir, gpu_count, images_per_gpu,
             frames_batch = frames_batch[:orig_batch_len]
             for frame, frame_name, result in zip(
                     frames_batch, frame_names_batch, results):
+                if ir_or_rgb == "rgb":
+                    frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
                 save(frame, frame_name, result, output_dir, videowriter)
             break
 
@@ -140,6 +154,8 @@ def run(frames_root, output_dir, gpu_count, images_per_gpu,
             results = model.detect(frames_batch, verbose=0)
             for frame, frame_name, result in zip(
                     frames_batch, frame_names_batch, results):
+                if ir_or_rgb == "rgb":
+                    frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
                 save(frame, frame_name, result, output_dir, videowriter)
             frames_batch = []
             frame_names_batch = []

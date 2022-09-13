@@ -1,28 +1,20 @@
 """Select whether to use RGB or IR frames in further steps of the pipeline.
-This creates a symlink named "images", either from "radiometric" or "rgb" folder."""
+This creates a json file named `selected_ir_rgb.json`."""
 
 import os
-import logging
-
-
-logger = logging.getLogger(__name__)
+import json
 
 
 def run(frames_root, which=None):
-
-    if which == "rgb":
-        src = os.path.join(frames_root, "rgb")
-    elif which == "ir":
-        src = os.path.join(frames_root, "radiometric")
-
-    dst = os.path.join(frames_root, "images")
+    out_file = os.path.join(frames_root, "selected_ir_rgb.json")
 
     try:
-        os.unlink(dst)
-    except OSError:
+        os.remove(out_file)
+    except FileNotFoundError:
         pass
 
-    os.symlink(src, dst)
-
-    logger.info("Selected {} frames for further processing.".format(which.upper()))
+    with open(out_file, "w") as file:
+        json.dump({
+            "selected": which
+        }, file)
     
