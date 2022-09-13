@@ -6,6 +6,7 @@ split_sequences:
   extract_gps: True
   extract_gps_altitude: False
   sync_rgb: False
+  subsample: null
   rotate_rgb: null
   rotate_ir: null
   resize_rgb: 
@@ -14,8 +15,6 @@ split_sequences:
   resize_ir: 
     width: null
     height: null
-  subsample_rgb: null
-  subsample_ir: null
 
 select_rgb_ir:
   which: ir  # ir/rgb
