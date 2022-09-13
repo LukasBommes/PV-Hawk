@@ -34,6 +34,12 @@ def load_images(filepath, mode="ir", max_num=None, preprocess_ir=True):
             image = cv2.imread(file_name, cv2.IMREAD_COLOR)
         images.append(image)
     return images, file_names
+
+
+def resize(images, dst_width, dst_height):
+    for i in range(len(images)):
+        images[i] = cv2.resize(images[i], (dst_width, dst_height), interpolation=cv2.INTER_CUBIC)
+    return images
     
     
 def find_chessboard_corners(images, grid_size, mode, draw=False):
