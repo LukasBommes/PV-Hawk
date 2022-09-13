@@ -6,9 +6,26 @@ split_sequences:
   extract_gps: True
   extract_gps_altitude: False
   sync_rgb: False
-  rotate_frames: null
+  rotate_rgb: null
+  rotate_ir: null
+  resize_rgb: 
+    width: null
+    height: null
+  resize_ir: 
+    width: null
+    height: null
+  subsample_rgb: null
+  subsample_ir: null
+
+select_rgb_ir:
+  which: ir  # ir/rgb
 
 interpolate_gps:
+
+# preprocess_frames:
+#   subsample: null
+#   resize: null
+#   rotate: null
 
 segment_pv_modules:
   gpu_count: 1

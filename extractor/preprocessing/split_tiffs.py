@@ -98,10 +98,20 @@ def rotate(frame, rotation):
     return frame
 
 
+def resize(frame, dst_width, dst_height):
+    return cv2.resize(frame, (dst_width, dst_height), interpolation=cv2.INTER_CUBIC)
+
+
+#TODO:
+# TODO: implement subsampling
+# ensure number of RGB frames matches number of IR frames and GPS positions
+# enable subsampling and resizing of frames
+
+
 def run(video_dir, output_dir, ir_file_extension=None, rgb_file_extension=None,
-extract_timestamps=True,
-    extract_gps=True, extract_gps_altitude=False, sync_rgb=True,
-    rotate_frames=None):
+    extract_timestamps=True, extract_gps=True, extract_gps_altitude=False, 
+    sync_rgb=True, rotate_rgb=None, rotate_ir=None, resize_rgb=None, resize_ir=None,
+    subsample_rgb=None, subsample_ir=None):
 
     delete_output(output_dir)
     for dirname in ["radiometric", "gps"]:
@@ -132,8 +142,10 @@ extract_timestamps=True,
                 radiometric_file = os.path.join(
                     output_dir, "radiometric", "frame_{:06d}.tiff".format(
                     frame_idx))
-                if rotate_frames:
-                    image_radiometric = rotate(image_radiometric, rotate_frames)
+                if resize_ir["width"] and resize_ir["height"]:
+                    image_radiometric = resize(image_radiometric, resize_ir["width"], resize_ir["height"])
+                if rotate_ir:
+                    image_radiometric = rotate(image_radiometric, rotate_ir)
                 cv2.imwrite(radiometric_file, image_radiometric)
 
                 if extract_timestamps:
@@ -180,13 +192,22 @@ extract_timestamps=True,
                     if last_frame_idx is None or frame_idx != last_frame_idx:
                         out_path = os.path.join(output_dir,
                             "rgb", "frame_{:06d}.jpg".format(frame_idx))
-                        if rotate_frames:
-                            frame = rotate(frame, rotate_frames)
+                        if resize_rgb["width"] and resize_rgb["height"]:
+                            frame = resize(frame, resize_rgb["width"], resize_rgb["height"])
+                        if rotate_rgb:
+                            frame = rotate(frame, rotate_rgb)
                         cv2.imwrite(
                             out_path, frame, [cv2.IMWRITE_JPEG_QUALITY, 100])
                     last_frame_idx = frame_idx
 
                     rgb_frame_idx += 1
+
+    # ensure number of RGB frames matches number of IR frames and GPS positions
+    # TODO: get this right...
+    logger.info("No. IR frames: {}".format(n_ir))
+    logger.info("No. RGB frames: {}".format(n_rgb))
+    logger.info("len(timestamps): {}".format(len(timestamps)))
+    logger.info("len(gps): {}".format(len(gps)))
 
     # store extracted timestamps to disk
     if extract_timestamps and len(timestamps) > 0:

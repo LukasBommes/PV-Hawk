@@ -76,8 +76,8 @@ class PVConfigRGB(PVConfig):
     
     # Images are resized and padded with zeros to [max_dim, max_dim] 
     # during training and prediction.
-    IMAGE_MIN_DIM = 540 #512
-    IMAGE_MAX_DIM = 960 #640
+    IMAGE_MIN_DIM = 720
+    IMAGE_MAX_DIM = 1280
     
     # Image mean (RGB) computed from training set
     MEAN_PIXEL = np.array([102.99604791, 108.6435939 , 125.23814966])

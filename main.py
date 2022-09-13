@@ -14,7 +14,8 @@ import subprocess
 
 from extractor.common import get_group_name, merge_dicts, remove_none, \
     replace_empty_fields
-from extractor.preprocessing import split_tiffs, interpolation
+from extractor.preprocessing import split_tiffs, interpolation, \
+    select_rgb_ir#, preprocess_frames
 from extractor import tracking, quadrilaterals, cropping
 from extractor.mapping import prepare_opensfm, triangulate_modules, \
     refine_triangulation
@@ -62,10 +63,25 @@ def main(work_dir):
             output_dir = os.path.join(work_dir, group_name, "splitted")
             split_tiffs.run(video_dir, output_dir, **settings["split_sequences"])
 
+        # select whether to proceed with IR or RGB frames
+        if "select_rgb_ir" in tasks:
+            logger.info("Selecting RGB/IR for further processing")
+            frames_root = os.path.join(work_dir, group_name, "splitted")
+            select_rgb_ir.run(frames_root, **settings["select_rgb_ir"])
+
+        # piecewise linear interpolation of low-frequency GPS measurements
         if "interpolate_gps" in tasks:
             logger.info("Interpolating GPS trajectory")
             frames_root = os.path.join(work_dir, group_name, "splitted")
             interpolation.run(frames_root, **settings["interpolate_gps"])
+
+        # preprocess frames (subsample, rotate, resize)
+        # if "preprocess_frames" in tasks:
+        #     logger.info("Preprocessing frames")
+        #     frames_root = os.path.join(work_dir, group_name, "splitted")
+        #     output_dir = os.path.join(work_dir, group_name, "preprocessed")
+        #     preprocess_frames.run(frames_root, output_dir, 
+        #         **settings["preprocess_frames"])
 
         # segment PV modules
         if "segment_pv_modules" in tasks:
