@@ -21,11 +21,6 @@ select_rgb_ir:
 
 interpolate_gps:
 
-# preprocess_frames:
-#   subsample: null
-#   resize: null
-#   rotate: null
-
 segment_pv_modules:
   gpu_count: 1
   images_per_gpu: 8
