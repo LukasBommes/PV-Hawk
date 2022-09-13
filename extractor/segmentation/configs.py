@@ -23,10 +23,9 @@ class PVConfig(Config):
     # set to False to ignore partially visible (truncated) PV modules
     USE_TRUNCATED_MODULES = False
     
-    # Train on 1 GPU and 8 images per GPU. We can put multiple images on each
-    # GPU because the images are small. Batch size is 8 (GPUs * images/GPU).
+    # Train on 1 GPU and 2 images per GPU. We can put multiple images on each
+    # GPU because the images are small. Batch size is 2 (GPUs * images/GPU).
     GPU_COUNT = 1
-    IMAGES_PER_GPU = 2
 
     # Number of classes (including background)
     NUM_CLASSES = 1 + 1  # background + pv
@@ -60,6 +59,9 @@ class PVConfigIR(PVConfig):
     # images ("ir") or 8-bit visual RGB images ("rgb")
     DATASET_MODE = "ir"
     
+    # Batch size (in combination with GPU_COUNT)
+    IMAGES_PER_GPU = 2
+    
     # Images are resized and padded with zeros to [max_dim, max_dim] 
     # during training and prediction.
     IMAGE_MIN_DIM = 512
@@ -73,6 +75,9 @@ class PVConfigRGB(PVConfig):
     # whether dataset contains monochrome 16-bit IR 
     # images ("ir") or 8-bit visual RGB images ("rgb")
     DATASET_MODE = "rgb"
+    
+    # Batch size (in combination with GPU_COUNT)
+    IMAGES_PER_GPU = 1
     
     # Images are resized and padded with zeros to [max_dim, max_dim] 
     # during training and prediction.
