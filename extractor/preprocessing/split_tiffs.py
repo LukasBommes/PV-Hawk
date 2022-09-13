@@ -103,11 +103,6 @@ def resize(frame, dst_width, dst_height):
     return cv2.resize(frame, (dst_width, dst_height), interpolation=cv2.INTER_CUBIC)
 
 
-# TODO:
-# - implement subsampling
-
-
-
 def run(video_dir, output_dir, ir_file_extension=None, rgb_file_extension=None,
     extract_timestamps=True, extract_gps=True, extract_gps_altitude=False, 
     sync_rgb=True, subsample=None, rotate_rgb=None, rotate_ir=None, 
