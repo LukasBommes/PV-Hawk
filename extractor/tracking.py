@@ -61,7 +61,7 @@ import scipy.spatial
 import scipy.optimize
 
 from extractor.common import Capture, delete_output, contour_and_convex_hull, \
-    compute_mask_center, get_immediate_subdirectories
+    compute_mask_center, get_immediate_subdirectories, get_selected_ir_rgb
 from extractor.keypoints import extract_keypoints, match_keypoints
 
 
@@ -330,18 +330,23 @@ def run(frames_root, inference_root, output_dir, motion_model, orb_nfeatures,
     delete_output(output_dir)
     os.makedirs(output_dir, exist_ok=True)
 
+    ir_or_rgb = get_selected_ir_rgb(frames_root)
+
     random_seed = None
     if deterministic_track_ids:
         random_seed = 0
 
     # load frames & masks
-    frame_files = sorted(glob.glob(os.path.join(frames_root, "radiometric", "*.tiff")))
+    if ir_or_rgb == "ir":
+        frame_files = sorted(glob.glob(os.path.join(frames_root, "radiometric", "*.tiff")))
+    else:
+        frame_files = sorted(glob.glob(os.path.join(frames_root, "rgb", "*.jpg")))
     mask_dirs = sorted(get_immediate_subdirectories(os.path.join(
         inference_root, "masks")))
     mask_files = [sorted(glob.glob(os.path.join(
         inference_root, "masks", r, "*.png"))) for r in mask_dirs]
 
-    cap = Capture(frame_files, mask_files)
+    cap = Capture(frame_files, ir_or_rgb, mask_files)
     tracker = Tracker(
         motion_model, 
         orb_nfeatures, 
@@ -371,6 +376,11 @@ def run(frames_root, inference_root, output_dir, motion_model, orb_nfeatures,
                 preprocess=True)
             if frame is None:
                 break
+            
+            # preprocessing for RGB frames
+            if ir_or_rgb == "rgb":
+                frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+                frame = cv2.equalizeHist(frame)  # not sure if needed
 
             vis_frame = np.copy(frame)
             vis_frame = cv2.cvtColor(vis_frame, cv2.COLOR_GRAY2BGR)
