@@ -26,7 +26,7 @@ segment_pv_modules:
   images_per_gpu: 8
   detection_min_confidence: 0.9
   weights_file_ir: /pvextractor/extractor/segmentation/Mask_RCNN/mask_rcnn_pv_modules_0120.h5
-  weights_file_rgb: /pvextractor/extractor/segmentation/Mask_RCNN/logs/pv_modules20220912T1453/mask_rcnn_pv_modules_0030.h5
+  weights_file_rgb: /pvextractor/extractor/segmentation/Mask_RCNN/mask_rcnn_pv_modules_rgb_0059.h5
   output_video_fps: 8.0
 
 track_pv_modules:
