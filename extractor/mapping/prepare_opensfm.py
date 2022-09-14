@@ -120,6 +120,11 @@ def select_frames_gps_visual(cap, gps, orb_detector, bf_matcher, frame_selection
             preprocess=True, undistort=True, equalize_hist=True)  # Note: undistort should probably be set to False
         if frame is None:
             break
+
+        # preprocessing for RGB frames
+        if cap.ir_or_rgb == "rgb":
+            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+            frame = cv2.equalizeHist(frame)  # not sure if needed
             
         # test for GPS distance criterion
         pos = gps[frame_idx, :2]
@@ -198,9 +203,12 @@ def run(cluster, frames_root, calibration_root, output_dir, opensfm_settings,
     dist_coeffs = pickle.load(open(os.path.join(calibration_root, ir_or_rgb, "dist_coeffs.pkl"), "rb"))
 
     # get video frames
-    frame_files = sorted(glob.glob(os.path.join(frames_root, "radiometric", "*.tiff")))
+    if ir_or_rgb == "ir":
+        frame_files = sorted(glob.glob(os.path.join(frames_root, "radiometric", "*.tiff")))
+    else:
+        frame_files = sorted(glob.glob(os.path.join(frames_root, "rgb", "*.jpg")))
     frame_files = frame_files[frame_cluster[0]:frame_cluster[1]]
-    cap = Capture(frame_files, None, camera_matrix, dist_coeffs)
+    cap = Capture(frame_files, ir_or_rgb, None, camera_matrix, dist_coeffs)
 
     make_camera_models_file(output_dir, camera_matrix, dist_coeffs, cap.img_w, cap.img_h)
 
@@ -239,7 +247,8 @@ def run(cluster, frames_root, calibration_root, output_dir, opensfm_settings,
     for selected_frame in selected_frames:
         frame, _, frame_name, _ = cap.get_frame(selected_frame, preprocess=True, undistort=False, equalize_hist=True)  # Note: undistort should probably be set to False
         frame_names.append(frame_name)
-        frame = cv2.cvtColor(frame, cv2.COLOR_GRAY2BGR)
+        if ir_or_rgb == "ir":
+            frame = cv2.cvtColor(frame, cv2.COLOR_GRAY2BGR)
         videowriter.write(frame)
         cv2.imwrite(os.path.join(output_dir, "images", "{}.jpg".format(frame_name)), frame)
 
