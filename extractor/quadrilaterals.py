@@ -23,7 +23,7 @@ import cv2
 
 from extractor.common import Capture, delete_output, sort_cw, \
     contour_and_convex_hull, compute_mask_center, \
-    get_immediate_subdirectories
+    get_immediate_subdirectories, get_selected_ir_rgb
 
 
 logger = logging.getLogger(__name__)
@@ -152,9 +152,13 @@ def run(frames_root, inference_root, tracks_root, output_dir, min_iou):
     delete_output(output_dir)
     os.makedirs(output_dir, exist_ok=True)
 
+    ir_or_rgb = get_selected_ir_rgb(frames_root)
+
     # load frames & masks
-    frame_files = sorted(
-        glob.glob(os.path.join(frames_root, "radiometric", "*.tiff")))
+    if ir_or_rgb == "ir":
+        frame_files = sorted(glob.glob(os.path.join(frames_root, "radiometric", "*.tiff")))
+    else:
+        frame_files = sorted(glob.glob(os.path.join(frames_root, "rgb", "*.jpg")))
     mask_dirs = sorted(get_immediate_subdirectories(
         os.path.join(inference_root, "masks")))
     mask_files = [sorted(glob.glob(os.path.join(inference_root, 
@@ -164,7 +168,7 @@ def run(frames_root, inference_root, tracks_root, output_dir, min_iou):
     tracks_file = os.path.join(tracks_root, "tracks.csv")
     tracks = load_tracks(tracks_file)
 
-    cap = Capture(frame_files, mask_files)
+    cap = Capture(frame_files, ir_or_rgb, mask_files)
 
     quadrilaterals = {}
 

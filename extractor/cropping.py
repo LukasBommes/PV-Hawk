@@ -31,7 +31,8 @@ from tqdm import tqdm
 import numpy as np
 import cv2
 
-from extractor.common import Capture, delete_output, sort_cw
+from extractor.common import Capture, delete_output, sort_cw, \
+    get_selected_ir_rgb
 
 
 def clip_to_image_region(quadrilateral, image_width, image_height):
@@ -152,9 +153,13 @@ def run(frames_root, quads_root, mapping_root, output_dir, rotate_mode):
     delete_output(output_dir)
     os.makedirs(output_dir, exist_ok=True)
 
+    ir_or_rgb = get_selected_ir_rgb(frames_root)
+
     # load frames & masks
-    frame_files = sorted(
-        glob.glob(os.path.join(frames_root, "radiometric", "*.tiff")))
+    if ir_or_rgb == "ir":
+        frame_files = sorted(glob.glob(os.path.join(frames_root, "radiometric", "*.tiff")))
+    else:
+        frame_files = sorted(glob.glob(os.path.join(frames_root, "rgb", "*.jpg")))
 
     # load module corners
     quadrilaterals = pickle.load(open(os.path.join(quads_root, "quadrilaterals.pkl"), "rb"))
@@ -167,12 +172,12 @@ def run(frames_root, quads_root, mapping_root, output_dir, rotate_mode):
 
     merged_index = build_merged_index(merged_modules, quadrilaterals)
 
-    cap = Capture(frame_files, mask_files=None)
+    cap = Capture(frame_files, ir_or_rgb, mask_files=None)
 
     pbar = tqdm(total=len(quadrilaterals.keys()))
     for module_id, frame_name, mask_name in quadrilaterals.keys():
 
-        # get radiometric frame
+        # get frame
         frame_idx = int(re.findall(r'\d+', frame_name)[0])
         frame, _, frame_name_loaded, _ = cap.get_frame(frame_idx, preprocess=False)
 
@@ -192,8 +197,12 @@ def run(frames_root, quads_root, mapping_root, output_dir, rotate_mode):
         # save to disk
         patch_dir = os.path.join(output_dir, "radiometric", save_module_id)
         os.makedirs(patch_dir, exist_ok=True)
-        patch_file = os.path.join(
-            patch_dir, "{}_{}.tiff".format(frame_name, mask_name))
+        if ir_or_rgb == "ir":
+            patch_file = os.path.join(
+                patch_dir, "{}_{}.tiff".format(frame_name, mask_name))
+        else:
+            patch_file = os.path.join(
+                patch_dir, "{}_{}.jpg".format(frame_name, mask_name))
         cv2.imwrite(patch_file, module_patch)
 
         pbar.update(1)
