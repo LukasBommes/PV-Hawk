@@ -55,7 +55,7 @@ PV Hawk comes with some test cases, which you can run to test whether the instal
     --ipc=host \
     --env="DISPLAY" \
     --gpus=all \
-    --mount type=bind,src=/tmp/.X11-unix,dst=/tmp/.X11-unix:rw \
+    --mount type=bind,src=/tmp/.X11-unix,dst=/tmp/.X11-unix \
     --mount type=bind,src="$(pwd)",dst=/pvextractor \
     --mount type=volume,dst=/pvextractor/extractor/mapping/OpenSfM \
     lubo1994/pv-hawk:latest \

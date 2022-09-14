@@ -118,7 +118,7 @@ Now, open a new terminal window. Navigate to the root directory of the PV Hawk s
     --ipc=host \
     --env="DISPLAY" \
     --gpus=all \
-    --mount type=bind,src=/tmp/.X11-unix,dst=/tmp/.X11-unix:rw \
+    --mount type=bind,src=/tmp/.X11-unix,dst=/tmp/.X11-unix \
     --mount type=bind,src="$(pwd)",dst=/pvextractor \
     --mount type=volume,dst=/pvextractor/extractor/mapping/OpenSfM \
     --mount type=bind,src=/storage,dst=/storage \
