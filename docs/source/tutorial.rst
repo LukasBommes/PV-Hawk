@@ -45,7 +45,8 @@ Create an empty text file named `config.yml` in the working directory and paste 
  	---
 	plant_name: Example Plant
 	groups:
-	- cam_params_dir: calibration/camera_8hz/parameters/ir
+	- cam_params_dir: calibration/camera_8hz/parameters
+	  ir_or_rgb: ir
 	  clusters:
 	  - cluster_idx: 0
 	    frame_idx_start: 0

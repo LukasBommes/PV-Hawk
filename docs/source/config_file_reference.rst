@@ -11,7 +11,8 @@ Using the following example config file we will now explain the available option
 	plant_name: Example config
 	groups:
 	- name: double_rows
-	  cam_params_dir: calibration/camera_8hz/parameters/ir
+	  cam_params_dir: calibration/camera_8hz/parameters
+	  ir_or_rgb: ir
 	  clusters:
 	  - cluster_idx: 0
 	    frame_idx_start: 0
@@ -27,7 +28,8 @@ Using the following example config file we will now explain the available option
 	      align_method: orientation_prior
 	      align_orientation_prior: vertical
 	- name: single_rows
-	  cam_params_dir: calibration/camera_8hz/parameters/ir
+	  cam_params_dir: calibration/camera_8hz/parameters
+	  ir_or_rgb: ir
 	  clusters:
 	  - cluster_idx: 0
 	    frame_idx_start: 0
@@ -89,7 +91,25 @@ If your dataset consists of a single group you can omit the name field and the s
 
 .. rubric:: group::cam_params_dir (string)
 
-Path to the directory containing calibrated camera parameters (`camera_matrix.pkl`, `dist_coeffs.pkl`, ...). This should match the output location of the camera calibration script (see :ref:`camera_calibration`).
+Path to the directory containing two subfolders with calibrated IR and RGB camera parameters (`ir/camera_matrix.pkl`, `ir/dist_coeffs.pkl`, ..., `rgb/camera_matrix.pkl`, `rgb/dist_coeffs.pkl`, ...). Parameters are created with the camera calibration script (see :ref:`camera_calibration`).
+
+In the following example, the `cam_params_dir` should be set to `/path/to/cameraparams`.
+
+.. code-block:: text
+
+  /path/to/cameraparams
+    |-- ir
+	|    |-- camera_matrix.pkl
+	|    |-- dist_coeffs.pkl
+	|    |-- ...
+	|-- rgb
+	|    |-- camera_matrix.pkl
+	|    |-- dist_coeffs.pkl
+	|    |-- ...
+
+.. rubric:: group::ir_or_rgb (string)
+
+Must be either `ir` or `rgb`. Selects whether the pipeline should process IR or RGB images. When set to IR, the pipeline operates on IR video frames from `splitted/radiometric`. When set to RGB, the pipeline operates on RGB video frames from `splitted/rgb`. This setting also determines, whether to use the IR or RGB camera calibration parameters and Mask R-CNN instance segmentation model.
 
 .. rubric:: group::clusters (list of cluster objects)
 
@@ -119,7 +139,7 @@ List of tasks to perform when running the PV Hawk pipeline. (Un)comment to contr
 
 .. rubric:: split_sequences
 
-Split multipage TIFF IR videos into individual IR frames. Specific to Flir Zenmuse XT2 camera.
+Split multipage TIFF IR videos into individual IR frames and split mov videos into individual RGB frames. Also performs naive synchronization between IR and RGB streams. Specific to Flir Zenmuse XT2 camera.
 
 .. rubric:: interpolate_gps
 
@@ -195,7 +215,11 @@ Note: Boolean values can be represented in the `config.yml` as True / False or a
 * **extract_gps** (boolean): If True extract GPS trajectory of the drone from input TIFF stack.
 * **extract_gps_altitude** (boolean): If True extract the GPS altitude.
 * **sync_rgb** (boolean): If True attempt a simplistic synchronization of visual and IR video stream. If False ignore visual stream.
-* **rotate_frames** (string or null): Set to "90_deg_cw", "180_deg_cw", or "270_deg_cw" to rotate splitted video frames. If set to `null` frames are not rotated.
+* **subsample** (string or null): Subsample both IR and RGB frames. If set to a value N, only every Nth frame will be extracted. Set to `null` to extract all frames.
+* **rotate_rgb** (string or null): Set to "90_deg_cw", "180_deg_cw", or "270_deg_cw" to rotate splitted RGB video frames. If set to `null` frames are not rotated.
+* **rotate_ir** (string or null): Set to "90_deg_cw", "180_deg_cw", or "270_deg_cw" to rotate splitted IR video frames. If set to `null` frames are not rotated.
+* **resize_rgb** (object with keys width and height): Resize RGB frames to the given height and width. If width and height are `null`, no resizing is performed.
+* **resize_ir** (object with keys width and height): Resize IR frames to the given height and width. If width and height are `null`, no resizing is performed.
 
 .. rubric:: interpolate_gps
 
@@ -206,7 +230,8 @@ No settings.
 * **gpu_count** (integer): Number of GPUs to use.
 * **images_per_gpu** (integer): Number of frames (per GPU) to feed into Mask R-CNN simultaneously.
 * **detection_min_confidence** (float):  PV module instances with prediction confidence (0.0..1.0) below this value are ignored.
-* **weights_file** (string): Absolute path to the trained Mask R-CNN weights file.
+* **weights_file_rgb** (string): Absolute path to the Mask R-CNN weights file trained on RGB images.
+* **weights_file_ir** (string): Absolute path to the Mask R-CNN weights file trained on IR images.
 * **output_video_fps** (float): Frame rate of the generated preview video in 1/s.
 
 The segmentation task has some further settings in `extractor/segmentation/configs.py`, for example the inference batch size.

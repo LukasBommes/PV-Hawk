@@ -1,7 +1,7 @@
 Finetuning the Mask R-CNN Model
 ===============================
 
-PV Hawk uses Mask R-CNN for instance segmentation of PV modules in IR video frames. It is pretrained on a large PV module dataset. However, if you encounter issues with the accuracy of the Mask R-CNN model, you may wish to fine-tune the model on your own dataset. For this, we recommend annotating data using the `Grid Annotation Tool <https://github.com/LukasBommes/Grid-Annotation-Tool>`_. Data labelled with this tool can be directly used for training the Mask R-CNN model.
+PV Hawk uses Mask R-CNN for instance segmentation of PV modules in IR/RGB video frames. It is pretrained on a large PV module dataset. However, if you encounter issues with the accuracy of the Mask R-CNN model, you may wish to fine-tune the model on your own dataset. For this, we recommend annotating data using the `Grid Annotation Tool <https://github.com/LukasBommes/Grid-Annotation-Tool>`_. Data labelled with this tool can be directly used for training the Mask R-CNN model.
 
 To train/fine-tune Mask R-CNN run the Docker container as described :ref:`here <run-the-docker-image>` and start jupyter lab inside the Docker shell with
 
@@ -9,7 +9,7 @@ To train/fine-tune Mask R-CNN run the Docker container as described :ref:`here <
 
   jupyter lab --allow-root --ip=0.0.0.0 --port=8888
  
-Note, that the port number must match the port forwarded when starting the Docker container. Depending on the location of your training dataset, you may have to add another mapping statement (`-v ...`) to the Docker run command to map your training dataset into the container.
+Note, that the port number must match the port forwarded when starting the Docker container. Depending on the location of your training dataset, you may have to add another mapping statement (`--mount type=bind,src=...,dst=...`) to the Docker run command to map your training dataset into the container.
 
 Open the displayed URL in the web browser on your machine. In jupyter lab navigate to `extractor/segmentation` and open the `train.ipynb` notebook.
 
@@ -17,7 +17,7 @@ Prior to training the model with this script, you need to edit the `DATASET_TRAI
 
 The training dataset should contain the following two folders:
 
-- `images_radiometric`: Your custom 16-bit IR video frames containing PV modules.
+- `images_radiometric`: Your custom 16-bit IR video frames or 8-bit RGB video frames containing PV modules.
 - `annotations`: JSON file for each image with annotated PV modules. The annotation can be created with the `Grid Annotation Tool <https://github.com/LukasBommes/Grid-Annotation-Tool>`_.
 
 If you want to start training from MS COCO pretrained weights, you can download the corresponding weights file from `here <https://github.com/LukasBommes/PV-Hawk/releases/download/v1.0.0/mask_rcnn_coco.h5>`_ and move it to `extractor/segmentation/Mask_RCNN`.

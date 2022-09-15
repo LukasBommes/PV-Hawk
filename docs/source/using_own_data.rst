@@ -3,7 +3,7 @@
 Using Your Own Data
 ===================
 
-This section explains how to record IR videos of your own PV plant with your own camera and drone hardware in a way that is compatible with PV Hawk.
+This section explains how to record IR/RGB videos of your own PV plant with your own camera and drone hardware in a way that is compatible with PV Hawk.
 
 
 .. _hardware_setup:
@@ -11,7 +11,7 @@ This section explains how to record IR videos of your own PV plant with your own
 Hardware setup
 --------------
 
-For the development and testing of PV Hawk we used a DJI Matrice 210 drone with the `DJI Zenmuse XT2 <https://www.dji.com/de/zenmuse-xt2>`_ thermal/visual camera (variant with 13 mm focal length). However, PV Hawk should work with any other drone and camera as long as some basic requirements are fullfilled.
+For the development and testing of PV Hawk we used a DJI Matrice 210 drone with the `DJI Zenmuse XT2 <https://www.dji.com/de/zenmuse-xt2>`_ IR/RGB camera (variant with 13 mm focal length). However, PV Hawk should work with any other drone and camera as long as some basic requirements are fullfilled.
 
 
 .. _drone_requirements:
@@ -25,7 +25,7 @@ Our drone records its GPS longitude and latitude in `WGS84 coordinates <https://
 Camera requirements
 ^^^^^^^^^^^^^^^^^^^
 
-While the Zenmuse XT2 provides both a thermal IR and a visual stream, we only use the IR stream. Thus, a dual IR/visual camera is not required. Your thermal IR camera needs a resolution of >= 640 px * 512 px and a frame rate of >= 8 Hz. The temperature range has to match the expected temperatures, which should be between -20 °C and 200 °C. Note, that some cameras automatically change the gain depending on the temperatures measured. Make sure that the gain is kept constant during the entire measurement of a PV plant. The focal length should be choosen so that a sufficient number of PV modules can be captured at a time. The exemplary video frames :ref:`below <video_recording>` should give you an idea of how the optical characteristics of your camera should be choosen.
+While the Zenmuse XT2 provides both a thermal IR and a visual RGB stream, PV Hawk works also when only RGB or IR videos are available. Thus, a dual IR/visual camera is not required. Your thermal IR camera needs a resolution of >= 640 px * 512 px and a frame rate of >= 8 Hz. The temperature range has to match the expected temperatures, which should be between -20 °C and 200 °C. Note, that some cameras automatically change the gain depending on the temperatures measured. Make sure that the gain is kept constant during the entire measurement of a PV plant. The focal length should be choosen so that a sufficient number of PV modules can be captured at a time. The exemplary video frames :ref:`below <video_recording>` should give you an idea of how the optical characteristics of your camera should be choosen.
 
 .. figure:: images/drone_and_cam.jpg
    :width: 500
@@ -54,7 +54,7 @@ Note, that the port number must match the port forwarded when starting the Docke
 .. _calibration_target:
 .. figure:: images/calibration_target.png
 
-  Exemplary target for calibrating a thermal IR camera. (a) shows a visual image and (b) and (c) are thermal images.
+  Exemplary target for calibrating a thermal IR camera. (a) shows a visual RGB image and (b) and (c) are thermal IR images.
 
 
 .. _video_recording:
@@ -62,7 +62,7 @@ Note, that the port number must match the port forwarded when starting the Docke
 Video recording
 ---------------
 
-While PV Hawk is flexible with respect to the way IR videos are recorded, several rules must still be followed to ensure optimal results. In general, you should scan PV plant rows one or two at a time as indicated in figure :numref:`flight_modes_single_row` and :numref:`flight_modes_double_row`. Resulting video frames are shown in :numref:`example_frames`. Scanning two rows at a time increases throughput but also reduces the resolution of extracted PV module images. While the rows can be scanned in an arbitrary order, we recommend sequential scanning to simplify the subsequent manual configuration. The drone flight can be automated or carried out manually.
+While PV Hawk is flexible with respect to the way IR/RGB videos are recorded, several rules must still be followed to ensure optimal results. In general, you should scan PV plant rows one or two at a time as indicated in figure :numref:`flight_modes_single_row` and :numref:`flight_modes_double_row`. Resulting video frames are shown in :numref:`example_frames`. Scanning two rows at a time increases throughput but also reduces the resolution of extracted PV module images. While the rows can be scanned in an arbitrary order, we recommend sequential scanning to simplify the subsequent manual configuration. The drone flight can be automated or carried out manually.
 
 We recommend to orient the camera facing vertically downwards (nadir) at all times. This improves robustness of the processing pipeline as we can set a vertical orentiation prior in OpenSfM when reconstructing the camera trajectory. However, at the expense of lower robustness you can also choose a non-nadiral camera angle. This is useful, for instance, to prevent sun reflections on the PV modules.
 
@@ -81,7 +81,7 @@ We recommend to orient the camera facing vertically downwards (nadir) at all tim
 
   Exemplary IR video frames for (a) horizontal scanning of a single row (cyan box above), (b) vertical scanning of a single row (green box above), and (c) scanning of two rows at a time (magenta box above).
 
-In the following, we list all the rules you should follow when recording IR videos for PV Hawk. We differentate between `hard rules` and `soft rules`. If you do not follow the hard rules PV failure is guaranteed. Not following one of the soft rules may not result in immediate failure, but can decrease robustness of the processing piepline.
+In the following, we list all the rules you should follow when recording IR/RGB videos for PV Hawk. We differentate between `hard rules` and `soft rules`. If you do not follow the hard rules PV failure is guaranteed. Not following one of the soft rules may not result in immediate failure, but can decrease robustness of the processing piepline.
 
 - Hard rules:
    - Never tilt the camera, instead keep it rigidly oriented w.r.t. the drone.
@@ -135,7 +135,7 @@ Weather conditions are another important aspect to consider. For optimal results
 Dataset creation from videos
 ----------------------------
 
-After recording, you need to convert the thermal IR videos of your PV plants into a format compatible with by PV Hawk. The directory tree below shows the various files required by PV Hawk. The directory must be named `splitted` and must be located in the `work_dir` specified in the config file.
+After recording, you need to convert the IR/RGB videos of your PV plants into a format compatible with by PV Hawk. The directory tree below shows the various files required by PV Hawk. The directory must be named `splitted` and must be located in the `work_dir` specified in the config file.
 
 .. code-block:: text
 
@@ -148,8 +148,14 @@ After recording, you need to convert the thermal IR videos of your PV plants int
     |    |     |-- frame_000000.tiff
     |    |     |-- frame_000001.tiff
     |    |     |-- ...
+    |    |-- rgb
+    |    |     |-- frame_000000.jpg
+    |    |     |-- frame_000001.jpg
+    |    |     |-- ...
 
-As indicated, you have to provide each IR video frame as a single-channel TIFF image of unsigned 16-bit integer values in the `radiometric` subdirectory. The spatial resolution should correspond to the native resolution of your camera, i.e. do not perform any resizing. Furthermore, do not perform any rescaling of the values but simply provide the raw values output by your camera. PV Hawk will internally normalize the value range. Ensure that your camera outputs linearized temperature values, i.e. the raw image values must be mappable to temperatures by means of a linear transformation (multiplication by a gain factor and subtraction of an offset). While this is the default for IR cameras outputting TIFF images, it does not apply to some proprietory formats, such as the SEQ or radiometric JPEG format. Furthermore, make sure to name the images following the scheme `frame_xxxxxx.tiff` where `xxxxxx` is the frame index (incremented from zero) as 6-digit integer with leading zeros.
+As indicated, you have to provide each video frame as a single image. Image names must follow the scheme `frame_xxxxxx.tiff` where `xxxxxx` is the frame index (incremented from zero) as 6-digit integer with leading zeros. IR frames must be placed in the `radiometric` subdirectory and RGB frames in the `rgb` subdirectory. IR video frames must be single-channel TIFF images of unsigned 16-bit integer values. RGB frames must be 8-bit JPG images with three channels (for red, green, and blue). It is fine to provide only RGB or IR, or both. PV Hawk only runs either on RGB or IR, but never uses both RGB and IR simulatenously. Whether RGB or IR is used can be configured with the `ir_or_rgb` parameter in the config (see also :doc:`config_file_reference`).
+
+For faster processing, we recommend you scale down RGB images in case the native camera resolution is high. E.g., you may scale down 4K images to 1280 x 720 pixels or 1920 x 1080 pixels. In contrast, for IR images, we recommend to use the native spatial resolution of your camera, i.e. do not perform any resizing. Furthermore, do not perform any rescaling of the values but simply provide the raw values output by your camera. PV Hawk will internally normalize the value range. Ensure that your IR camera outputs linearized temperature values, i.e. the raw image values must be mappable to temperatures by means of a linear transformation (multiplication by a gain factor and subtraction of an offset). While this is the default for IR cameras outputting TIFF images, it does not apply to some proprietory formats, such as the SEQ or radiometric JPEG format.
 
 Furthermore, you must provide the GPS position of the drone at each video frame in a JSON file named `gps.json` in the `gps` subdirectory. The file must contain a list of lists, where each inner list is a triplet of [longitude, latitude, altitude] in WGS84 coordinates as shown below.
 
@@ -174,4 +180,4 @@ Finally, you should provide a `timestamps.csv` file, which contains the timestam
   2021-09-09T11:57:48.950000
   
 .. note::
-  If you use a DJI Zenmuse XT2 or compatible camera, you can configure the camera to output IR videos as multipage TIFF stacks. Place the TIFF stacks in a `videos` subfolder in your `work_dir` and run the pipeline task `split_sequences`. This will automatically generate the `splitted` directory with all dataset files.
+  If you use a DJI Zenmuse XT2 or compatible camera, you can configure the camera to output IR videos as multipage TIFF stacks and RGB videos as mov files. Place the TIFF stacks and mov files in a `videos` subfolder in your `work_dir` and run the pipeline task `split_sequences`. This will automatically generate the `splitted` directory with all dataset files.

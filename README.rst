@@ -5,9 +5,9 @@ PV Hawk
 
 **Code**: https://github.com/LukasBommes/PV-Hawk
 
-PV Hawk is a computer vision pipeline for the **automated inspection** of large-scale **photovoltaic (PV) plants** by means of **thermal infrared (IR) videos** acquired by a drone.
+PV Hawk is a computer vision pipeline for the **automated inspection** of large-scale **photovoltaic (PV) plants** by means of **thermal infrared (IR) or visual RGB videos** acquired by a drone.
 
-After recording an IR video of a PV plant, individual video frames and the corresponding coarse GPS position (latitude, longitude, and optionally altitude) of the drone are fed into PV Hawk. PV Hawk crops each PV module from each video frame and stores the resulting IR image patches. Geocoordinates of the PV module corners are obtained and faciltate visualization of analysis results on a map. You can use the `PV Hawk Viewer <https://github.com/LukasBommes/PV-Hawk-Viewer>`_ to browse the resulting map of your PV plant, annotate extracted IR images, and perform analyses, such as defect prediction.
+After recording an IR or RGB video of a PV plant, individual video frames and the corresponding coarse GPS position (latitude, longitude, and optionally altitude) of the drone are fed into PV Hawk. PV Hawk crops each PV module from each video frame and stores the resulting IR/RGB image patches. Geocoordinates of the PV module corners are obtained and faciltate visualization of analysis results on a map. You can use the `PV Hawk Viewer <https://github.com/LukasBommes/PV-Hawk-Viewer>`_ to browse the resulting map of your PV plant, annotate extracted IR/RGB images, and perform analyses, such as defect prediction.
 
 .. raw:: html
 
@@ -67,26 +67,26 @@ The next image shows the 3D reconstruction of a PV plant created with PV Hawk. R
 How to use PV Hawk?
 -------------------
 
-Please follow the `Installation <https://lukasbommes.github.io/PV-Hawk/installation.html>`_ instructions to setup PV Hawk on your machine. Afterwards, follow the `Tutorial <https://lukasbommes.github.io/PV-Hawk/tutorial.html>`_ to get started with an exemplary IR video dataset. After you learned how to use PV Hawk, you can proceed to `Using Your Own Data <https://lukasbommes.github.io/PV-Hawk/using_own_data.html#using-own-data>`_ to learn how to record suitable IR videos of your own PV plant with your own IR camera and drone.
+Please follow the `Installation <https://lukasbommes.github.io/PV-Hawk/installation.html>`_ instructions to setup PV Hawk on your machine. Afterwards, follow the `Tutorial <https://lukasbommes.github.io/PV-Hawk/tutorial.html>`_ to get started with an exemplary video dataset. After you learned how to use PV Hawk, you can proceed to `Using Your Own Data <https://lukasbommes.github.io/PV-Hawk/using_own_data.html#using-own-data>`_ to learn how to record suitable IR or RGB videos of your own PV plant with your own camera and drone.
 
 Why is PV Hawk needed?
 ----------------------
 
-PV plants contain typically around 10 percent anomalous PV modules, which are potential fire hazards and cause significant power and yield losses. Thus, to enable safe and profitable operation PV plants should be regularly inspected. A popular inspection technique is drone-based thermal IR imaging, which detects anomalous PV modules in a contectless way based on heat dissipated in defective regions of the PV module. Thermal IR imaging has been applied sucessfully to small PV systems. However, when applied to large-scale PV plants with many thousands to millions of PV modules so much video data is produced that manual sighting is economically infeasible. This is where PV Hawk comes into play for the fully automated processing of the generated IR videos.
+PV plants contain typically around 10 percent anomalous PV modules, which are potential fire hazards and cause significant power and yield losses. Thus, to enable safe and profitable operation PV plants should be regularly inspected. A popular inspection technique is drone-based thermal IR imaging, which detects anomalous PV modules in a contectless way based on heat dissipated in defective regions of the PV module. Thermal IR imaging has been applied sucessfully to small PV systems. However, when applied to large-scale PV plants with many thousands to millions of PV modules so much video data is produced that manual sighting is economically infeasible. This is where PV Hawk comes into play for the fully automated processing of the generated videos. For some inspections, such as estimation of soiling or detection of installation errors, visual RGB videos can be useful instead of thermal IR. PV Hawk can process such RGB videos as well.
 
 Project status
 --------------
 
-PV Hawk is a research project built during my PhD. In its current state PV Hawk should be seen more as a proof-of-concept instead of a production-grade system. Please do not expect the pipeline to work smoothly and produce best results on the first attempt. Especially the OpenSfM-based reconstruction stage can be instable and may require multiple trials with different settings until you get a good result. When using your own IR videos it is important that you carefully follow the instructions in `Using Your Own Data <https://lukasbommes.github.io/PV-Hawk/using_own_data.html#using-own-data>`_. Furthermore, breaking changes to the configuration file specification and structure of the input and output files are possible.
+PV Hawk is a research project built during my PhD. In its current state PV Hawk should be seen more as a proof-of-concept instead of a production-grade system. Please do not expect the pipeline to work smoothly and produce best results on the first attempt. Especially the OpenSfM-based reconstruction stage can be instable and may require multiple trials with different settings until you get a good result. When using your own IR or RGB videos it is important that you carefully follow the instructions in `Using Your Own Data <https://lukasbommes.github.io/PV-Hawk/using_own_data.html#using-own-data>`_. Furthermore, breaking changes to the configuration file specification and structure of the input and output files are possible.
 
 Who are the target audiences?
 -----------------------------
 
-- Researchers who want to assemble large-scale IR image datasets of PV modules, for instance, to develop machine learning algorithms for defect detection, or power prediction.
+- Researchers who want to assemble large-scale IR/RGB image datasets of PV modules, for instance, to develop machine learning algorithms for defect detection, or power prediction.
 
 - Companies or individuals who want to inspect their own PV plants or want to offer PV plant inspection as a service. 
 
 What do you need to run PV Hawk?
 --------------------------------
 
-PV Hawk should be installed on a sufficiently powerful workstation with Ubuntu 18.04 or newer and CUDA-compatible GPU. We developed and tested PV Hawk on a machine with Ubuntu 20.04 LTS, Intel Core i9-9900K, 64GB of DDR4 RAM, an SSD and a GeForce RTX 2080 Ti. Furthermore, you need a drone and a thermal IR camera. Details on this are provided in `Hardware setup <https://lukasbommes.github.io/PV-Hawk/using_own_data.html#hardware-setup>`_.
+PV Hawk should be installed on a sufficiently powerful workstation with Ubuntu 18.04 or newer and CUDA-compatible GPU. We developed and tested PV Hawk on a machine with Ubuntu 20.04 LTS, Intel Core i9-9900K, 64GB of DDR4 RAM, an SSD and a GeForce RTX 2080 Ti. Furthermore, you need a drone and a thermal IR or visual RGB camera. Details on this are provided in `Hardware setup <https://lukasbommes.github.io/PV-Hawk/using_own_data.html#hardware-setup>`_.
