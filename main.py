@@ -35,7 +35,14 @@ def main(work_dir):
 
     for videogroup in config["groups"]:
         group_name = get_group_name(videogroup)
-        ir_or_rgb = videogroup["ir_or_rgb"]
+
+        # IR/RGB selection
+        try:
+            ir_or_rgb = videogroup["ir_or_rgb"]
+            assert ir_or_rgb in ["ir", "rgb"], "Unknown image mode selection {}".format(ir_or_rgb)
+        except KeyError:  # for backward compatibility
+            ir_or_rgb = "ir"
+        logger.info("Selected {} frames for processing".format(ir_or_rgb.upper()))
 
         # load algorithm settings and merged with defaults
         try:
