@@ -186,7 +186,7 @@ def select_frames_gps(gps, frame_selection_gps_distance):
     return selected_frames
 
 
-def run(cluster, frames_root, calibration_root, output_dir, ir_or_rgb, opensfm_settings, 
+def run(cluster, frames_root, calibration_root, output_dir, opensfm_settings, ir_or_rgb,
         select_frames_mode, frame_selection_gps_distance, frame_selection_visual_distance, 
         orb_nfeatures, orb_fast_thres, orb_scale_factor, orb_nlevels, match_distance_thres,
         gps_dop, output_video_fps):

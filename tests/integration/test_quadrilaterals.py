@@ -19,6 +19,7 @@ class TestQuadrilaterals(unittest.TestCase):
         self.inference_root = os.path.join(self.data_dir, "segmented")
         self.tracks_root = os.path.join(self.data_dir, "tracking")
         self.output_dir = self.work_dir.name
+        self.ir_or_rgb = "ir"
 
         # where to load files with desired output format from
         self.ground_truth_dir = os.path.join(self.data_dir, "quadrilaterals")
@@ -29,6 +30,7 @@ class TestQuadrilaterals(unittest.TestCase):
             self.inference_root, 
             self.tracks_root,
             self.output_dir, 
+            self.ir_or_rgb,
             **self.settings)
 
         # check if outputs equal ground truth

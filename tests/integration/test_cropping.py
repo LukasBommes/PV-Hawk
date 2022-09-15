@@ -18,6 +18,7 @@ class TestCropping(unittest.TestCase):
         self.quads_root = os.path.join(self.data_dir, "quadrilaterals")
         self.mapping_root = os.path.join(self.data_dir, "mapping")
         self.output_dir = self.work_dir.name
+        self.ir_or_rgb = "ir"
 
         # where to load files with desired output format from
         self.ground_truth_dir = os.path.join(self.data_dir, "patches")
@@ -28,6 +29,7 @@ class TestCropping(unittest.TestCase):
             self.quads_root, 
             self.mapping_root,
             self.output_dir, 
+            self.ir_or_rgb,
             **self.settings)
 
         # check if outputs equal ground truth

@@ -39,6 +39,7 @@ class TestPrepareOpensfm(unittest.TestCase):
         self.frames_root = os.path.join(self.data_dir, "splitted")
         self.calibration_root = os.path.join(self.data_dir, "calibration_params")
         self.output_dir = self.work_dir.name
+        self.ir_or_rgb = "ir"
 
         # where to load files with desired output format from
         self.ground_truth_dir = os.path.join(self.data_dir, "mapping")
@@ -50,6 +51,7 @@ class TestPrepareOpensfm(unittest.TestCase):
             self.calibration_root, 
             self.output_dir, 
             self.opensfm_settings, 
+            self.ir_or_rgb,
             **self.settings)
 
         # check if outputs equal ground truth
