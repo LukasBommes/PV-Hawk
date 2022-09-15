@@ -61,7 +61,7 @@ import scipy.spatial
 import scipy.optimize
 
 from extractor.common import Capture, delete_output, contour_and_convex_hull, \
-    compute_mask_center, get_immediate_subdirectories, get_selected_ir_rgb
+    compute_mask_center, get_immediate_subdirectories
 from extractor.keypoints import extract_keypoints, match_keypoints
 
 
@@ -324,13 +324,11 @@ class Tracker:
         return self.module_ids, self.detection_ids_tracked, self.modules_tracked
 
 
-def run(frames_root, inference_root, output_dir, motion_model, orb_nfeatures, 
+def run(frames_root, inference_root, output_dir, ir_or_rgb, motion_model, orb_nfeatures, 
         orb_fast_thres, orb_scale_factor, orb_nlevels, match_distance_thres, 
         max_distance, output_video_fps, deterministic_track_ids):
     delete_output(output_dir)
     os.makedirs(output_dir, exist_ok=True)
-
-    ir_or_rgb = get_selected_ir_rgb(frames_root)
 
     random_seed = None
     if deterministic_track_ids:

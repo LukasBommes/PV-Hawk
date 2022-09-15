@@ -15,7 +15,7 @@ import numpy as np
 import cv2
 
 import extractor.segmentation.Mask_RCNN.mrcnn.model as modellib
-from extractor.common import Capture, delete_output, get_selected_ir_rgb
+from extractor.common import Capture, delete_output
 from extractor.segmentation.configs import PVConfig
 
 # Bugfix taken from:
@@ -76,10 +76,9 @@ def save(frame, frame_name, result, output_dir, videowriter):
             csvriter.writerow([*roi, class_id, score])
 
 
-def run(frames_root, output_dir, gpu_count, images_per_gpu, 
+def run(frames_root, output_dir, ir_or_rgb, gpu_count, images_per_gpu, 
     detection_min_confidence, weights_file_ir, weights_file_rgb, output_video_fps):
 
-    ir_or_rgb = get_selected_ir_rgb(frames_root)
     delete_output(output_dir)
 
     # create output paths

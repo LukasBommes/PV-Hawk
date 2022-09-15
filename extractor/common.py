@@ -50,14 +50,6 @@ def delete_output(output_dir, cluster=None):
             	pass
 
 
-def get_selected_ir_rgb(frames_root):
-    with open(os.path.join(frames_root, "selected_ir_rgb.json"), "r") as file:
-        data = json.load(file)
-    ir_or_rgb = data["selected"]
-    assert ir_or_rgb in ["ir", "rgb"], "Unknown image mode selection {}".format(ir_or_rgb)
-    return ir_or_rgb
-
-
 def get_immediate_subdirectories(a_dir):
     """Returns the immediate subdirectories of the provided directory."""
     return [name for name in os.listdir(a_dir) if os.path.isdir(os.path.join(a_dir, name))]

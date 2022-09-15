@@ -23,7 +23,7 @@ import cv2
 
 from extractor.common import Capture, delete_output, sort_cw, \
     contour_and_convex_hull, compute_mask_center, \
-    get_immediate_subdirectories, get_selected_ir_rgb
+    get_immediate_subdirectories
 
 
 logger = logging.getLogger(__name__)
@@ -147,12 +147,10 @@ def load_tracks(tracks_file):
     return tracks
 
 
-def run(frames_root, inference_root, tracks_root, output_dir, min_iou):
+def run(frames_root, inference_root, tracks_root, output_dir, ir_or_rgb, min_iou):
 
     delete_output(output_dir)
     os.makedirs(output_dir, exist_ok=True)
-
-    ir_or_rgb = get_selected_ir_rgb(frames_root)
 
     # load frames & masks
     if ir_or_rgb == "ir":

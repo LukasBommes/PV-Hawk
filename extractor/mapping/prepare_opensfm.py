@@ -8,7 +8,7 @@ import numpy as np
 from shapely.geometry import Polygon
 from tqdm import tqdm
 
-from extractor.common import Capture, delete_output, get_selected_ir_rgb
+from extractor.common import Capture, delete_output
 from extractor.gps import gps_to_ltp, gps_from_ltp
 from extractor.keypoints import extract_keypoints, match_keypoints
 
@@ -186,7 +186,7 @@ def select_frames_gps(gps, frame_selection_gps_distance):
     return selected_frames
 
 
-def run(cluster, frames_root, calibration_root, output_dir, opensfm_settings, 
+def run(cluster, frames_root, calibration_root, output_dir, ir_or_rgb, opensfm_settings, 
         select_frames_mode, frame_selection_gps_distance, frame_selection_visual_distance, 
         orb_nfeatures, orb_fast_thres, orb_scale_factor, orb_nlevels, match_distance_thres,
         gps_dop, output_video_fps):
@@ -196,8 +196,6 @@ def run(cluster, frames_root, calibration_root, output_dir, opensfm_settings,
     output_dir = os.path.join(output_dir, "cluster_{:06d}".format(cluster_idx))
     delete_output(output_dir)
     os.makedirs(output_dir, exist_ok=True)
-
-    ir_or_rgb = get_selected_ir_rgb(frames_root)
 
     camera_matrix = pickle.load(open(os.path.join(calibration_root, ir_or_rgb, "camera_matrix.pkl"), "rb"))
     dist_coeffs = pickle.load(open(os.path.join(calibration_root, ir_or_rgb, "dist_coeffs.pkl"), "rb"))

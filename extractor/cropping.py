@@ -31,8 +31,7 @@ from tqdm import tqdm
 import numpy as np
 import cv2
 
-from extractor.common import Capture, delete_output, sort_cw, \
-    get_selected_ir_rgb
+from extractor.common import Capture, delete_output, sort_cw
 
 
 def clip_to_image_region(quadrilateral, image_width, image_height):
@@ -149,11 +148,9 @@ def build_merged_index(merged_modules, quadrilaterals):
     return merged_index
 
 
-def run(frames_root, quads_root, mapping_root, output_dir, rotate_mode):
+def run(frames_root, quads_root, mapping_root, output_dir, ir_or_rgb, rotate_mode):
     delete_output(output_dir)
     os.makedirs(output_dir, exist_ok=True)
-
-    ir_or_rgb = get_selected_ir_rgb(frames_root)
 
     # load frames & masks
     if ir_or_rgb == "ir":
