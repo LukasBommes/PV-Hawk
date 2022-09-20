@@ -5,6 +5,7 @@ import os
 import csv
 import json
 import logging
+from math import floor
 from datetime import datetime
 import cv2
 import numpy as np
@@ -82,7 +83,7 @@ def get_num_ir_frames(tiff_files):
 
 def get_ir_frame_number(rgb_idx, n_ir, n_rgb):
     """Returns index of IR frame corresponding to the RGB frame idx."""
-    ir_idx = round(n_ir*float(rgb_idx)/n_rgb)
+    ir_idx = floor(n_ir*float(rgb_idx)/n_rgb)
     return ir_idx
 
 
@@ -98,10 +99,14 @@ def rotate(frame, rotation):
     return frame
 
 
+def resize(frame, dst_width, dst_height):
+    return cv2.resize(frame, (dst_width, dst_height), interpolation=cv2.INTER_CUBIC)
+
+
 def run(video_dir, output_dir, ir_file_extension=None, rgb_file_extension=None,
-extract_timestamps=True,
-    extract_gps=True, extract_gps_altitude=False, sync_rgb=True,
-    rotate_frames=None):
+    extract_timestamps=True, extract_gps=True, extract_gps_altitude=False, 
+    sync_rgb=True, subsample=None, rotate_rgb=None, rotate_ir=None, 
+    resize_rgb=None, resize_ir=None):
 
     delete_output(output_dir)
     for dirname in ["radiometric", "gps"]:
@@ -121,6 +126,7 @@ extract_timestamps=True,
             len(rgb_files), n_rgb))
 
     frame_idx = 0
+    frame_store_idx = 0
     gps = []
     timestamps = []
     for i, tiff_file in enumerate(tiff_files):
@@ -128,12 +134,19 @@ extract_timestamps=True,
 
         with tifffile.TiffFile(tiff_file) as tif:
             for page in tqdm(tif.pages, total=len(tif.pages)):
+
+                if subsample and (frame_idx % subsample != 0):
+                    frame_idx += 1
+                    continue
+
                 image_radiometric = page.asarray().astype(np.uint16)  # BUG: for Optris camera conversion to int is detrimental to accuracy as raw values in TIFF are float
                 radiometric_file = os.path.join(
                     output_dir, "radiometric", "frame_{:06d}.tiff".format(
-                    frame_idx))
-                if rotate_frames:
-                    image_radiometric = rotate(image_radiometric, rotate_frames)
+                    frame_store_idx))
+                if resize_ir["width"] and resize_ir["height"]:
+                    image_radiometric = resize(image_radiometric, resize_ir["width"], resize_ir["height"])
+                if rotate_ir:
+                    image_radiometric = rotate(image_radiometric, rotate_ir)
                 cv2.imwrite(radiometric_file, image_radiometric)
 
                 if extract_timestamps:
@@ -165,11 +178,13 @@ extract_timestamps=True,
                             gps.append((deg_long, deg_lat))
 
                 frame_idx += 1
+                frame_store_idx += 1
 
     # synchronize RGB videos
     if sync_rgb:
         rgb_frame_idx = 0
         last_frame_idx = None
+        frame_store_idx = 0
         for i, rgb_file in enumerate(rgb_files):
             logger.info("Splitting RGB file {} of {}".format(i+1, len(rgb_files)))
             cap = cv2.VideoCapture(rgb_file)
@@ -177,19 +192,27 @@ extract_timestamps=True,
                 res, frame = cap.read()
                 if res:
                     frame_idx = get_ir_frame_number(rgb_frame_idx, n_ir, n_rgb)
+
+                    if subsample and (frame_idx % subsample != 0):
+                        rgb_frame_idx += 1
+                        continue
+
                     if last_frame_idx is None or frame_idx != last_frame_idx:
                         out_path = os.path.join(output_dir,
-                            "rgb", "frame_{:06d}.jpg".format(frame_idx))
-                        if rotate_frames:
-                            frame = rotate(frame, rotate_frames)
+                            "rgb", "frame_{:06d}.jpg".format(frame_store_idx))
+                        if resize_rgb["width"] and resize_rgb["height"]:
+                            frame = resize(frame, resize_rgb["width"], resize_rgb["height"])
+                        if rotate_rgb:
+                            frame = rotate(frame, rotate_rgb)
                         cv2.imwrite(
                             out_path, frame, [cv2.IMWRITE_JPEG_QUALITY, 100])
-                    last_frame_idx = frame_idx
+                        frame_store_idx += 1
 
+                    last_frame_idx = frame_idx
                     rgb_frame_idx += 1
 
     # store extracted timestamps to disk
-    if extract_timestamps and len(timestamps) > 0:
+    if extract_timestamps and len(timestamps) > 0:        
         with open(os.path.join(
                 output_dir, "timestamps.csv"), "w", newline="") as csvfile:
             writer = csv.writer(csvfile, delimiter=",")
@@ -198,7 +221,6 @@ extract_timestamps=True,
 
     # store extracted GPS positions to disk
     if extract_gps and len(gps) > 0:
-
         # save GPS trajectory to JSON
         json.dump(gps, open(os.path.join(
             output_dir, "gps", "gps.json"), "w"))

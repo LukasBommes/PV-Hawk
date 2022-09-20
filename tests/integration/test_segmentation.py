@@ -18,11 +18,13 @@ class TestSegmentation(unittest.TestCase):
             "gpu_count": 1,
             "images_per_gpu": 8,
             "detection_min_confidence": 0.9,
-            "weights_file": "/pvextractor/extractor/segmentation/Mask_RCNN/mask_rcnn_pv_modules_0120.h5",
+            "weights_file_ir": "/pvextractor/extractor/segmentation/Mask_RCNN/mask_rcnn_pv_modules_0120.h5",
+            "weights_file_rgb": "/pvextractor/extractor/segmentation/Mask_RCNN/mask_rcnn_pv_modules_rgb_0059.h5",
             "output_video_fps": 8.0
         }
         self.frames_root = os.path.join(self.data_dir, "splitted")
         self.output_dir = self.work_dir.name
+        self.ir_or_rgb = "ir"
 
         # where to load files with desired output format from
         self.ground_truth_dir = os.path.join(self.data_dir, "segmented")
@@ -31,6 +33,7 @@ class TestSegmentation(unittest.TestCase):
         inference.run(
             self.frames_root, 
             self.output_dir,
+            self.ir_or_rgb,
             **self.settings)
 
         # check if output files and directories equal ground truth

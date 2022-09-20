@@ -1,7 +1,7 @@
 Tutorial
 ========
 
-This tutorial will get you started with PV Hawk on an exemplary IR video dataset. It shows the general workflow of processing a PV plant. Please :ref:`install <installation>` PV Hawk on your machine before continuing. After finishing this tutorial, head over to :ref:`using_own_data` to learn how to create your own dataset.
+This tutorial will get you started with PV Hawk on an exemplary IR video dataset. It shows the general workflow of processing a PV plant. Please :ref:`install <installation>` PV Hawk on your machine before continuing. After finishing this tutorial, head over to :ref:`using_own_data` to learn how to create your own dataset. You may also have a look at :doc:`process_rgb_videos` if you want to follow the tutorial using RGB data instead of IR data.
 
 
 Step 1: Prepare the working directory
@@ -45,7 +45,8 @@ Create an empty text file named `config.yml` in the working directory and paste 
  	---
 	plant_name: Example Plant
 	groups:
-	- cam_params_dir: calibration/camera_8hz/parameters/ir
+	- cam_params_dir: calibration/camera_8hz/parameters
+	  ir_or_rgb: ir
 	  clusters:
 	  - cluster_idx: 0
 	    frame_idx_start: 0
@@ -118,7 +119,7 @@ Now, open a new terminal window. Navigate to the root directory of the PV Hawk s
     --ipc=host \
     --env="DISPLAY" \
     --gpus=all \
-    --mount type=bind,src=/tmp/.X11-unix,dst=/tmp/.X11-unix:rw \
+    --mount type=bind,src=/tmp/.X11-unix,dst=/tmp/.X11-unix \
     --mount type=bind,src="$(pwd)",dst=/pvextractor \
     --mount type=volume,dst=/pvextractor/extractor/mapping/OpenSfM \
     --mount type=bind,src=/storage,dst=/storage \

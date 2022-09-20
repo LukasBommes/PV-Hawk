@@ -6,7 +6,18 @@ split_sequences:
   extract_gps: True
   extract_gps_altitude: False
   sync_rgb: False
-  rotate_frames: null
+  subsample: null
+  rotate_rgb: null
+  rotate_ir: null
+  resize_rgb: 
+    width: null
+    height: null
+  resize_ir: 
+    width: null
+    height: null
+
+select_rgb_ir:
+  which: ir  # ir/rgb
 
 interpolate_gps:
 
@@ -14,7 +25,8 @@ segment_pv_modules:
   gpu_count: 1
   images_per_gpu: 8
   detection_min_confidence: 0.9
-  weights_file: /pvextractor/extractor/segmentation/Mask_RCNN/mask_rcnn_pv_modules_0120.h5
+  weights_file_ir: /pvextractor/extractor/segmentation/Mask_RCNN/mask_rcnn_pv_modules_0120.h5
+  weights_file_rgb: /pvextractor/extractor/segmentation/Mask_RCNN/mask_rcnn_pv_modules_rgb_0059.h5
   output_video_fps: 8.0
 
 track_pv_modules:

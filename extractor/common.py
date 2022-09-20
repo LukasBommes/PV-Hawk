@@ -1,6 +1,7 @@
 import os
 import glob
 import shutil
+import json
 import csv
 from copy import deepcopy
 from collections.abc import Mapping
@@ -16,9 +17,8 @@ logger = logging.getLogger(__name__)
 def preprocess_radiometric_frame(frame, equalize_hist):
     """Preprocesses raw radiometric frame.
 
-    First, the raw 16-bit radiometric intensity values are converted to Celsius
-    scale. Then, the image values are normalized to range [0, 255] and converted
-    to 8-bit. Finally, histogram equalization is performed to normalize
+    Raw 16-bit radiometric intensity values are normalized to range [0, 255] 
+    and converted to 8-bit. Then, histogram equalization is performed to normalize
     brightness and enhance contrast.
     """
     frame = (frame - np.min(frame)) / (np.max(frame) - np.min(frame))
@@ -175,9 +175,11 @@ def compute_mask_center(convex_hull, contour, method=1):
 
 
 class Capture:
-    def __init__(self, image_files, mask_files=None, camera_matrix=None,
+    def __init__(self, image_files, ir_or_rgb, mask_files=None, camera_matrix=None,
             dist_coeffs=None):
+        assert ir_or_rgb in ["ir", "rgb"], "Unknown image mode selection {}".format(ir_or_rgb)
         self.frame_counter = 0
+        self.ir_or_rgb = ir_or_rgb
         self.image_files = image_files
         self.mask_files = mask_files
         self.camera_matrix = camera_matrix
@@ -213,12 +215,15 @@ class Capture:
         if index < self.num_images:
             image_file = self.image_files[index]
             frame_name = str.split(os.path.basename(image_file), ".")[0]
-            frame = cv2.imread(image_file, cv2.IMREAD_ANYDEPTH)
+            if self.ir_or_rgb == "ir":
+                frame = cv2.imread(image_file, cv2.IMREAD_ANYDEPTH)
+            else:
+                frame = cv2.imread(image_file, cv2.IMREAD_COLOR)
             if self.mask_files is not None:
                 mask_file = self.mask_files[index]
                 masks = [cv2.imread(m, cv2.IMREAD_ANYDEPTH) for m in mask_file]
                 mask_names = [str.split(os.path.basename(m), ".")[0] for m in mask_file]
-            if preprocess:
+            if preprocess and self.ir_or_rgb == "ir":
                 frame = preprocess_radiometric_frame(frame, equalize_hist)
             if undistort and self.camera_matrix is not None and self.dist_coeffs is not None:
                 frame = cv2.remap(frame, self.mapx, self.mapy, cv2.INTER_CUBIC)

@@ -20,7 +20,17 @@ class TestSplitSequences(unittest.TestCase):
             "extract_gps": True,
             "extract_gps_altitude": False,
             "sync_rgb": False,
-            "rotate_frames": None
+            "subsample": None,
+            "rotate_rgb": None,
+            "rotate_ir": None,
+            "resize_rgb": {
+                "width": None,
+                "height": None
+            },
+            "resize_ir": {
+                "width": None,
+                "height": None
+            }
         }
         self.video_dir = os.path.join(self.data_dir, "videos")
         self.output_dir = self.work_dir.name

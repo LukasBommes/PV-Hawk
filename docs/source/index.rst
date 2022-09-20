@@ -21,6 +21,7 @@
    finetune_segmentation
    config_file_reference
    output_directory
+   process_rgb_videos
    built_docker_image
  
 .. toctree::

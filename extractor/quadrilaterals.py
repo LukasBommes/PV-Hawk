@@ -147,14 +147,16 @@ def load_tracks(tracks_file):
     return tracks
 
 
-def run(frames_root, inference_root, tracks_root, output_dir, min_iou):
+def run(frames_root, inference_root, tracks_root, output_dir, ir_or_rgb, min_iou):
 
     delete_output(output_dir)
     os.makedirs(output_dir, exist_ok=True)
 
     # load frames & masks
-    frame_files = sorted(
-        glob.glob(os.path.join(frames_root, "radiometric", "*.tiff")))
+    if ir_or_rgb == "ir":
+        frame_files = sorted(glob.glob(os.path.join(frames_root, "radiometric", "*.tiff")))
+    else:
+        frame_files = sorted(glob.glob(os.path.join(frames_root, "rgb", "*.jpg")))
     mask_dirs = sorted(get_immediate_subdirectories(
         os.path.join(inference_root, "masks")))
     mask_files = [sorted(glob.glob(os.path.join(inference_root, 
@@ -164,7 +166,7 @@ def run(frames_root, inference_root, tracks_root, output_dir, min_iou):
     tracks_file = os.path.join(tracks_root, "tracks.csv")
     tracks = load_tracks(tracks_file)
 
-    cap = Capture(frame_files, mask_files)
+    cap = Capture(frame_files, ir_or_rgb, mask_files)
 
     quadrilaterals = {}
 

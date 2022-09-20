@@ -25,7 +25,7 @@ Open a new terminal and navigate to the location where you want to install PV Ha
 Step 3: Download Mask R-CNN weights
 -----------------------------------
 
-PV Hawk uses a pretrained `Mask R-CNN <https://github.com/matterport/Mask_RCNN>`_ for PV module detection. Download the pretrained Mask R-CNN model weights file from `here <https://github.com/LukasBommes/PV-Hawk/releases/download/v1.0.0/mask_rcnn_pv_modules_0120.h5>`_, and place it under `extractor/segmentation/Mask_RCNN`.
+PV Hawk uses a pretrained `Mask R-CNN <https://github.com/matterport/Mask_RCNN>`_ for PV module detection. We provide pretrained models for thermal IR and RGB videos. Download the pretrained IR model from `here <https://github.com/LukasBommes/PV-Hawk/releases/download/v1.0.0/mask_rcnn_pv_modules_0120.h5>`_ and the RGB model from `here <https://github.com/LukasBommes/PV-Hawk/releases/download/v1.0.0/mask_rcnn_pv_modules_rgb_0059.h5>`_. Place both model files under `extractor/segmentation/Mask_RCNN`.
 
 
 Step 4: Pull Docker image
@@ -55,7 +55,7 @@ PV Hawk comes with some test cases, which you can run to test whether the instal
     --ipc=host \
     --env="DISPLAY" \
     --gpus=all \
-    --mount type=bind,src=/tmp/.X11-unix,dst=/tmp/.X11-unix:rw \
+    --mount type=bind,src=/tmp/.X11-unix,dst=/tmp/.X11-unix \
     --mount type=bind,src="$(pwd)",dst=/pvextractor \
     --mount type=volume,dst=/pvextractor/extractor/mapping/OpenSfM \
     lubo1994/pv-hawk:latest \

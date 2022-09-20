@@ -36,6 +36,14 @@ def main(work_dir):
     for videogroup in config["groups"]:
         group_name = get_group_name(videogroup)
 
+        # IR/RGB selection
+        try:
+            ir_or_rgb = videogroup["ir_or_rgb"]
+            assert ir_or_rgb in ["ir", "rgb"], "Unknown image mode selection {}".format(ir_or_rgb)
+        except KeyError:  # for backward compatibility
+            ir_or_rgb = "ir"
+        logger.info("Selected {} frames for processing".format(ir_or_rgb.upper()))
+
         # load algorithm settings and merged with defaults
         try:
             settings = videogroup["settings"]
@@ -43,7 +51,7 @@ def main(work_dir):
             settings = {}
             
         replace_empty_fields(default_settings)
-        settings = merge_dicts(default_settings, remove_none(settings))        
+        settings = merge_dicts(default_settings, remove_none(settings))
 
         # write dataset version info into workdir
         os.makedirs(os.path.join(work_dir, group_name), exist_ok=True)
@@ -62,6 +70,7 @@ def main(work_dir):
             output_dir = os.path.join(work_dir, group_name, "splitted")
             split_tiffs.run(video_dir, output_dir, **settings["split_sequences"])
 
+        # piecewise linear interpolation of low-frequency GPS measurements
         if "interpolate_gps" in tasks:
             logger.info("Interpolating GPS trajectory")
             frames_root = os.path.join(work_dir, group_name, "splitted")
@@ -73,7 +82,7 @@ def main(work_dir):
             logger.info("Segmenting PV modules")
             frames_root = os.path.join(work_dir, group_name, "splitted")
             output_dir = os.path.join(work_dir, group_name, "segmented")
-            inference.run(frames_root, output_dir,
+            inference.run(frames_root, output_dir, ir_or_rgb,
                 **settings["segment_pv_modules"])
 
         # track PV modules in subsequent frames
@@ -83,7 +92,7 @@ def main(work_dir):
             inference_root = os.path.join(work_dir, group_name, "segmented")
             output_dir = os.path.join(work_dir, group_name, "tracking")
             tracking.run(frames_root, inference_root, output_dir,
-                **settings["track_pv_modules"])
+                ir_or_rgb, **settings["track_pv_modules"])
 
         # compute module corners
         if "compute_pv_module_quadrilaterals" in tasks:
@@ -93,7 +102,7 @@ def main(work_dir):
             tracks_root = os.path.join(work_dir, group_name, "tracking")
             output_dir = os.path.join(work_dir, group_name, "quadrilaterals")
             quadrilaterals.run(frames_root, inference_root, tracks_root,
-                output_dir, **settings["compute_pv_module_quadrilaterals"])
+                output_dir, ir_or_rgb, **settings["compute_pv_module_quadrilaterals"])
 
         # prepare data for 3D reconstruction with OpenSfM
         if "prepare_opensfm" in tasks:
@@ -104,7 +113,8 @@ def main(work_dir):
                 output_dir = os.path.join(work_dir, group_name, "mapping")
                 opensfm_settings = settings["opensfm"]
                 prepare_opensfm.run(cluster, frames_root, calibration_root, 
-                    output_dir, opensfm_settings, **settings["prepare_opensfm"])
+                    output_dir, opensfm_settings, ir_or_rgb, 
+                    **settings["prepare_opensfm"])
 
         # run OpenSfM for 3D reconstruction
         opensfm_tasks = [
@@ -152,7 +162,7 @@ def main(work_dir):
             mapping_root = os.path.join(work_dir, group_name, "mapping")
             output_dir = os.path.join(work_dir, group_name, "patches")
             cropping.run(frames_root, quads_root, mapping_root, output_dir, 
-                **settings["crop_pv_modules"])
+                ir_or_rgb, **settings["crop_pv_modules"])
 
 
 if __name__ == "__main__":
