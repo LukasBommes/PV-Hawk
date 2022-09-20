@@ -90,51 +90,48 @@
 <p>PV Hawk can process either thermal IR videos or visual RGB videos. By default, PV Hawk processes IR videos, which requires IR video frames to be placed under <cite>splitted/radiometric</cite> in the working directory as explained in <a class="reference internal" href="using_own_data.html#dataset-creation-from-videos"><span class="std std-ref">here</span></a>. To process RGB videos, you have to place RGB video frames under <cite>splitted/rgb</cite> in the working directory as explained in <a class="reference internal" href="using_own_data.html#dataset-creation-from-videos"><span class="std std-ref">here</span></a> and set the <cite>ir_or_rgb</cite> setting to <cite>rgb</cite>. Depending on the setting of the <cite>ir_or_rgb</cite> variable, PV Hawk will process either IR or RGB frames, but not both.</p>
 <p>To process both IR and RGB, you have to duplicate the working directory and run PV Hawk in one working directory with <cite>ir_or_rgb</cite> set to <cite>rgb</cite> and in the other working directory with <cite>ir_or_rgb</cite> set to <cite>ir</cite>.</p>
 <p>Processing of RGB videos requires adjustment of some <a class="reference internal" href="config_file_reference.html#config-file-reference-settings"><span class="std std-ref">config file settings</span></a> as the defaults in the <cite>defaults.yml</cite> file are tuned for IR videos. Below is an exemplary config file for the processing of RGB videos. Different from the default settings are the <cite>detection_min_confidence</cite> for the PV module segmentation task and the <cite>match_distance_thres</cite> for the tracking and OpenSfM preparation tasks. The config below also shows the settings for the optional <cite>split_sequences</cite> tasks for extracting and resizing RGB frames from a video file.</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>    ---
-    plant_name: Example Plant
-    groups:
-      - cam_params_dir: calibration/camera_8hz/parameters
-        ir_or_rgb: rgb
-        clusters:
-        - cluster_idx: 0
-              frame_idx_start: 0
-              frame_idx_end: 2541
-settings:
-    # split_sequences:
-    #   sync_rgb: True
-    #   resize_rgb:
-    #     width: 1280
-    #     height: 720
-      segment_pv_modules:
-        detection_min_confidence: 0.7
-      track_pv_modules:
-        match_distance_thres: 50.0
-      prepare_opensfm:
-        select_frames_mode: gps
-        match_distance_thres: 50.0
-      opensfm:
-        matching_gps_distance: 15
-        align_method: orientation_prior
-        align_orientation_prior: vertical
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>---
+plant_name: Example Plant
+groups:
+- cam_params_dir: calibration/camera_8hz/parameters
+  ir_or_rgb: rgb
+  clusters:
+  - cluster_idx: 0
+    frame_idx_start: 0
+    frame_idx_end: 2541
+  settings:
+    #split_sequences:
+    #  sync_rgb: True
+    #  resize_rgb:
+    #    width: 1280
+    #    height: 720
+    segment_pv_modules:
+      detection_min_confidence: 0.7
+    track_pv_modules:
+      match_distance_thres: 50.0
+    prepare_opensfm:
+      select_frames_mode: gps
+      match_distance_thres: 50.0
+    opensfm:
+      matching_gps_distance: 15
+      align_method: orientation_prior
+      align_orientation_prior: vertical
 
-    tasks:
-    #- split_sequences
-    - interpolate_gps
-    - segment_pv_modules
-    - track_pv_modules
-    - compute_pv_module_quadrilaterals
-    - prepare_opensfm
-    - opensfm_extract_metadata
-    - opensfm_detect_features
-    - opensfm_match_features
-    - opensfm_create_tracks
-    - opensfm_reconstruct
-    - triangulate_pv_modules
-    - refine_triangulation
-    - crop_pv_modules
+tasks:
+  #- split_sequences
+  - interpolate_gps
+  - segment_pv_modules
+  - track_pv_modules
+  - compute_pv_module_quadrilaterals
+  - prepare_opensfm
+  - opensfm_extract_metadata
+  - opensfm_detect_features
+  - opensfm_match_features
+  - opensfm_create_tracks
+  - opensfm_reconstruct
 </pre></div>
 </div>
-<p>If you want to give RGB processing a try, you can download an example dataset of RGB video frames from <a class="reference external" href="https://github.com/LukasBommes/PV-Hawk/releases/tag/v1.0.0">here</a> (<a class="reference external" href="https://github.com/LukasBommes/PV-Hawk/releases/tag/v1.0.0/example_data_double_row_rgb.z01">part 1</a>, <a class="reference external" href="https://github.com/LukasBommes/PV-Hawk/releases/tag/v1.0.0/example_data_double_row_rgb.z02">part 2</a>, <a class="reference external" href="https://github.com/LukasBommes/PV-Hawk/releases/tag/v1.0.0/example_data_double_row_rgb.zip">part 3</a>). Download all the parts into one directory and extract them into a single directory with the following commands</p>
+<p>If you want to give RGB processing a try, you can download an example dataset of RGB video frames from <a class="reference external" href="https://github.com/LukasBommes/PV-Hawk/releases/tag/v1.0.0">here</a> (<a class="reference external" href="https://github.com/LukasBommes/PV-Hawk/releases/download/v1.0.0/example_data_double_row_rgb.z01">part 1</a>, <a class="reference external" href="https://github.com/LukasBommes/PV-Hawk/releases/download/v1.0.0/example_data_double_row_rgb.z02">part 2</a>, <a class="reference external" href="https://github.com/LukasBommes/PV-Hawk/releases/download/v1.0.0/example_data_double_row_rgb.zip">part 3</a>). Download all the parts into one directory and extract them into a single directory with the following commands</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">zip -F example_data_double_row_rgb.zip --out example_data_double_row_rgb_full.zip</span>
 <span class="go">unzip example_data_double_row_rgb_full.zip</span>
 </pre></div>
