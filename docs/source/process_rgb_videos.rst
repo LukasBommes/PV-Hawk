@@ -1,5 +1,5 @@
-Processing of visual (RGB) videos
-=================================
+Processing of visual RGB videos
+===============================
 
 PV Hawk can process either thermal IR videos or visual RGB videos. By default, PV Hawk processes IR videos, which requires IR video frames to be placed under `splitted/radiometric` in the working directory as explained in :ref:`here <dataset-creation-from-videos>`. To process RGB videos, you have to place RGB video frames under `splitted/rgb` in the working directory as explained in :ref:`here <dataset-creation-from-videos>` and set the `ir_or_rgb` setting to `rgb`. Depending on the setting of the `ir_or_rgb` variable, PV Hawk will process either IR or RGB frames, but not both. 
 

@@ -1,7 +1,7 @@
 Tutorial
 ========
 
-This tutorial will get you started with PV Hawk on an exemplary IR video dataset. It shows the general workflow of processing a PV plant. Please :ref:`install <installation>` PV Hawk on your machine before continuing. After finishing this tutorial, head over to :ref:`using_own_data` to learn how to create your own dataset.
+This tutorial will get you started with PV Hawk on an exemplary IR video dataset. It shows the general workflow of processing a PV plant. Please :ref:`install <installation>` PV Hawk on your machine before continuing. After finishing this tutorial, head over to :ref:`using_own_data` to learn how to create your own dataset. You may also have a look at :doc:`process_rgb_videos` if you want to follow the tutorial using RGB data instead of IR data.
 
 
 Step 1: Prepare the working directory
