@@ -50,6 +50,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Finetuning the Mask R-CNN Model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="config_file_reference.html">Config File Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="output_directory.html">Output Directory Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="process_rgb_videos.html">Processing of visual RGB videos</a></li>
 <li class="toctree-l1"><a class="reference internal" href="built_docker_image.html">Build the Docker Image</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">About</span></p>
@@ -86,17 +87,17 @@
              
   <section id="finetuning-the-mask-r-cnn-model">
 <h1>Finetuning the Mask R-CNN Model<a class="headerlink" href="#finetuning-the-mask-r-cnn-model" title="Permalink to this headline"></a></h1>
-<p>PV Hawk uses Mask R-CNN for instance segmentation of PV modules in IR video frames. It is pretrained on a large PV module dataset. However, if you encounter issues with the accuracy of the Mask R-CNN model, you may wish to fine-tune the model on your own dataset. For this, we recommend annotating data using the <a class="reference external" href="https://github.com/LukasBommes/Grid-Annotation-Tool">Grid Annotation Tool</a>. Data labelled with this tool can be directly used for training the Mask R-CNN model.</p>
+<p>PV Hawk uses Mask R-CNN for instance segmentation of PV modules in IR/RGB video frames. It is pretrained on a large PV module dataset. However, if you encounter issues with the accuracy of the Mask R-CNN model, you may wish to fine-tune the model on your own dataset. For this, we recommend annotating data using the <a class="reference external" href="https://github.com/LukasBommes/Grid-Annotation-Tool">Grid Annotation Tool</a>. Data labelled with this tool can be directly used for training the Mask R-CNN model.</p>
 <p>To train/fine-tune Mask R-CNN run the Docker container as described <a class="reference internal" href="tutorial.html#run-the-docker-image"><span class="std std-ref">here</span></a> and start jupyter lab inside the Docker shell with</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">jupyter lab --allow-root --ip=0.0.0.0 --port=8888</span>
 </pre></div>
 </div>
-<p>Note, that the port number must match the port forwarded when starting the Docker container. Depending on the location of your training dataset, you may have to add another mapping statement (<cite>-v …</cite>) to the Docker run command to map your training dataset into the container.</p>
+<p>Note, that the port number must match the port forwarded when starting the Docker container. Depending on the location of your training dataset, you may have to add another mapping statement (<cite>–mount type=bind,src=…,dst=…</cite>) to the Docker run command to map your training dataset into the container.</p>
 <p>Open the displayed URL in the web browser on your machine. In jupyter lab navigate to <cite>extractor/segmentation</cite> and open the <cite>train.ipynb</cite> notebook.</p>
 <p>Prior to training the model with this script, you need to edit the <cite>DATASET_TRAIN_PATH</cite>, <cite>DATASET_VAL_PATH</cite> in the training config in <cite>extractor/segmentation/configs.py</cite>. The paths refer to the location in the Docker container to which you mapped your training dataset when starting the Docker container. You may also have to change the <cite>MEAN_PIXEL</cite> values.</p>
 <p>The training dataset should contain the following two folders:</p>
 <ul class="simple">
-<li><p><cite>images_radiometric</cite>: Your custom 16-bit IR video frames containing PV modules.</p></li>
+<li><p><cite>images_radiometric</cite>: Your custom 16-bit IR video frames or 8-bit RGB video frames containing PV modules.</p></li>
 <li><p><cite>annotations</cite>: JSON file for each image with annotated PV modules. The annotation can be created with the <a class="reference external" href="https://github.com/LukasBommes/Grid-Annotation-Tool">Grid Annotation Tool</a>.</p></li>
 </ul>
 <p>If you want to start training from MS COCO pretrained weights, you can download the corresponding weights file from <a class="reference external" href="https://github.com/LukasBommes/PV-Hawk/releases/download/v1.0.0/mask_rcnn_coco.h5">here</a> and move it to <cite>extractor/segmentation/Mask_RCNN</cite>.</p>

@@ -53,6 +53,7 @@
 <li class="toctree-l1"><a class="reference internal" href="finetune_segmentation.html">Finetuning the Mask R-CNN Model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="config_file_reference.html">Config File Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="output_directory.html">Output Directory Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="process_rgb_videos.html">Processing of visual RGB videos</a></li>
 <li class="toctree-l1"><a class="reference internal" href="built_docker_image.html">Build the Docker Image</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">About</span></p>
@@ -107,7 +108,8 @@
 plant_name: Multiple sectors
 groups:
 - name: double_rows
-  cam_params_dir: calibration/camera_8hz/parameters/ir
+  cam_params_dir: calibration/camera_8hz/parameters
+  ir_or_rgb: ir
   clusters:
   - cluster_idx: 0
     frame_idx_start: 0
@@ -120,7 +122,8 @@ groups:
       align_method: orientation_prior
       align_orientation_prior: vertical
 - name: single_rows
-  cam_params_dir: calibration/camera_8hz/parameters/ir
+  cam_params_dir: calibration/camera_8hz/parameters
+  ir_or_rgb: ir
   clusters:
   - cluster_idx: 0
     frame_idx_start: 0

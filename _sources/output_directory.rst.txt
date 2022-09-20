@@ -20,6 +20,10 @@ Note, that the directory tree below only shows important files and subdirectorie
     |    |     |-- frame_000000.tiff
     |    |     |-- frame_000001.tiff
     |    |     |-- ...
+    |    |-- rgb
+    |    |     |-- frame_000000.jpg
+    |    |     |-- frame_000001.jpg
+    |    |     |-- ...
     |
     |-- segmented
     |    |-- preview.avi
@@ -56,7 +60,7 @@ Note, that the directory tree below only shows important files and subdirectorie
     
 .. rubric:: splitted (split_sequences, interpolate_gps) 
 
-Contains the individual IR video frames as 16-bit TIFF images and their corresponding GPS longitude, latitude, and altitude (in this order) in the `gps.json` file. The `timestamps.csv` contains timestamps of each video frame.
+Contains the individual IR/RGB video frames as 16-bit TIFF images / 8-bit JPG images and their corresponding GPS longitude, latitude, and altitude (in this order) in the `gps.json` file. The `timestamps.csv` contains timestamps of each video frame.
 
 If you ran the `interpolate_gps` step, the content of the original `gps.json` has been moved into `gps_orig.json` and the `gps.json` contains the interpolated GPS trajectory.
 

@@ -50,6 +50,7 @@
 <li class="toctree-l1"><a class="reference internal" href="finetune_segmentation.html">Finetuning the Mask R-CNN Model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="config_file_reference.html">Config File Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="output_directory.html">Output Directory Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="process_rgb_videos.html">Processing of visual RGB videos</a></li>
 <li class="toctree-l1"><a class="reference internal" href="built_docker_image.html">Build the Docker Image</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">About</span></p>
@@ -86,12 +87,12 @@
              
   <section id="how-pv-hawk-works">
 <h1>How PV Hawk Works<a class="headerlink" href="#how-pv-hawk-works" title="Permalink to this headline"></a></h1>
-<p>PV Hawk is a computer vision pipeline, which processes thermal IR video of large-scale PV plants fulfilling two main tasks:</p>
+<p>PV Hawk is a computer vision pipeline, which processes thermal IR or visual RGB video of large-scale PV plants fulfilling two main tasks:</p>
 <ol class="arabic simple">
-<li><p>Extracting of IR image patches of each PV module in each video frame</p></li>
+<li><p>Extracting of IR/RGB image patches of each PV module in each video frame</p></li>
 <li><p>Obtaining WGS84 geocoordinates of the corner points of each PV module</p></li>
 </ol>
-<p>An overview of the method is shown in <a class="reference internal" href="#overview"><span class="std std-numref">Fig. 8</span></a>. First, IR videos are split into individual frames and the GPS trajectory of the drone is extracted and interpolated. PV modules are then segmented by Mask R-CNN, tracked over subsequent frames, extracted and stored to disk. To georeference PV modules, a subset of keyframes is selected based on travelled GPS distance and visual overlap. Subsequently, a georeferenced 3D reconstruction of the PV plant is obtained by incremental SfM (using <a class="reference external" href="https://opensfm.org">OpenSfM</a>) alongside the 6-DOF camera pose of each keyframe. This requires calibrated camera parameters, which are obtained beforehand. The known keyframe poses are then used to triangulate observed PV modules into the 3D reconstruction, yielding the desired module geocoordinates.</p>
+<p>An overview of the method is shown in <a class="reference internal" href="#overview"><span class="std std-numref">Fig. 8</span></a>. First, IR/RGB videos are split into individual frames and the GPS trajectory of the drone is extracted and interpolated. PV modules are then segmented by Mask R-CNN, tracked over subsequent frames, extracted and stored to disk. To georeference PV modules, a subset of keyframes is selected based on travelled GPS distance and visual overlap. Subsequently, a georeferenced 3D reconstruction of the PV plant is obtained by incremental SfM (using <a class="reference external" href="https://opensfm.org">OpenSfM</a>) alongside the 6-DOF camera pose of each keyframe. This requires calibrated camera parameters, which are obtained beforehand. The known keyframe poses are then used to triangulate observed PV modules into the 3D reconstruction, yielding the desired module geocoordinates.</p>
 <figure class="align-default" id="id1">
 <span id="overview"></span><img alt="_images/overview.png" src="_images/overview.png" />
 <figcaption>

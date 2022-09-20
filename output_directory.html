@@ -19,7 +19,7 @@
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Build the Docker Image" href="built_docker_image.html" />
+    <link rel="next" title="Processing of visual RGB videos" href="process_rgb_videos.html" />
     <link rel="prev" title="Config File Reference" href="config_file_reference.html" /> 
 </head>
 
@@ -50,6 +50,7 @@
 <li class="toctree-l1"><a class="reference internal" href="finetune_segmentation.html">Finetuning the Mask R-CNN Model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="config_file_reference.html">Config File Reference</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Output Directory Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="process_rgb_videos.html">Processing of visual RGB videos</a></li>
 <li class="toctree-l1"><a class="reference internal" href="built_docker_image.html">Build the Docker Image</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">About</span></p>
@@ -101,6 +102,10 @@
   |    |     |-- frame_000000.tiff
   |    |     |-- frame_000001.tiff
   |    |     |-- ...
+  |    |-- rgb
+  |    |     |-- frame_000000.jpg
+  |    |     |-- frame_000001.jpg
+  |    |     |-- ...
   |
   |-- segmented
   |    |-- preview.avi
@@ -137,7 +142,7 @@
 </pre></div>
 </div>
 <p class="rubric">splitted (split_sequences, interpolate_gps)</p>
-<p>Contains the individual IR video frames as 16-bit TIFF images and their corresponding GPS longitude, latitude, and altitude (in this order) in the <cite>gps.json</cite> file. The <cite>timestamps.csv</cite> contains timestamps of each video frame.</p>
+<p>Contains the individual IR/RGB video frames as 16-bit TIFF images / 8-bit JPG images and their corresponding GPS longitude, latitude, and altitude (in this order) in the <cite>gps.json</cite> file. The <cite>timestamps.csv</cite> contains timestamps of each video frame.</p>
 <p>If you ran the <cite>interpolate_gps</cite> step, the content of the original <cite>gps.json</cite> has been moved into <cite>gps_orig.json</cite> and the <cite>gps.json</cite> contains the interpolated GPS trajectory.</p>
 <p class="rubric">segmented (segment_pv_modules)</p>
 <p>Contains results of the Mask R-CNN instance segmentation model applied to each video frame. Specifically, this directory contains binary segmentation masks of PV modules, bounding boxes and preview images. To validate correctness of the instance segmentation you can look at the preview video in <cite>preview.avi</cite>.</p>
@@ -157,7 +162,7 @@ The main result stored in the mapping directory is a GeoJSON file <cite>module_g
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="config_file_reference.html" class="btn btn-neutral float-left" title="Config File Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="built_docker_image.html" class="btn btn-neutral float-right" title="Build the Docker Image" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="process_rgb_videos.html" class="btn btn-neutral float-right" title="Processing of visual RGB videos" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

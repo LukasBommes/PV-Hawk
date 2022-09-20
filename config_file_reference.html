@@ -56,6 +56,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="output_directory.html">Output Directory Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="process_rgb_videos.html">Processing of visual RGB videos</a></li>
 <li class="toctree-l1"><a class="reference internal" href="built_docker_image.html">Build the Docker Image</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">About</span></p>
@@ -98,7 +99,8 @@
 plant_name: Example config
 groups:
 - name: double_rows
-  cam_params_dir: calibration/camera_8hz/parameters/ir
+  cam_params_dir: calibration/camera_8hz/parameters
+  ir_or_rgb: ir
   clusters:
   - cluster_idx: 0
     frame_idx_start: 0
@@ -114,7 +116,8 @@ groups:
       align_method: orientation_prior
       align_orientation_prior: vertical
 - name: single_rows
-  cam_params_dir: calibration/camera_8hz/parameters/ir
+  cam_params_dir: calibration/camera_8hz/parameters
+  ir_or_rgb: ir
   clusters:
   - cluster_idx: 0
     frame_idx_start: 0
@@ -166,7 +169,21 @@ tasks:
 </pre></div>
 </div>
 <p class="rubric">group::cam_params_dir (string)</p>
-<p>Path to the directory containing calibrated camera parameters (<cite>camera_matrix.pkl</cite>, <cite>dist_coeffs.pkl</cite>, …). This should match the output location of the camera calibration script (see <a class="reference internal" href="using_own_data.html#camera-calibration"><span class="std std-ref">Camera calibration</span></a>).</p>
+<p>Path to the directory containing two subfolders with calibrated IR and RGB camera parameters (<cite>ir/camera_matrix.pkl</cite>, <cite>ir/dist_coeffs.pkl</cite>, …, <cite>rgb/camera_matrix.pkl</cite>, <cite>rgb/dist_coeffs.pkl</cite>, …). Parameters are created with the camera calibration script (see <a class="reference internal" href="using_own_data.html#camera-calibration"><span class="std std-ref">Camera calibration</span></a>).</p>
+<p>In the following example, the <cite>cam_params_dir</cite> should be set to <cite>/path/to/cameraparams</cite>.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>/path/to/cameraparams
+  |-- ir
+      |    |-- camera_matrix.pkl
+      |    |-- dist_coeffs.pkl
+      |    |-- ...
+      |-- rgb
+      |    |-- camera_matrix.pkl
+      |    |-- dist_coeffs.pkl
+      |    |-- ...
+</pre></div>
+</div>
+<p class="rubric">group::ir_or_rgb (string)</p>
+<p>Must be either <cite>ir</cite> or <cite>rgb</cite>. Selects whether the pipeline should process IR or RGB images. When set to IR, the pipeline operates on IR video frames from <cite>splitted/radiometric</cite>. When set to RGB, the pipeline operates on RGB video frames from <cite>splitted/rgb</cite>. This setting also determines, whether to use the IR or RGB camera calibration parameters and Mask R-CNN instance segmentation model.</p>
 <p class="rubric">group::clusters (list of cluster objects)</p>
 <p>A cluster corresponds to a subset of the video frames in the group that is to be processed indepently of other clusters. Use clusters to exclude parts of the video, e.g., when you change batteries or start/land the drone. It is recommended to split long sequences to clusters of at most 5000 video frames to enhance processing speed and robustness of the pipeline.</p>
 <p class="rubric">group::cluster::cluster_idx (integer)</p>
@@ -182,7 +199,7 @@ tasks:
 <h2>Tasks<a class="headerlink" href="#tasks" title="Permalink to this headline"></a></h2>
 <p>List of tasks to perform when running the PV Hawk pipeline. (Un)comment to control which steps to run.</p>
 <p class="rubric">split_sequences</p>
-<p>Split multipage TIFF IR videos into individual IR frames. Specific to Flir Zenmuse XT2 camera.</p>
+<p>Split multipage TIFF IR videos into individual IR frames and split mov videos into individual RGB frames. Also performs naive synchronization between IR and RGB streams. Specific to Flir Zenmuse XT2 camera.</p>
 <p class="rubric">interpolate_gps</p>
 <p>Perform linear interpolation of the GPS trajectory to match the GPS measurement rate with a potentially higher video frame rate.</p>
 <p class="rubric">segment_pv_modules</p>
@@ -216,7 +233,7 @@ tasks:
 <p>An exception to the sequantial order is the <cite>crop_pv_modules</cite> tasks. Normally, you would want to run it as the last step in the pipeline. However, if you only want to extract IR image patches and do not need geocoordinates of the modules, you can omit all tasks from <cite>prepare_opensfm</cite> (included) to <cite>refine_triangulation</cite> (included) and run the <cite>crop_pv_modules</cite> task as last step in the pipeline directly after the <cite>compute_pv_module_quadrilaterals</cite> task.</p>
 </section>
 <section id="settings">
-<h2>Settings<a class="headerlink" href="#settings" title="Permalink to this headline"></a></h2>
+<span id="config-file-reference-settings"></span><h2>Settings<a class="headerlink" href="#settings" title="Permalink to this headline"></a></h2>
 <p>Note: Boolean values can be represented in the <cite>config.yml</cite> as True / False or as yes / no.</p>
 <p class="rubric">split_sequences</p>
 <ul class="simple">
@@ -226,7 +243,11 @@ tasks:
 <li><p><strong>extract_gps</strong> (boolean): If True extract GPS trajectory of the drone from input TIFF stack.</p></li>
 <li><p><strong>extract_gps_altitude</strong> (boolean): If True extract the GPS altitude.</p></li>
 <li><p><strong>sync_rgb</strong> (boolean): If True attempt a simplistic synchronization of visual and IR video stream. If False ignore visual stream.</p></li>
-<li><p><strong>rotate_frames</strong> (string or null): Set to “90_deg_cw”, “180_deg_cw”, or “270_deg_cw” to rotate splitted video frames. If set to <cite>null</cite> frames are not rotated.</p></li>
+<li><p><strong>subsample</strong> (string or null): Subsample both IR and RGB frames. If set to a value N, only every Nth frame will be extracted. Set to <cite>null</cite> to extract all frames.</p></li>
+<li><p><strong>rotate_rgb</strong> (string or null): Set to “90_deg_cw”, “180_deg_cw”, or “270_deg_cw” to rotate splitted RGB video frames. If set to <cite>null</cite> frames are not rotated.</p></li>
+<li><p><strong>rotate_ir</strong> (string or null): Set to “90_deg_cw”, “180_deg_cw”, or “270_deg_cw” to rotate splitted IR video frames. If set to <cite>null</cite> frames are not rotated.</p></li>
+<li><p><strong>resize_rgb</strong> (object with keys width and height): Resize RGB frames to the given height and width. If width and height are <cite>null</cite>, no resizing is performed.</p></li>
+<li><p><strong>resize_ir</strong> (object with keys width and height): Resize IR frames to the given height and width. If width and height are <cite>null</cite>, no resizing is performed.</p></li>
 </ul>
 <p class="rubric">interpolate_gps</p>
 <p>No settings.</p>
@@ -235,7 +256,8 @@ tasks:
 <li><p><strong>gpu_count</strong> (integer): Number of GPUs to use.</p></li>
 <li><p><strong>images_per_gpu</strong> (integer): Number of frames (per GPU) to feed into Mask R-CNN simultaneously.</p></li>
 <li><p><strong>detection_min_confidence</strong> (float):  PV module instances with prediction confidence (0.0..1.0) below this value are ignored.</p></li>
-<li><p><strong>weights_file</strong> (string): Absolute path to the trained Mask R-CNN weights file.</p></li>
+<li><p><strong>weights_file_rgb</strong> (string): Absolute path to the Mask R-CNN weights file trained on RGB images.</p></li>
+<li><p><strong>weights_file_ir</strong> (string): Absolute path to the Mask R-CNN weights file trained on IR images.</p></li>
 <li><p><strong>output_video_fps</strong> (float): Frame rate of the generated preview video in 1/s.</p></li>
 </ul>
 <p>The segmentation task has some further settings in <cite>extractor/segmentation/configs.py</cite>, for example the inference batch size.</p>

@@ -49,6 +49,7 @@
 <li class="toctree-l1"><a class="reference internal" href="finetune_segmentation.html">Finetuning the Mask R-CNN Model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="config_file_reference.html">Config File Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="output_directory.html">Output Directory Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="process_rgb_videos.html">Processing of visual RGB videos</a></li>
 <li class="toctree-l1"><a class="reference internal" href="built_docker_image.html">Build the Docker Image</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">About</span></p>
@@ -87,8 +88,8 @@
 <h1>PV Hawk<a class="headerlink" href="#pv-hawk" title="Permalink to this headline"></a></h1>
 <p><strong>Documentation</strong>: <a class="reference external" href="https://lukasbommes.github.io/PV-Hawk/">https://lukasbommes.github.io/PV-Hawk/</a></p>
 <p><strong>Code</strong>: <a class="reference external" href="https://github.com/LukasBommes/PV-Hawk">https://github.com/LukasBommes/PV-Hawk</a></p>
-<p>PV Hawk is a computer vision pipeline for the <strong>automated inspection</strong> of large-scale <strong>photovoltaic (PV) plants</strong> by means of <strong>thermal infrared (IR) videos</strong> acquired by a drone.</p>
-<p>After recording an IR video of a PV plant, individual video frames and the corresponding coarse GPS position (latitude, longitude, and optionally altitude) of the drone are fed into PV Hawk. PV Hawk crops each PV module from each video frame and stores the resulting IR image patches. Geocoordinates of the PV module corners are obtained and faciltate visualization of analysis results on a map. You can use the <a class="reference external" href="https://github.com/LukasBommes/PV-Hawk-Viewer">PV Hawk Viewer</a> to browse the resulting map of your PV plant, annotate extracted IR images, and perform analyses, such as defect prediction.</p>
+<p>PV Hawk is a computer vision pipeline for the <strong>automated inspection</strong> of large-scale <strong>photovoltaic (PV) plants</strong> by means of <strong>thermal infrared (IR) or visual RGB videos</strong> acquired by a drone.</p>
+<p>After recording an IR or RGB video of a PV plant, individual video frames and the corresponding coarse GPS position (latitude, longitude, and optionally altitude) of the drone are fed into PV Hawk. PV Hawk crops each PV module from each video frame and stores the resulting IR/RGB image patches. Geocoordinates of the PV module corners are obtained and faciltate visualization of analysis results on a map. You can use the <a class="reference external" href="https://github.com/LukasBommes/PV-Hawk-Viewer">PV Hawk Viewer</a> to browse the resulting map of your PV plant, annotate extracted IR/RGB images, and perform analyses, such as defect prediction.</p>
 <embed>
   <object data="high_level_overview.png" type="image/png" style="width: 100%;">
     <img src="docs/source/images/high_level_overview.png">
@@ -120,26 +121,26 @@
 </embed></section>
 <section id="how-to-use-pv-hawk">
 <h2>How to use PV Hawk?<a class="headerlink" href="#how-to-use-pv-hawk" title="Permalink to this headline"></a></h2>
-<p>Please follow the <a class="reference external" href="https://lukasbommes.github.io/PV-Hawk/installation.html">Installation</a> instructions to setup PV Hawk on your machine. Afterwards, follow the <a class="reference external" href="https://lukasbommes.github.io/PV-Hawk/tutorial.html">Tutorial</a> to get started with an exemplary IR video dataset. After you learned how to use PV Hawk, you can proceed to <a class="reference external" href="https://lukasbommes.github.io/PV-Hawk/using_own_data.html#using-own-data">Using Your Own Data</a> to learn how to record suitable IR videos of your own PV plant with your own IR camera and drone.</p>
+<p>Please follow the <a class="reference external" href="https://lukasbommes.github.io/PV-Hawk/installation.html">Installation</a> instructions to setup PV Hawk on your machine. Afterwards, follow the <a class="reference external" href="https://lukasbommes.github.io/PV-Hawk/tutorial.html">Tutorial</a> to get started with an exemplary video dataset. After you learned how to use PV Hawk, you can proceed to <a class="reference external" href="https://lukasbommes.github.io/PV-Hawk/using_own_data.html#using-own-data">Using Your Own Data</a> to learn how to record suitable IR or RGB videos of your own PV plant with your own camera and drone.</p>
 </section>
 <section id="why-is-pv-hawk-needed">
 <h2>Why is PV Hawk needed?<a class="headerlink" href="#why-is-pv-hawk-needed" title="Permalink to this headline"></a></h2>
-<p>PV plants contain typically around 10 percent anomalous PV modules, which are potential fire hazards and cause significant power and yield losses. Thus, to enable safe and profitable operation PV plants should be regularly inspected. A popular inspection technique is drone-based thermal IR imaging, which detects anomalous PV modules in a contectless way based on heat dissipated in defective regions of the PV module. Thermal IR imaging has been applied sucessfully to small PV systems. However, when applied to large-scale PV plants with many thousands to millions of PV modules so much video data is produced that manual sighting is economically infeasible. This is where PV Hawk comes into play for the fully automated processing of the generated IR videos.</p>
+<p>PV plants contain typically around 10 percent anomalous PV modules, which are potential fire hazards and cause significant power and yield losses. Thus, to enable safe and profitable operation PV plants should be regularly inspected. A popular inspection technique is drone-based thermal IR imaging, which detects anomalous PV modules in a contectless way based on heat dissipated in defective regions of the PV module. Thermal IR imaging has been applied sucessfully to small PV systems. However, when applied to large-scale PV plants with many thousands to millions of PV modules so much video data is produced that manual sighting is economically infeasible. This is where PV Hawk comes into play for the fully automated processing of the generated videos. For some inspections, such as estimation of soiling or detection of installation errors, visual RGB videos can be useful instead of thermal IR. PV Hawk can process such RGB videos as well.</p>
 </section>
 <section id="project-status">
 <h2>Project status<a class="headerlink" href="#project-status" title="Permalink to this headline"></a></h2>
-<p>PV Hawk is a research project built during my PhD. In its current state PV Hawk should be seen more as a proof-of-concept instead of a production-grade system. Please do not expect the pipeline to work smoothly and produce best results on the first attempt. Especially the OpenSfM-based reconstruction stage can be instable and may require multiple trials with different settings until you get a good result. When using your own IR videos it is important that you carefully follow the instructions in <a class="reference external" href="https://lukasbommes.github.io/PV-Hawk/using_own_data.html#using-own-data">Using Your Own Data</a>. Furthermore, breaking changes to the configuration file specification and structure of the input and output files are possible.</p>
+<p>PV Hawk is a research project built during my PhD. In its current state PV Hawk should be seen more as a proof-of-concept instead of a production-grade system. Please do not expect the pipeline to work smoothly and produce best results on the first attempt. Especially the OpenSfM-based reconstruction stage can be instable and may require multiple trials with different settings until you get a good result. When using your own IR or RGB videos it is important that you carefully follow the instructions in <a class="reference external" href="https://lukasbommes.github.io/PV-Hawk/using_own_data.html#using-own-data">Using Your Own Data</a>. Furthermore, breaking changes to the configuration file specification and structure of the input and output files are possible.</p>
 </section>
 <section id="who-are-the-target-audiences">
 <h2>Who are the target audiences?<a class="headerlink" href="#who-are-the-target-audiences" title="Permalink to this headline"></a></h2>
 <ul class="simple">
-<li><p>Researchers who want to assemble large-scale IR image datasets of PV modules, for instance, to develop machine learning algorithms for defect detection, or power prediction.</p></li>
+<li><p>Researchers who want to assemble large-scale IR/RGB image datasets of PV modules, for instance, to develop machine learning algorithms for defect detection, or power prediction.</p></li>
 <li><p>Companies or individuals who want to inspect their own PV plants or want to offer PV plant inspection as a service.</p></li>
 </ul>
 </section>
 <section id="what-do-you-need-to-run-pv-hawk">
 <h2>What do you need to run PV Hawk?<a class="headerlink" href="#what-do-you-need-to-run-pv-hawk" title="Permalink to this headline"></a></h2>
-<p>PV Hawk should be installed on a sufficiently powerful workstation with Ubuntu 18.04 or newer and CUDA-compatible GPU. We developed and tested PV Hawk on a machine with Ubuntu 20.04 LTS, Intel Core i9-9900K, 64GB of DDR4 RAM, an SSD and a GeForce RTX 2080 Ti. Furthermore, you need a drone and a thermal IR camera. Details on this are provided in <a class="reference external" href="https://lukasbommes.github.io/PV-Hawk/using_own_data.html#hardware-setup">Hardware setup</a>.</p>
+<p>PV Hawk should be installed on a sufficiently powerful workstation with Ubuntu 18.04 or newer and CUDA-compatible GPU. We developed and tested PV Hawk on a machine with Ubuntu 20.04 LTS, Intel Core i9-9900K, 64GB of DDR4 RAM, an SSD and a GeForce RTX 2080 Ti. Furthermore, you need a drone and a thermal IR or visual RGB camera. Details on this are provided in <a class="reference external" href="https://lukasbommes.github.io/PV-Hawk/using_own_data.html#hardware-setup">Hardware setup</a>.</p>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Quickstart</span></p>
 <ul>
@@ -185,6 +186,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="output_directory.html">Output Directory Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="process_rgb_videos.html">Processing of visual RGB videos</a></li>
 <li class="toctree-l1"><a class="reference internal" href="built_docker_image.html">Build the Docker Image</a></li>
 </ul>
 </div>

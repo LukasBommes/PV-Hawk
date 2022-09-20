@@ -58,6 +58,7 @@
 <li class="toctree-l1"><a class="reference internal" href="finetune_segmentation.html">Finetuning the Mask R-CNN Model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="config_file_reference.html">Config File Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="output_directory.html">Output Directory Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="process_rgb_videos.html">Processing of visual RGB videos</a></li>
 <li class="toctree-l1"><a class="reference internal" href="built_docker_image.html">Build the Docker Image</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">About</span></p>
@@ -94,7 +95,7 @@
              
   <section id="tutorial">
 <h1>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline"></a></h1>
-<p>This tutorial will get you started with PV Hawk on an exemplary IR video dataset. It shows the general workflow of processing a PV plant. Please <a class="reference internal" href="installation.html#installation"><span class="std std-ref">install</span></a> PV Hawk on your machine before continuing. After finishing this tutorial, head over to <a class="reference internal" href="using_own_data.html#using-own-data"><span class="std std-ref">Using Your Own Data</span></a> to learn how to create your own dataset.</p>
+<p>This tutorial will get you started with PV Hawk on an exemplary IR video dataset. It shows the general workflow of processing a PV plant. Please <a class="reference internal" href="installation.html#installation"><span class="std std-ref">install</span></a> PV Hawk on your machine before continuing. After finishing this tutorial, head over to <a class="reference internal" href="using_own_data.html#using-own-data"><span class="std std-ref">Using Your Own Data</span></a> to learn how to create your own dataset. You may also have a look at <a class="reference internal" href="process_rgb_videos.html"><span class="doc">Processing of visual RGB videos</span></a> if you want to follow the tutorial using RGB data instead of IR data.</p>
 <section id="step-1-prepare-the-working-directory">
 <h2>Step 1: Prepare the working directory<a class="headerlink" href="#step-1-prepare-the-working-directory" title="Permalink to this headline"></a></h2>
 <p>PV Hawk reads and writes your input data, results and intermediate data from and to the <em>working directory</em>, which is simply a directory on your hard drive.</p>
@@ -122,7 +123,8 @@
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>---
 plant_name: Example Plant
 groups:
-- cam_params_dir: calibration/camera_8hz/parameters/ir
+- cam_params_dir: calibration/camera_8hz/parameters
+  ir_or_rgb: ir
   clusters:
   - cluster_idx: 0
     frame_idx_start: 0
@@ -180,7 +182,7 @@ tasks:
 <span class="go">  --ipc=host \</span>
 <span class="go">  --env=&quot;DISPLAY&quot; \</span>
 <span class="go">  --gpus=all \</span>
-<span class="go">  --mount type=bind,src=/tmp/.X11-unix,dst=/tmp/.X11-unix:rw \</span>
+<span class="go">  --mount type=bind,src=/tmp/.X11-unix,dst=/tmp/.X11-unix \</span>
 <span class="go">  --mount type=bind,src=&quot;$(pwd)&quot;,dst=/pvextractor \</span>
 <span class="go">  --mount type=volume,dst=/pvextractor/extractor/mapping/OpenSfM \</span>
 <span class="go">  --mount type=bind,src=/storage,dst=/storage \</span>

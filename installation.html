@@ -57,6 +57,7 @@
 <li class="toctree-l1"><a class="reference internal" href="finetune_segmentation.html">Finetuning the Mask R-CNN Model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="config_file_reference.html">Config File Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="output_directory.html">Output Directory Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="process_rgb_videos.html">Processing of visual RGB videos</a></li>
 <li class="toctree-l1"><a class="reference internal" href="built_docker_image.html">Build the Docker Image</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">About</span></p>
@@ -108,7 +109,7 @@
 </section>
 <section id="step-3-download-mask-r-cnn-weights">
 <h2>Step 3: Download Mask R-CNN weights<a class="headerlink" href="#step-3-download-mask-r-cnn-weights" title="Permalink to this headline"></a></h2>
-<p>PV Hawk uses a pretrained <a class="reference external" href="https://github.com/matterport/Mask_RCNN">Mask R-CNN</a> for PV module detection. Download the pretrained Mask R-CNN model weights file from <a class="reference external" href="https://github.com/LukasBommes/PV-Hawk/releases/download/v1.0.0/mask_rcnn_pv_modules_0120.h5">here</a>, and place it under <cite>extractor/segmentation/Mask_RCNN</cite>.</p>
+<p>PV Hawk uses a pretrained <a class="reference external" href="https://github.com/matterport/Mask_RCNN">Mask R-CNN</a> for PV module detection. We provide pretrained models for thermal IR and RGB videos. Download the pretrained IR model from <a class="reference external" href="https://github.com/LukasBommes/PV-Hawk/releases/download/v1.0.0/mask_rcnn_pv_modules_0120.h5">here</a> and the RGB model from <a class="reference external" href="https://github.com/LukasBommes/PV-Hawk/releases/download/v1.0.0/mask_rcnn_pv_modules_rgb_0059.h5">here</a>. Place both model files under <cite>extractor/segmentation/Mask_RCNN</cite>.</p>
 </section>
 <section id="step-4-pull-docker-image">
 <h2>Step 4: Pull Docker image<a class="headerlink" href="#step-4-pull-docker-image" title="Permalink to this headline"></a></h2>
@@ -128,7 +129,7 @@
 <span class="go">  --ipc=host \</span>
 <span class="go">  --env=&quot;DISPLAY&quot; \</span>
 <span class="go">  --gpus=all \</span>
-<span class="go">  --mount type=bind,src=/tmp/.X11-unix,dst=/tmp/.X11-unix:rw \</span>
+<span class="go">  --mount type=bind,src=/tmp/.X11-unix,dst=/tmp/.X11-unix \</span>
 <span class="go">  --mount type=bind,src=&quot;$(pwd)&quot;,dst=/pvextractor \</span>
 <span class="go">  --mount type=volume,dst=/pvextractor/extractor/mapping/OpenSfM \</span>
 <span class="go">  lubo1994/pv-hawk:latest \</span>
