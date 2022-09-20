@@ -201,6 +201,7 @@ Tasks are executed in the same order as they are enlisted in the config file. In
 
 An exception to the sequantial order is the `crop_pv_modules` tasks. Normally, you would want to run it as the last step in the pipeline. However, if you only want to extract IR image patches and do not need geocoordinates of the modules, you can omit all tasks from `prepare_opensfm` (included) to `refine_triangulation` (included) and run the `crop_pv_modules` task as last step in the pipeline directly after the `compute_pv_module_quadrilaterals` task.
 
+.. _config_file_reference_settings:
 
 Settings
 --------
