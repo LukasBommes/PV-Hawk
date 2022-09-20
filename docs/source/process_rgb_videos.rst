@@ -12,48 +12,45 @@ Processing of RGB videos requires adjustment of some :ref:`config file settings 
 	---
 	plant_name: Example Plant
 	groups:
-	  - cam_params_dir: calibration/camera_8hz/parameters
-	    ir_or_rgb: rgb
-	    clusters:
-	    - cluster_idx: 0
-		  frame_idx_start: 0
-		  frame_idx_end: 2541
-    settings:
-	# split_sequences:
-	#   sync_rgb: True
-	#   resize_rgb: 
-	#     width: 1280
-	#     height: 720
-	  segment_pv_modules:
-	    detection_min_confidence: 0.7
-	  track_pv_modules:
-	    match_distance_thres: 50.0
-	  prepare_opensfm:
-	    select_frames_mode: gps
-	    match_distance_thres: 50.0
-	  opensfm:
-	    matching_gps_distance: 15
-	    align_method: orientation_prior
-	    align_orientation_prior: vertical
+	- cam_params_dir: calibration/camera_8hz/parameters
+	  ir_or_rgb: rgb
+	  clusters:
+	  - cluster_idx: 0
+	    frame_idx_start: 0
+	    frame_idx_end: 2541
+	  settings:
+	    #split_sequences:
+	    #  sync_rgb: True
+	    #  resize_rgb: 
+	    #    width: 1280
+	    #    height: 720
+	    segment_pv_modules:
+	      detection_min_confidence: 0.7
+	    track_pv_modules:
+	      match_distance_thres: 50.0
+	    prepare_opensfm:
+	      select_frames_mode: gps
+	      match_distance_thres: 50.0
+	    opensfm:
+	      matching_gps_distance: 15
+	      align_method: orientation_prior
+	      align_orientation_prior: vertical
 
 	tasks:
-	#- split_sequences
-	- interpolate_gps
-	- segment_pv_modules
-	- track_pv_modules
-	- compute_pv_module_quadrilaterals
-	- prepare_opensfm
-	- opensfm_extract_metadata
-	- opensfm_detect_features
-	- opensfm_match_features
-	- opensfm_create_tracks
-	- opensfm_reconstruct
-	- triangulate_pv_modules
-	- refine_triangulation
-	- crop_pv_modules
+	  #- split_sequences
+	  - interpolate_gps
+	  - segment_pv_modules
+	  - track_pv_modules
+	  - compute_pv_module_quadrilaterals
+	  - prepare_opensfm
+	  - opensfm_extract_metadata
+	  - opensfm_detect_features
+	  - opensfm_match_features
+	  - opensfm_create_tracks
+	  - opensfm_reconstruct
 
 
-If you want to give RGB processing a try, you can download an example dataset of RGB video frames from `here <https://github.com/LukasBommes/PV-Hawk/releases/tag/v1.0.0>`_ (`part 1 <https://github.com/LukasBommes/PV-Hawk/releases/tag/v1.0.0/example_data_double_row_rgb.z01>`_, `part 2 <https://github.com/LukasBommes/PV-Hawk/releases/tag/v1.0.0/example_data_double_row_rgb.z02>`_, `part 3 <https://github.com/LukasBommes/PV-Hawk/releases/tag/v1.0.0/example_data_double_row_rgb.zip>`_). Download all the parts into one directory and extract them into a single directory with the following commands
+If you want to give RGB processing a try, you can download an example dataset of RGB video frames from `here <https://github.com/LukasBommes/PV-Hawk/releases/tag/v1.0.0>`_ (`part 1 <https://github.com/LukasBommes/PV-Hawk/releases/download/v1.0.0/example_data_double_row_rgb.z01>`_, `part 2 <https://github.com/LukasBommes/PV-Hawk/releases/download/v1.0.0/example_data_double_row_rgb.z02>`_, `part 3 <https://github.com/LukasBommes/PV-Hawk/releases/download/v1.0.0/example_data_double_row_rgb.zip>`_). Download all the parts into one directory and extract them into a single directory with the following commands
 
 .. code-block:: console
 
