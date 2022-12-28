@@ -5,6 +5,8 @@ PV Hawk
 
 **Code**: https://github.com/LukasBommes/PV-Hawk
 
+**Summary Video**: https://youtu.be/xJDD46jmU3s
+
 PV Hawk is a computer vision pipeline for the **automated inspection** of large-scale **photovoltaic (PV) plants** by means of **thermal infrared (IR) or visual RGB videos** acquired by a drone.
 
 After recording an IR or RGB video of a PV plant, individual video frames and the corresponding coarse GPS position (latitude, longitude, and optionally altitude) of the drone are fed into PV Hawk. PV Hawk crops each PV module from each video frame and stores the resulting IR/RGB image patches. Geocoordinates of the PV module corners are obtained and faciltate visualization of analysis results on a map. You can use the `PV Hawk Viewer <https://github.com/LukasBommes/PV-Hawk-Viewer>`_ to browse the resulting map of your PV plant, annotate extracted IR/RGB images, and perform analyses, such as defect prediction.
