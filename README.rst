@@ -19,7 +19,7 @@ After recording an IR or RGB video of a PV plant, individual video frames and th
       </object>
     </embed>
 
-PV Hawk implements the method described briefly in `How PV Hawk Works <https://lukasbommes.github.io/PV-Hawk/method.html>`_. For more details see our journal papers:
+PV Hawk implements the method described briefly in `How PV Hawk Works <https://lukasbommes.github.io/PV-Hawk/method.html>`_. For more details see my [PhD thesis](https://nbn-resolving.org/urn:nbn:de:bvb:29-opus4-211816) or our journal papers:
 
 [1] L. Bommes, T. Pickel, C. Buerhop-Lutz, J. Hauch, C. Brabec, and I. Peters, “Georeferencing of photovoltaic modules from aerial infrared videos using structure-from-motion,” Progress in Photovoltaics: Research and Applications, vol. 30, no. 9, pp. 1122–1135, 2022. `DOI 10.1002/pip.3564 <https://doi.org/10.1002/pip.3564>`_. [`ArXiv 2204.02733 <https://arxiv.org/abs/2204.02733>`_]
 
