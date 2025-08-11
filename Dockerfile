@@ -1,24 +1,26 @@
-FROM tensorflow/tensorflow:1.15.2-gpu-py3
+FROM tensorflow/tensorflow:latest-gpu
 
 WORKDIR /
 
-# Fix for GPG key error (see https://github.com/NVIDIA/nvidia-docker/issues/1632)
-RUN rm /etc/apt/sources.list.d/cuda.list
-RUN rm /etc/apt/sources.list.d/nvidia-ml.list
+# Fix for potential GPG key errors in newer TensorFlow images
+RUN rm -f /etc/apt/sources.list.d/cuda.list /etc/apt/sources.list.d/nvidia-ml.list || true
 
-# OpenCV & matplotlib dependencies
+# Install system dependencies for OpenCV, matplotlib, and Python packages
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
         libsm6 \
         libxext6 \
         libxrender-dev \
-        python3-tk && \
+        python3-tk \
+        build-essential \
+        curl \
+        git && \
     rm -rf /var/lib/apt/lists/*
 
-# Install Python packages
+# Install Python packages with modern pip
 COPY requirements.txt /
-RUN pip3 install --upgrade pip
-RUN pip3 install -r /requirements.txt
+RUN python3 -m pip install --upgrade pip setuptools wheel
+RUN python3 -m pip install -r /requirements.txt
 
 
 ##############################################################################
@@ -27,7 +29,7 @@ RUN pip3 install -r /requirements.txt
 #
 ##############################################################################
 
-# Install pangoling dependencies
+# Install Pangolin dependencies (updated for modern Python)
 RUN apt-get update && \
     apt-get install -y \
         git \
@@ -35,7 +37,7 @@ RUN apt-get update && \
         libgl1-mesa-dev \
         libglew-dev \
         cmake \
-        libpython2.7-dev \
+        python3-dev \
         libegl1-mesa-dev \
         libwayland-dev \
         libxkbcommon-dev \
@@ -121,7 +123,7 @@ WORKDIR /code/g2opy/build
   && ldconfig
 
 WORKDIR /code/g2opy/
-RUN python setup.py install
+RUN python3 -m pip install -e .
 
 WORKDIR /code/g2opy
 
@@ -135,18 +137,18 @@ WORKDIR /code/g2opy
 COPY ./extractor/mapping/OpenSfM /pvextractor/extractor/mapping/OpenSfM
 
 WORKDIR /pvextractor/extractor/mapping/OpenSfM
-RUN python setup.py build
+RUN python3 -m pip install -e .
 WORKDIR /pvextractor
 
 
 ###############################################################################
 #
-#                          Setup Mask R-CNN
+#                          Setup Mask R-CNN TF2
 #
 ###############################################################################
 
-COPY ./extractor/segmentation/Mask_RCNN /pvextractor/extractor/segmentation/Mask_RCNN
+COPY ./extractor/segmentation/Mask_RCNN_TF2 /pvextractor/extractor/segmentation/Mask_RCNN_TF2
 
-WORKDIR /pvextractor/extractor/segmentation/Mask_RCNN
-RUN python setup.py install
+WORKDIR /pvextractor/extractor/segmentation/Mask_RCNN_TF2
+RUN python3 -m pip install -e .
 WORKDIR /pvextractor

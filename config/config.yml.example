@@ -1,0 +1,69 @@
+# PV-Hawk Configuration Example
+# This file defines the processing pipeline and data structure
+
+plant_name: "My Solar Installation"
+
+groups:
+- # Camera calibration parameters directory
+  cam_params_dir: /calibration
+  
+  # Clusters define video segments to process
+  clusters:
+  - cluster_idx: 0
+    frame_idx_start: 0
+    frame_idx_end: 2541  # Adjust based on your video length
+  
+  # Override default settings (optional)
+  settings:
+    # PV module segmentation settings
+    segment_pv_modules:
+      gpu_count: 1
+      images_per_gpu: 2  # Adjust based on your GPU memory
+      detection_min_confidence: 0.9
+      weights_file_ir: /models/mask_rcnn_pv_modules_0120.h5
+      weights_file_rgb: /models/mask_rcnn_pv_modules_rgb_0059.h5
+    
+    # Video splitting settings
+    split_sequences:
+      ir_file_extension: TIFF  # or tiff, tif
+      rgb_file_extension: mov  # or mp4, avi
+      extract_timestamps: true
+      extract_gps: true
+      subsample: null  # or integer for subsampling
+    
+    # GPS interpolation (optional)
+    interpolate_gps: {}
+    
+    # Module tracking settings
+    track_pv_modules:
+      motion_model: homography
+      max_distance: 60
+      output_video_fps: 8.0
+    
+    # OpenSfM reconstruction settings
+    prepare_opensfm:
+      select_frames_mode: gps  # gps, visual, or gps_visual
+      frame_selection_gps_distance: 0.75
+      
+    opensfm:
+      matching_gps_distance: 20
+      processes: 16  # Adjust based on CPU cores
+      align_method: orientation_prior
+      align_orientation_prior: horizontal  # or vertical
+
+# Define which processing tasks to run (in order)
+tasks:
+  - split_sequences              # Extract frames from video
+  - interpolate_gps             # Interpolate GPS coordinates (optional)
+  - segment_pv_modules          # Detect and segment PV modules
+  - track_pv_modules            # Track modules across frames
+  - compute_pv_module_quadrilaterals  # Estimate module corners
+  - prepare_opensfm             # Prepare data for 3D reconstruction
+  - opensfm_extract_metadata    # OpenSfM: Extract camera metadata
+  - opensfm_detect_features     # OpenSfM: Detect image features
+  - opensfm_match_features      # OpenSfM: Match features between images
+  - opensfm_create_tracks       # OpenSfM: Create feature tracks
+  - opensfm_reconstruct         # OpenSfM: 3D reconstruction
+  - triangulate_pv_modules      # Triangulate 3D module positions
+  - refine_triangulation        # Refine 3D positions
+  - crop_pv_modules            # Extract individual module patches

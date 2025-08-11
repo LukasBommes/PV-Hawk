@@ -1,0 +1,173 @@
+version: '3.8'
+
+services:
+  # CLI Mode - Original PV-Hawk command line interface
+  pv-hawk-cli:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: pv-hawk-tf2:latest
+    container_name: pv-hawk-processor
+    
+    # GPU support - requires nvidia-container-toolkit
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    
+    # Alternative GPU support for older Docker versions
+    # runtime: nvidia
+    # environment:
+    #   - NVIDIA_VISIBLE_DEVICES=all
+    #   - NVIDIA_DRIVER_CAPABILITIES=compute,utility,graphics
+    
+    volumes:
+      # Mount your data directories
+      - ${DATA_DIR:-./data}:/data
+      - ${WORK_DIR:-./workdir}:/workdir
+      - ${CONFIG_DIR:-./config}:/config
+      
+      # Mount calibration parameters
+      - ${CALIBRATION_DIR:-./calibration}:/calibration
+      
+      # Optional: Mount model weights directory
+      - ${MODELS_DIR:-./models}:/models
+      
+      # Optional: Mount output directory
+      - ${OUTPUT_DIR:-./output}:/output
+      
+    working_dir: /pvextractor
+    
+    # Set environment variables
+    environment:
+      - PYTHONPATH=/pvextractor
+      - CUDA_VISIBLE_DEVICES=0
+      - TF_FORCE_GPU_ALLOW_GROWTH=true
+      - TF_CPP_MIN_LOG_LEVEL=1
+      
+    # Network mode for GUI applications (if using Pangolin viewer)
+    network_mode: host
+    
+    # Interactive terminal
+    stdin_open: true
+    tty: true
+    
+    # Default command - can be overridden
+    command: ["python3", "main.py", "/workdir"]
+    
+    # Health check
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import tensorflow as tf; print('TF OK:', tf.__version__)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    
+    profiles:
+      - cli
+
+  # API Mode - REST API server for programmatic control
+  pv-hawk-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: pv-hawk-tf2:latest
+    container_name: pv-hawk-api-server
+    
+    # GPU support
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    
+    ports:
+      - "${API_PORT:-8000}:8000"
+    
+    volumes:
+      # Mount your data directories
+      - ${DATA_DIR:-./data}:/data
+      - ${WORK_DIR:-./workdir}:/workdir
+      - ${CONFIG_DIR:-./config}:/config
+      
+      # Mount calibration parameters
+      - ${CALIBRATION_DIR:-./calibration}:/calibration
+      
+      # Mount model weights directory
+      - ${MODELS_DIR:-./models}:/models
+      
+      # Mount output directory
+      - ${OUTPUT_DIR:-./output}:/output
+      
+    working_dir: /pvextractor
+    
+    # Set environment variables
+    environment:
+      - PYTHONPATH=/pvextractor
+      - CUDA_VISIBLE_DEVICES=0
+      - TF_FORCE_GPU_ALLOW_GROWTH=true
+      - TF_CPP_MIN_LOG_LEVEL=1
+      - API_SECRET_KEY=${API_SECRET_KEY:-pv-hawk-secret-key-change-in-production}
+      - API_KEY=${API_KEY:-}
+      
+    # Default command for API server
+    command: ["python3", "start_api.py", "--host", "0.0.0.0", "--port", "8000"]
+    
+    # Health check for API
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health", "||", "exit", "1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    
+    restart: unless-stopped
+
+  # Optional: Jupyter notebook service for development
+  jupyter:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: pv-hawk-tf2:latest
+    container_name: pv-hawk-jupyter
+    
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    
+    ports:
+      - "${JUPYTER_PORT:-8888}:8888"
+    
+    volumes:
+      - ${DATA_DIR:-./data}:/data
+      - ${WORK_DIR:-./workdir}:/workdir
+      - ${CONFIG_DIR:-./config}:/config
+      - .:/pvextractor  # Mount source code for development
+      
+    working_dir: /pvextractor
+    
+    environment:
+      - PYTHONPATH=/pvextractor
+      - CUDA_VISIBLE_DEVICES=0
+      - TF_FORCE_GPU_ALLOW_GROWTH=true
+      
+    command: [
+      "jupyter", "lab", 
+      "--ip=0.0.0.0", 
+      "--port=8888", 
+      "--no-browser", 
+      "--allow-root",
+      "--NotebookApp.token=${JUPYTER_TOKEN:-''}"
+    ]
+    
+    profiles:
+      - development

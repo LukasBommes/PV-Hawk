@@ -17,12 +17,12 @@
 !extractor/mapping/OpenSfM/setup.py
 !extractor/mapping/OpenSfM/viewer
 
-!extractor/segmentation/Mask_RCNN/mrcnn
-!extractor/segmentation/Mask_RCNN/MANIFEST.in
-!extractor/segmentation/Mask_RCNN/README.md
-!extractor/segmentation/Mask_RCNN/requirements.txt
-!extractor/segmentation/Mask_RCNN/setup.cfg
-!extractor/segmentation/Mask_RCNN/setup.py
+!extractor/segmentation/Mask_RCNN_TF2/mrcnn
+!extractor/segmentation/Mask_RCNN_TF2/MANIFEST.in
+!extractor/segmentation/Mask_RCNN_TF2/README.md
+!extractor/segmentation/Mask_RCNN_TF2/requirements.txt
+!extractor/segmentation/Mask_RCNN_TF2/setup.cfg
+!extractor/segmentation/Mask_RCNN_TF2/setup.py
 
 !requirements.txt
 

@@ -1,9 +1,9 @@
 import numpy as np
 
 try:
-    from extractor.segmentation.Mask_RCNN.mrcnn.config import Config
+    from extractor.segmentation.Mask_RCNN_TF2.mrcnn.config import Config
 except ModuleNotFoundError:
-    from Mask_RCNN.mrcnn.config import Config
+    from Mask_RCNN_TF2.mrcnn.config import Config
 
 
 class PVConfig(Config):
@@ -15,10 +15,10 @@ class PVConfig(Config):
     DATASET_VAL_PATH = "/pv_segmentation_dataset/val"
 
     # Path for saving model weights and checkpoints during training
-    MODEL_DIR = "/pvextractor/extractor/segmentation/Mask_RCNN/logs"
+    MODEL_DIR = "/pvextractor/extractor/segmentation/Mask_RCNN_TF2/logs"
 
     # Path to MS COCO pretrained weights
-    COCO_MODEL_PATH = "/pvextractor/extractor/segmentation/Mask_RCNN/mask_rcnn_coco.h5"
+    COCO_MODEL_PATH = "/pvextractor/extractor/segmentation/Mask_RCNN_TF2/mask_rcnn_coco.h5"
     
     # set to False to ignore partially visible (truncated) PV modules
     USE_TRUNCATED_MODULES = False
